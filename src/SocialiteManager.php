@@ -83,7 +83,7 @@ class SocialiteManager extends Manager {
 	/**
 	 * Create an instance of the specified driver.
 	 *
-	 * @return ?
+	 * @return \Laravel\Socialite\One\AbstractProvider
 	 */
 	protected function createTwitterDriver()
 	{
