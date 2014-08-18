@@ -59,13 +59,7 @@ abstract class AbstractProvider {
 			throw new \InvalidArgumentException("Invalid request. Missing OAuth verifier.");
 		}
 
-		$temp = $this->request->getSession()->get('oauth.temp');
-
-		$token = $this->server->getTokenCredentials(
-			$temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
-		);
-
-		$user = $this->server->getUserDetails($token);
+		$user = $this->server->getUserDetails($token = $this->getToken());
 
 		$instance = (new User)->setRaw($user->extra)
                 ->setToken($token->getIdentifier(), $token->getSecret());
@@ -75,6 +69,20 @@ abstract class AbstractProvider {
 			'name' => $user->firstName.' '.$user->lastName,
 			'email' => $user->email, 'avatar' => $user->imageUrl,
         ]);
+	}
+
+	/**
+	 * Get the token credentials for the request.
+	 *
+	 * @return \League\OAuth1\Client\Credentials\TokenCredentials
+	 */
+	protected function getToken()
+	{
+		$temp = $this->request->getSession()->get('oauth.temp');
+
+		return $this->server->getTokenCredentials(
+			$temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
+		);
 	}
 
 	/**
