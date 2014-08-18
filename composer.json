@@ -1,0 +1,28 @@
+{
+    "name": "laravel/socialite",
+    "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
+    "keywords": ["oauth", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/http": "~4.3",
+        "illuminate/support": "~4.3",
+        "league/oauth1-client": "~1.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Socialite\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
