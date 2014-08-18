@@ -62,13 +62,13 @@ abstract class AbstractProvider {
 		$user = $this->server->getUserDetails($token = $this->getToken());
 
 		$instance = (new User)->setRaw($user->extra)
-                ->setToken($token->getIdentifier(), $token->getSecret());
+				->setToken($token->getIdentifier(), $token->getSecret());
 
-        return $instance->map([
+		return $instance->map([
 			'id' => $user->uid, 'nickname' => $user->nickname,
 			'name' => $user->firstName.' '.$user->lastName,
 			'email' => $user->email, 'avatar' => $user->imageUrl,
-        ]);
+		]);
 	}
 
 	/**
