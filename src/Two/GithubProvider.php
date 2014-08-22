@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GithubProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
+	 * The scopes being requested.
+	 *
+	 * @var array
+	 */
+	protected $scopes = ['user:email'];
+
+	/**
 	 * {@inheritdoc}
 	 */
 	protected function getAuthUrl($state)
