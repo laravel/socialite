@@ -9,10 +9,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	 *
 	 * @var array
 	 */
-	protected $scopes = [
-		'https://www.googleapis.com/auth/userinfo.email',
-		'https://www.googleapis.com/auth/userinfo.profile',
-	];
+	protected $scopes = ['email'];
 
 	/**
 	 * {@inheritdoc}

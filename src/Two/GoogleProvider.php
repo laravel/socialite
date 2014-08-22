@@ -5,6 +5,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GoogleProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
+	 * The scopes being requested.
+	 *
+	 * @var array
+	 */
+	protected $scopes = [
+		'https://www.googleapis.com/auth/userinfo.email',
+		'https://www.googleapis.com/auth/userinfo.profile',
+	];
+
+	/**
 	 * {@inheritdoc}
 	 */
 	protected function getAuthUrl($state)
