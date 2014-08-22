@@ -109,6 +109,7 @@ abstract class AbstractProvider {
 		return $url.'?'.http_build_query([
 			'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
 			'scope' => $this->formatScopes($this->scopes), 'state' => $state,
+			'response_type' => 'code',
 		]);
 	}
 
