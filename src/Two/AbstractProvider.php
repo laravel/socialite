@@ -107,7 +107,7 @@ abstract class AbstractProvider {
 		$session = $this->request->getSession();
 
 		return $url.'?'.http_build_query([
-			'client_id' => $this->clientId, 'redirect_url' => $this->redirectUrl,
+			'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
 			'scope' => $this->formatScopes($this->scopes), 'state' => $state,
 		]);
 	}
