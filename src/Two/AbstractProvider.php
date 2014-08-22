@@ -199,6 +199,7 @@ abstract class AbstractProvider {
 	protected function parseAccessToken($body)
 	{
 		parse_str($body);
+		
 		return $access_token;
 	}
 
