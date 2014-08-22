@@ -1,4 +1,4 @@
-<?php namespace Illuminate\Events;
+<?php namespace Laravel\Socialite;
 
 use Illuminate\Support\ServiceProvider;
 
