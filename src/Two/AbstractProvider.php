@@ -160,9 +160,9 @@ abstract class AbstractProvider {
 	 */
 	public function getAccessToken($code)
 	{
-		$response = $this->getHttpClient()->get($this->getTokenUrl(), null, [
-			'query' => $this->getTokenFields($code)
-		])->send();
+		$response = $this->getHttpClient()->get($this->getTokenUrl(), [
+			'query' => $this->getTokenFields($code),
+		]);
 
 		return $this->parseAccessToken($response->getBody());
 	}
@@ -229,11 +229,11 @@ abstract class AbstractProvider {
 	/**
 	 * Get a fresh instance of the Guzzle HTTP client.
 	 *
-	 * @return \Guzzle\Http\Client
+	 * @return \GuzzleHttp\Client
 	 */
 	protected function getHttpClient()
 	{
-		return new \Guzzle\Http\Client;
+		return new \GuzzleHttp\Client;
 	}
 
 	/**
