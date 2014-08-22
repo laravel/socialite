@@ -191,7 +191,7 @@ abstract class AbstractProvider {
 	 */
 	protected function parseAccessToken($body)
 	{
-		return json_decode($body, true)['acces_token'];
+		return json_decode($body, true)['access_token'];
 	}
 
 	/**
