@@ -227,11 +227,11 @@ abstract class AbstractProvider {
 	/**
 	 * Get a fresh instance of the Guzzle HTTP client.
 	 *
-	 * @return \GuzzleHttp\Client
+	 * @return \Guzzle\Http\Client
 	 */
 	protected function getHttpClient()
 	{
-		return new \GuzzleHttp\Client;
+		return new \Guzzle\Http\Client;
 	}
 
 	/**
