@@ -160,8 +160,8 @@ abstract class AbstractProvider {
 	 */
 	public function getAccessToken($code)
 	{
-		$response = $this->getHttpClient()->post($this->getTokenUrl(), [
-			'headers' => $this->getTokenHeaders(), 'body' => $this->getTokenFields($code),
+		$response = $this->getHttpClient()->get($this->getTokenUrl(), [
+			'query' => $this->getTokenFields($code),
 		]);
 
 		return $this->parseAccessToken($response->getBody());
@@ -186,7 +186,7 @@ abstract class AbstractProvider {
 	protected function getTokenFields($code)
 	{
 		return [
-			'client_id' => $this->clientId, 'client_secret' => $this->clientSecret, 'code' => $code,
+			'client_id' => $this->clientId, 'client_secret' => $this->clientSecret, 'code' => $code, 'redirect_uri' => $this->redirectUrl
 		];
 	}
 
@@ -198,7 +198,9 @@ abstract class AbstractProvider {
 	 */
 	protected function parseAccessToken($body)
 	{
-		return json_decode($body, true)['access_token'];
+		parse_str($body);
+		
+		return $access_token;
 	}
 
 	/**
