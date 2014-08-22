@@ -42,6 +42,47 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	}
 
 	/**
+	 * Get the access token for the given code.
+	 *
+	 * @param  string  $code
+	 * @return string
+	 */
+	public function getAccessToken($code)
+	{
+		$response = $this->getHttpClient()->post($this->getTokenUrl(), [
+			'body' => $this->getTokenFields($code),
+		]);
+
+		return $this->parseAccessToken($response->getBody());
+	}
+
+	/**
+	 * Get the POST fields for the token request.
+	 *
+	 * @param  string  $code
+	 * @return array
+	 */
+	protected function getTokenFields($code)
+	{
+		return [
+			'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
+			'code' => $code, 'redirect_uri' => $this->redirectUrl,
+			'grant_type' => 'authorization_code',
+		];
+	}
+
+	/**
+	 * Get the access token from the token response body.
+	 *
+	 * @param  string  $body
+	 * @return string
+	 */
+	protected function parseAccessToken($body)
+	{
+		return json_decode($body, true)['access_token'];
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	protected function getUserByToken($token)
