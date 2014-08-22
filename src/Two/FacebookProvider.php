@@ -45,6 +45,16 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	/**
 	 * {@inheritdoc}
 	 */
+	protected function parseAccessToken($body)
+	{
+		parse_str($body);
+
+		return $access_token;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function getUserByToken($token)
 	{
 		$response = $this->getHttpClient()->get('https://graph.facebook.com/me?access_token='.$token, [

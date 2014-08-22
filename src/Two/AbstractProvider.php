@@ -162,6 +162,7 @@ abstract class AbstractProvider {
 	public function getAccessToken($code)
 	{
 		$response = $this->getHttpClient()->post($this->getTokenUrl(), [
+			'headers' => ['Accept' => 'application/json'],
 			'body' => $this->getTokenFields($code),
 		]);
 
@@ -190,9 +191,7 @@ abstract class AbstractProvider {
 	 */
 	protected function parseAccessToken($body)
 	{
-		parse_str($body);
-
-		return $access_token;
+		return json_decode($body, true)['acces_token'];
 	}
 
 	/**
