@@ -1,5 +1,7 @@
 <?php namespace Laravel\Socialite\Facades;
 
+use Illuminate\Support\Facades\Facade;
+
 /**
  * @see \Laravel\Socialite\SocialiteManager
  */
