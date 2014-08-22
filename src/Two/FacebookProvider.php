@@ -28,6 +28,21 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	}
 
 	/**
+	 * Get the access token for the given code.
+	 *
+	 * @param  string  $code
+	 * @return string
+	 */
+	public function getAccessToken($code)
+	{
+		$response = $this->getHttpClient()->get($this->getTokenUrl(), [
+			'query' => $this->getTokenFields($code),
+		]);
+
+		return $this->parseAccessToken($response->getBody());
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	protected function getUserByToken($token)
