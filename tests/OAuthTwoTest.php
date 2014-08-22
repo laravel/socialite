@@ -32,12 +32,12 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase {
 		$request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
 		$request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
 		$session->shouldReceive('get')->once()->with('state')->andReturn('state');
-		$provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+		$provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
 		$provider->http = m::mock('StdClass');
-		$provider->http->shouldReceive('post')->once()->with('http://token.url', [
-			'headers' => ['Accept' => 'application/json'], 'body' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code'],
+		$provider->http->shouldReceive('get')->once()->with('http://token.url', [
+			'query' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
 		])->andReturn($response = m::mock('StdClass'));
-		$response->shouldReceive('getBody')->once()->andReturn(json_encode(['access_token' => 'token']));
+		$response->shouldReceive('getBody')->once()->andReturn('access_token=access_token');
 		$user = $provider->user();
 
 		$this->assertInstanceOf('Laravel\Socialite\Two\User', $user);

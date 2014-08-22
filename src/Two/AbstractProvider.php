@@ -168,16 +168,6 @@ abstract class AbstractProvider {
 	}
 
 	/**
-	 * Get the headers for the access token request.
-	 *
-	 * @return array
-	 */
-	protected function getTokenHeaders()
-	{
-		return ['Accept' => 'application/json'];
-	}
-
-	/**
 	 * Get the POST fields for the token request.
 	 *
 	 * @param  string  $code
