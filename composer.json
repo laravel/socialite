@@ -13,6 +13,7 @@
         "php": ">=5.4.0",
         "illuminate/http": "~4.3",
         "illuminate/support": "~4.3",
+        "guzzlehttp/guzzle": "~4.0",
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
