@@ -186,7 +186,8 @@ abstract class AbstractProvider {
 	protected function getTokenFields($code)
 	{
 		return [
-			'client_id' => $this->clientId, 'client_secret' => $this->clientSecret, 'code' => $code, 'redirect_uri' => $this->redirectUrl
+			'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
+			'code' => $code, 'redirect_uri' => $this->redirectUrl
 		];
 	}
 
@@ -199,7 +200,7 @@ abstract class AbstractProvider {
 	protected function parseAccessToken($body)
 	{
 		parse_str($body);
-		
+
 		return $access_token;
 	}
 
