@@ -66,7 +66,7 @@ abstract class AbstractProvider {
 
 		return $instance->map([
 			'id' => $user->uid, 'nickname' => $user->nickname,
-			'name' => $user->firstName.' '.$user->lastName,
+			'name' => $user->name,
 			'email' => $user->email, 'avatar' => $user->imageUrl,
 		]);
 	}
