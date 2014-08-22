@@ -34,8 +34,8 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase {
 		$session->shouldReceive('get')->once()->with('state')->andReturn('state');
 		$provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
 		$provider->http = m::mock('StdClass');
-		$provider->http->shouldReceive('get')->once()->with('http://token.url', [
-			'query' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+		$provider->http->shouldReceive('post')->once()->with('http://token.url', [
+			'headers' => ['Accept' => 'application/json'], 'body' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
 		])->andReturn($response = m::mock('StdClass'));
 		$response->shouldReceive('getBody')->once()->andReturn('access_token=access_token');
 		$user = $provider->user();
