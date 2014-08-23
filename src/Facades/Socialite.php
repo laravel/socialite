@@ -12,6 +12,6 @@ class Socialite extends Facade {
 	 *
 	 * @return string
 	 */
-	protected static function getFacadeAccessor() { return 'socialite'; }
+	protected static function getFacadeAccessor() { return 'Illuminate\Contracts\Auth\Social\Factory'; }
 
 }
