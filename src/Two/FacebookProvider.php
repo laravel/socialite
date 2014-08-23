@@ -5,6 +5,20 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class FacebookProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
+	 * base Graph URL.
+	 *
+	 * @var string
+	 */
+	protected $graphURL = 'https://graph.facebook.com';
+	
+	/**
+	 * The Graph API version for the request
+	 *
+	 * @var string
+	 */
+	protected $version = 'v2.1';
+  
+	/**
 	 * The scopes being requested.
 	 *
 	 * @var array
@@ -24,7 +38,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getTokenUrl()
 	{
-		return 'https://graph.facebook.com/oauth/access_token';
+		return $this->graphURL . '/oauth/access_token';
 	}
 
 	/**
@@ -57,7 +71,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getUserByToken($token)
 	{
-		$response = $this->getHttpClient()->get('https://graph.facebook.com/me?access_token='.$token, [
+		$response = $this->getHttpClient()->get($this->graphURL.'/'. $this->version .'/me?access_token='.$token, [
 			'headers' => [
 				'Accept' => 'application/json',
 			],
@@ -73,7 +87,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	{
 		return (new User)->setRaw($user)->map([
 			'id' => $user['id'], 'nickname' => null, 'name' => $user['first_name'].' '.$user['last_name'],
-			'email' => $user['email'], 'avatar' => 'https://graph.facebook.com/'.$user['id'].'/picture?type=normal',
+			'email' => $user['email'], 'avatar' => $this->graphURL.'/'. $this->version .'/'.$user['id'].'/picture?type=normal',
 		]);
 	}
 
