@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Contracts\Auth\Social\Provider as ProviderContract;
 
-abstract class AbstractProvider {
+abstract class AbstractProvider implements ProviderContract {
 
 	/**
 	 * The client ID.

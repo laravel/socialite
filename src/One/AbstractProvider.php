@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use League\OAuth1\Client\Server\Server;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Contracts\Auth\Social\Provider as ProviderContract;
 
-abstract class AbstractProvider {
+abstract class AbstractProvider implements ProviderContract {
 
 	/**
 	 * The HTTP request instance.

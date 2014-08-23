@@ -1,8 +1,9 @@
 <?php namespace Laravel\Socialite;
 
 use ArrayAccess;
+use Illuminate\Contracts\Auth\Social\User as UserContract;
 
-abstract class AbstractUser implements ArrayAccess {
+abstract class AbstractUser implements ArrayAccess, UserContract {
 
 	/**
 	 * The unique identifier for the user.
@@ -38,6 +39,56 @@ abstract class AbstractUser implements ArrayAccess {
 	 * @var string
 	 */
 	public $avatar;
+
+	/**
+	 * Get the unique identifier for the user.
+	 *
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Get the nickname / username for the user.
+	 *
+	 * @return string
+	 */
+	public function getNickname()
+	{
+		return $this->nickname;
+	}
+
+	/**
+	 * Get the full name of the user.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Get the e-mail address of the user.
+	 *
+	 * @return string
+	 */
+	public function getEmail()
+	{
+		return $this->email;
+	}
+
+	/**
+	 * Get the avatar / image URL for the user.
+	 *
+	 * @return string
+	 */
+	public function getAvatar()
+	{
+		return $this->avatar;
+	}
 
 	/**
 	 * Set the raw user array from the provider.
