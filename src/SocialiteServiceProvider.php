@@ -22,11 +22,6 @@ class SocialiteServiceProvider extends ServiceProvider {
 		{
 			return new SocialiteManager($app);
 		});
-
-		$this->app->bindShared('Illuminate\Contracts\Auth\Social\Provider', function($app)
-		{
-			return $app['Illuminate\Contracts\Auth\Social\Factory']->driver();
-		});
 	}
 
 	/**
@@ -36,7 +31,7 @@ class SocialiteServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['Illuminate\Contracts\Auth\Social\Factory', 'Illuminate\Contracts\Auth\Social\Provider'];
+		return ['Illuminate\Contracts\Auth\Social\Factory'];
 	}
 
 }
