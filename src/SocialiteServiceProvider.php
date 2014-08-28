@@ -31,7 +31,7 @@ class SocialiteServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['Illuminate\Contracts\Auth\Social\Factory'];
+		return ['Laravel\Socialite\Contracts\Factory'];
 	}
 
 }
