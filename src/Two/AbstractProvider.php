@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Illuminate\Contracts\Auth\Social\Provider as ProviderContract;
+use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
 abstract class AbstractProvider implements ProviderContract {
 

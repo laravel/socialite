@@ -1,9 +1,8 @@
 <?php namespace Laravel\Socialite;
 
 use ArrayAccess;
-use Illuminate\Contracts\Auth\Social\User as UserContract;
 
-abstract class AbstractUser implements ArrayAccess, UserContract {
+abstract class AbstractUser implements ArrayAccess, Contracts\User {
 
 	/**
 	 * The unique identifier for the user.
