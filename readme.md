@@ -14,6 +14,7 @@ First, you should configure the authentication providers you would like to use i
 
 ### Redirect To The OAuth Provider
 
+```php
 	<?php
 
 	use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
@@ -31,20 +32,24 @@ First, you should configure the authentication providers you would like to use i
 		}
 
 	}
+```
 
 You may also add scopes to the authentication call:
 
+```php
 	public function redirectToTwitter()
 	{
 		return $this->socialite->driver('twitter')
                             ->scopes(['scope1', 'scope2'])
                             ->redirect();
 	}
+```
 
 ### Capture The User Details
 
 After the user accepts the authentication prompt on the provider:
 
+```php
 	<?php
 
 	use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
@@ -62,5 +67,6 @@ After the user accepts the authentication prompt on the provider:
 		}
 
 	}
+```
 
 The `user` method returns an implementation of `Laravel\Cashier\Contracts\User`.
