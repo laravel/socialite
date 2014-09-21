@@ -1,6 +1,6 @@
 # Laravel Socialite
 
-## Getting Started (BETA)
+## Getting Started (BETA - Laravel 5.0+)
 
 ### Add Configuration
 
