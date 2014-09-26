@@ -46,7 +46,7 @@ class RedditProvider extends AbstractProvider implements ProviderInterface {
 	{
 		return (new User)->setRaw($user)->map([
 			'id' => $user['id'], 'nickname' => $user['name'], 'name' => $user['name'],
-			'email' => $user['has_verified_email'], 'avatar' => $user['id'],
+			'email' => null, 'avatar' => null,
 		]);
 	}
 
