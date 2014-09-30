@@ -3,6 +3,7 @@
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
+use Laravel\Socialite\Two\DribbbleProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
