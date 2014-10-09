@@ -3,7 +3,6 @@
 use Laravel\Socialite\AbstractUser;
 
 class User extends AbstractUser {
-
 	/**
 	 * The user's access token.
 	 *
@@ -22,6 +21,16 @@ class User extends AbstractUser {
 		$this->token = $token;
 
 		return $this;
+	}
+
+	/**
+	 * Get the token on the user.
+	 *
+	 * @return string
+	 */
+	public function getToken()
+	{
+		return $this->token;
 	}
 
 }

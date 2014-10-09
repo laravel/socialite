@@ -33,4 +33,14 @@ class User extends AbstractUser {
 		return $this;
 	}
 
+	/**
+	 * Get the token on the user.
+	 *
+	 * @return string
+	 */
+	public function getToken()
+	{
+		return $this->token;
+	}
+
 }
