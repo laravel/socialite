@@ -69,4 +69,4 @@ After the user accepts the authentication prompt on the provider:
 	}
 ```
 
-The `user` method returns an implementation of `Laravel\Cashier\Contracts\User`.
+The `user` method returns an implementation of `Laravel\Socialite\Contracts\User`.
