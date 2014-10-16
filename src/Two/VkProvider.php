@@ -3,13 +3,13 @@
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class VkProvider extends AbstractProvider implements ProviderInterface {
-
+    protected $email;
     /**
      * The scopes being requested.
      *
      * @var array
      */
-    protected $scopes = ['friends'];
+    protected $scopes = ['friends,email,offline'];
 
     /**
      * {@inheritdoc}
@@ -49,6 +49,7 @@ class VkProvider extends AbstractProvider implements ProviderInterface {
     protected function parseAccessToken($body)
     {
         $json = json_decode($body, true);
+        $this->email = $json['email'];
         $access_token = $json['access_token'];
         return $access_token;
     }
@@ -72,8 +73,8 @@ class VkProvider extends AbstractProvider implements ProviderInterface {
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['uid'], 'nickname' => 'screen_name', 'name' => $user['first_name'].' '.$user['last_name'],
-            'email' => null, 'avatar' => $user['photo_big'],
+            'id' => $user['uid'], 'nickname' => $user['screen_name'], 'name' => $user['first_name'].' '.$user['last_name'],
+            'email' => $this->email, 'avatar' => $user['photo_big'],
         ]);
     }
 
