@@ -65,6 +65,21 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 			'Laravel\Socialite\Two\GoogleProvider', $config
 		);
 	}
+	
+	/**
+	 * Create an instance of the specified driver.
+	 *
+	 * @return \Laravel\Socialite\Two\AbstractProvider
+	 */
+	protected function createDribbbleDriver()
+	{
+		$config = $this->app['config']['services.dribbble'];
+
+		return $this->buildProvider(
+			'Laravel\Socialite\Two\DribbbleProvider', $config
+		);
+
+	}
 
 	/**
 	 * Build an OAuth 2 provider instance.
