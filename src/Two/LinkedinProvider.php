@@ -9,13 +9,29 @@ class LinkedinProvider extends AbstractProvider implements ProviderInterface {
 	 *
 	 * @var array
 	 */
-	protected $scopes = ['user:email'];
+	protected $scopes = [ 'r_fullprofile', 'r_emailaddress' ];
+
+	/**
+	 * The separating character for the requested scopes.
+	 *
+	 * @var string
+	 */
+	protected $scope_separator = ' ';
+
+	/**
+	 * The type of the encoding in the query.
+	 *
+	 * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
+	 */
+	protected $encoding_type = PHP_QUERY_RFC3986;
+
 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getAuthUrl($state) {
-		return $this->buildAuthUrlFromBase('https://github.com/login/oauth/authorize', $state);
+	protected function getAuthUrl($state)
+	{
+		return $this->buildAuthUrlFromBase('https://www.linkedin.com/uas/oauth2/authorization', $state);
 	}
 
 	/**
@@ -23,17 +39,37 @@ class LinkedinProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getTokenUrl()
 	{
-		return 'https://github.com/login/oauth/access_token';
+		return 'https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code';
+	}
+
+	/**
+	 * Get the access token for the given code.
+	 *
+	 * LinkedIn access token MUST be requested with GET.
+	 *
+	 * @see https://developer.linkedin.com/forum/unable-verify-access-token
+	 *
+	 * @param  string  $code
+	 * @return string
+	 */
+	public function getAccessToken($code)
+	{
+		$response = $this->getHttpClient()->post($this->getTokenUrl().(strpos($this->getTokenUrl(),'?')===false?'?':'&').
+			http_build_query($this->getTokenFields($code), '', '&', $this->encoding_type));
+
+		return $this->parseAccessToken($response->getBody());
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getUserByToken($token)
-	{
-		$response = $this->getHttpClient()->get('https://api.github.com/user?access_token='.$token, [
+	protected function getUserByToken($token) {
+
+		$response = $this->getHttpClient()->get('https://api.linkedin.com/v1/people/~:(id,formatted-name,picture-url,email-address)',[
 			'headers' => [
-				'Accept' => 'application/vnd.github.v3+json',
+				'Accept-Language' => 'en-US',
+				'x-li-format'     => 'json',
+				'Authorization'   => 'Bearer '.$token,
 			],
 		]);
 
@@ -46,9 +82,8 @@ class LinkedinProvider extends AbstractProvider implements ProviderInterface {
 	protected function mapUserToObject(array $user)
 	{
 		return (new User)->setRaw($user)->map([
-			'id' => $user['id'], 'nickname' => $user['login'], 'name' => $user['name'],
-			'email' => $user['email'], 'avatar' => $user['avatar_url'],
+			'id' => $user['id'], 'nickname' => null, 'name' => $user['formattedName'],
+			'email' => $user['emailAddress'], 'avatar' => $user['pictureUrl'],
 		]);
 	}
-
 }

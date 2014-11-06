@@ -28,6 +28,20 @@ abstract class AbstractProvider implements ProviderContract {
 	protected $scopes = [];
 
 	/**
+	 * The separating character for the requested scopes.
+	 *
+	 * @var string
+	 */
+	protected $scope_separator = ',';
+
+	/**
+	 * The type of the encoding in the query.
+	 *
+	 * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
+	 */
+	protected $encoding_type = PHP_QUERY_RFC1738;
+
+	/**
 	 * The HTTP request instance.
 	 *
 	 * @var Request
@@ -109,9 +123,9 @@ abstract class AbstractProvider implements ProviderContract {
 
 		return $url.'?'.http_build_query([
 			'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-			'scope' => $this->formatScopes($this->scopes), 'state' => $state,
+			'scope' => $this->formatScopes($this->scopes, $this->scope_separator), 'state' => $state,
 			'response_type' => 'code',
-		]);
+		], '', '&', $this->encoding_type );
 	}
 
 	/**
@@ -120,9 +134,9 @@ abstract class AbstractProvider implements ProviderContract {
 	 * @param  array  $scopes
 	 * @return string
 	 */
-	protected function formatScopes(array $scopes)
+	protected function formatScopes(array $scopes, $scope_separator)
 	{
-		return implode(',', $scopes);
+		return implode($scope_separator, $scopes);
 	}
 
 	/**
