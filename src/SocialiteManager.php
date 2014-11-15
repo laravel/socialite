@@ -105,7 +105,7 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 		return [
 			'identifier' => $config['client_id'],
 			'secret' => $config['client_secret'],
-			'callback_url' => $config['redirect'],
+			'callback_uri' => $config['redirect'],
 		];
 	}
 
