@@ -83,7 +83,7 @@ class LinkedinProvider extends AbstractProvider implements ProviderInterface {
 	{
 		return (new User)->setRaw($user)->map([
 			'id' => $user['id'], 'nickname' => null, 'name' => $user['formattedName'],
-			'email' => $user['emailAddress'], 'avatar' => $user['pictureUrl'],
+			'email' => $user['emailAddress'], 'avatar' => ( isset($user['pictureUrl']) ? $user['pictureUrl'] : '' ),
 		]);
 	}
 }
