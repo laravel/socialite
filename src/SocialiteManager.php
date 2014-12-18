@@ -5,6 +5,7 @@ use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
+use Laravel\Socialite\Two\VkProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 use Laravel\Socialite\One\AbstractProvider as AbstractOneProvider;
 use Laravel\Socialite\Two\AbstractProvider as AbstractTwoProvider;
@@ -50,6 +51,20 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 		);
 
 	}
+	
+	/**
+	 * Create an instance of the specified driver.
+	 *
+	 * @return \Laravel\Socialite\Two\AbstractProvider
+	 */
+	protected function createVkDriver()
+    	{
+        	$config = $this->app['config']['services.vk'];
+
+        	return $this->buildProvider(
+            		'Laravel\Socialite\Two\VkProvider', $config
+        	);
+    	}
 
 	/**
 	 * Create an instance of the specified driver.
