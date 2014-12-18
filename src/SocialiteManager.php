@@ -72,7 +72,7 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 	 * @param  array  $config
 	 * @return \Laravel\Socialite\Two\AbstractProvider
 	 */
-	protected function buildProvider($provider, $config)
+	public function buildProvider($provider, $config)
 	{
 		return new $provider(
 			$this->app['request'], $config['client_id'],
