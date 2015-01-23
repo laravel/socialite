@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GoogleProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
+	 * The separating character for the requested scopes.
+	 *
+	 * @var string
+	 */
+	protected $scopeSeparator = ' ';
+
+	/**
 	 * The scopes being requested.
 	 *
 	 * @var array
@@ -13,14 +20,6 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 		'https://www.googleapis.com/auth/userinfo.email',
 		'https://www.googleapis.com/auth/userinfo.profile',
 	];
-
-	/**
-	 * The separating character for the requested scopes.
-	 *
-	 * @var string
-	 */
-	protected $scope_separator = ' ';
-	
 
 	/**
 	 * {@inheritdoc}
