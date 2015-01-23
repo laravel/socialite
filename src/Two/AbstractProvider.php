@@ -132,6 +132,7 @@ abstract class AbstractProvider implements ProviderContract {
 	 * Format the given scopes.
 	 *
 	 * @param  array  $scopes
+	 * @param  string  $scopeSeparator
 	 * @return string
 	 */
 	protected function formatScopes(array $scopes, $scopeSeparator)
