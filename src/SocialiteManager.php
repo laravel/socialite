@@ -1,5 +1,6 @@
 <?php namespace Laravel\Socialite;
 
+use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
@@ -112,11 +113,13 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 	/**
 	 * Get the default driver name.
 	 *
+	 * @throws \InvalidArgumentException
+	 * 
 	 * @return string
 	 */
 	public function getDefaultDriver()
 	{
-		throw new \InvalidArgumentException("No Socialite driver was specified.");
+		throw new InvalidArgumentException("No Socialite driver was specified.");
 	}
 
 }
