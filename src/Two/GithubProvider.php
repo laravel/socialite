@@ -32,13 +32,26 @@ class GithubProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getUserByToken($token)
 	{
-		$response = $this->getHttpClient()->get('https://api.github.com/user?access_token='.$token, [
+		$options = [
 			'headers' => [
 				'Accept' => 'application/vnd.github.v3+json',
 			],
-		]);
+		];
 
-		return json_decode($response->getBody(), true);
+		$response = $this->getHttpClient()->get('https://api.github.com/user?access_token='.$token, $options);
+		$user = json_decode($response->getBody(), true);
+
+		if (in_array('user:email', $this->scopes)) {
+			$response = $this->getHttpClient()->get('https://api.github.com/user/emails?access_token='.$token, $options);
+			$emails = json_decode($response->getBody(), true);
+			foreach ($emails as $email) {
+				if ($email['primary'] && $email['verified']) {
+					$user['email'] = $email['email'];
+				}
+			}
+		}
+
+		return $user;
 	}
 
 	/**
