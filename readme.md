@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Laravel Socialite provides an expressive, fluent interface to [Stripe's](https://stripe.com) OAuth authentication. It handles almost all of the boilerplate subscription billing code you are dreading writing.
+Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Facebook, Twitter, Google, and GitHub. It handles almost all of the boilerplate subscription billing code you are dreading writing.
 
 ## Official Documentation
 
