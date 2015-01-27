@@ -1,72 +1,13 @@
 # Laravel Socialite
 
-## Getting Started (BETA - Laravel 5.0+)
+## Introduction
 
-### Add Configuration
+Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Facebook, Twitter, Google, and GitHub. It handles almost all of the boilerplate subscription billing code you are dreading writing.
 
-First, you should configure the authentication providers you would like to use in your `config/services.php` file.
+## Official Documentation
 
-	'twitter' => [
-		'client_id' => 'your-client-id',
-		'client_secret' => 'your-client-secret',
-		'redirect' => 'http://yourapp.com/auth/twitter/callback'
-	],
+Documentation for Socialite can be found on the [Laravel website](http://laravel.com/docs/authentication#social-authentication).
 
-### Redirect To The OAuth Provider
+### License
 
-```php
-	<?php
-
-	use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
-
-	class YourController extends BaseController {
-
-		public function __construct(SocialiteFactory $socialite)
-		{
-			$this->socialite = $socialite;
-		}
-
-		public function redirectToTwitter()
-		{
-			return $this->socialite->driver('twitter')->redirect();
-		}
-
-	}
-```
-
-You may also add scopes to the authentication call:
-
-```php
-	public function redirectToTwitter()
-	{
-		return $this->socialite->driver('twitter')
-                            ->scopes(['scope1', 'scope2'])
-                            ->redirect();
-	}
-```
-
-### Capture The User Details
-
-After the user accepts the authentication prompt on the provider:
-
-```php
-	<?php
-
-	use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
-
-	class YourController extends BaseController {
-
-		public function __construct(SocialiteFactory $socialite)
-		{
-			$this->socialite = $socialite;
-		}
-
-		public function getUserDetails()
-		{
-			$user = $this->socialite->driver('twitter')->user();
-		}
-
-	}
-```
-
-The `user` method returns an implementation of `Laravel\Socialite\Contracts\User`.
+Laravel Socialite is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
