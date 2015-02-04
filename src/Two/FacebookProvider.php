@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class FacebookProvider extends AbstractProvider implements ProviderInterface {
+class FacebookProvider extends AbstractProvider {
 
 	/**
 	 * The base Facebook Graph URL.
