@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class GoogleProvider extends AbstractProvider implements ProviderInterface {
+class GoogleProvider extends AbstractProvider {
 
 	/**
 	 * The separating character for the requested scopes.
