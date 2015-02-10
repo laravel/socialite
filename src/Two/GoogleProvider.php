@@ -5,13 +5,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GoogleProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
-	 * The API key.
-	 *
-	 * @var string
-	 */
-	protected $apiKey;
-
-	/**
 	 * The separating character for the requested scopes.
 	 *
 	 * @var string
@@ -28,22 +21,6 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 		'https://www.googleapis.com/auth/plus.login',
 		'https://www.googleapis.com/auth/plus.profile.emails.read',
 	];
-    
-    /**
-	 * Create a new google provider instance.
-	 *
-	 * @param  Request  $request
-	 * @param  string  $clientId
-	 * @param  string  $clientSecret
-	 * @param  string  $redirectUrl
-	 * @return void
-	 */
-	public function __construct($request, $apiKey, $clientId, $clientSecret, $redirectUrl)
-	{
-		parent::__construct($request, $clientId, $clientSecret, $redirectUrl);
-        
-        $this->apiKey = $apiKey;
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -97,9 +74,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 		$response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?',
             [
                 'query' => [
-                    'fields' => 'name(familyName,givenName),nickname,emails/value,image,id',
                     'prettyPrint' => 'false',
-                    'key' => $this->apiKey,
                 ],
                 'headers' => [
                     'Accept' => 'application/json',
@@ -117,8 +92,8 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	protected function mapUserToObject(array $user)
 	{
         return (new User)->setRaw($user)->map([
-			'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => array_get($user, 'displayName'),
-			'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image'),
+			'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
+			'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
 		]);
 	}
 
