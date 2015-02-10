@@ -79,7 +79,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 				'Accept' => 'application/json',
 				'Authorization' => 'Bearer ' . $token,
 			],
-        ]);
+		]);
 
 		return json_decode($response->getBody(), true);
 	}
