@@ -17,7 +17,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 * @var array
 	 */
 	protected $scopes = [
-        'https://www.googleapis.com/auth/plus.me',
+		'https://www.googleapis.com/auth/plus.me',
 		'https://www.googleapis.com/auth/plus.login',
 		'https://www.googleapis.com/auth/plus.profile.emails.read',
 	];
@@ -72,16 +72,16 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	protected function getUserByToken($token)
 	{
 		$response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?',
-            [
-                'query' => [
-                    'prettyPrint' => 'false',
-                ],
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
-                ],
-            ]
-        );
+			[
+				'query' => [
+					'prettyPrint' => 'false',
+				],
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . $token,
+				],
+			]
+		);
 
 		return json_decode($response->getBody(), true);
 	}
@@ -91,30 +91,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function mapUserToObject(array $user)
 	{
-        return (new User)->setRaw($user)->map([
+		return (new User)->setRaw($user)->map([
 			'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
 			'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
 		]);
-	}
-
-    /**
-	 * {@inheritdoc}
-	 */
-	public function user($token = false)
-	{
-		if ($this->hasInvalidState())
-		{
-			throw new InvalidStateException;
-		}
-        
-        if(!$token)
-            $token = $this->getAccessToken($this->getCode());
-
-		$user = $this->mapUserToObject($this->getUserByToken(
-			$token
-		));
-
-		return $user->setToken($token);
 	}
 
 }
