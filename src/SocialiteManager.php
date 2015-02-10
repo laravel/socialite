@@ -4,6 +4,7 @@ use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
+use Laravel\Socialite\Two\YoutubeProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
@@ -53,20 +54,6 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 	}
 
 	/**
-	 * Create an instance of the specified driver.
-	 *
-	 * @return \Laravel\Socialite\Two\AbstractProvider
-	 */
-	protected function createGoogleDriver()
-	{
-		$config = $this->app['config']['services.google'];
-
-		return $this->buildProvider(
-			'Laravel\Socialite\Two\GoogleProvider', $config
-		);
-	}
-
-	/**
 	 * Build an OAuth 2 provider instance.
 	 *
 	 * @param  string  $provider
@@ -78,6 +65,50 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 		return new $provider(
 			$this->app['request'], $config['client_id'],
 			$config['client_secret'], $config['redirect']
+		);
+	}
+
+	/**
+	 * Create an instance of the specified driver.
+	 *
+	 * @return \Laravel\Socialite\Two\AbstractProvider
+	 */
+	protected function createGoogleDriver()
+	{
+		$config = $this->app['config']['services.google'];
+
+		return $this->buildGoogleProvider(
+			'Laravel\Socialite\Two\GoogleProvider', $config
+		);
+	}
+
+	/**
+	 * Create an instance of the specified driver.
+	 *
+	 * @return \Laravel\Socialite\Two\AbstractProvider
+	 */
+	protected function createYoutubeDriver()
+	{
+		$config = $this->app['config']['services.youtube'];
+
+		return $this->buildGoogleProvider(
+			'Laravel\Socialite\Two\YoutubeProvider', $config
+		);
+	}
+
+	/**
+	 * Build an OAuth 2 provider instance.
+	 *
+	 * @param  string  $provider
+	 * @param  array  $config
+	 * @return \Laravel\Socialite\Two\GoogleProvider
+	 */
+	public function buildGoogleProvider($provider, $config)
+	{
+		return new $provider(
+			$this->app['request'], $config['api_key'],
+            $config['client_id'], $config['client_secret'],
+            $config['redirect']
 		);
 	}
 

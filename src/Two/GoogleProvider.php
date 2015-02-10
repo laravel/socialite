@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GoogleProvider extends AbstractProvider implements ProviderInterface {
 
 	/**
+	 * The API key.
+	 *
+	 * @var string
+	 */
+	protected $apiKey;
+
+	/**
 	 * The separating character for the requested scopes.
 	 *
 	 * @var string
@@ -17,9 +24,26 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 * @var array
 	 */
 	protected $scopes = [
-		'https://www.googleapis.com/auth/userinfo.email',
-		'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/plus.me',
+		'https://www.googleapis.com/auth/plus.login',
+		'https://www.googleapis.com/auth/plus.profile.emails.read',
 	];
+    
+    /**
+	 * Create a new google provider instance.
+	 *
+	 * @param  Request  $request
+	 * @param  string  $clientId
+	 * @param  string  $clientSecret
+	 * @param  string  $redirectUrl
+	 * @return void
+	 */
+	public function __construct($request, $apiKey, $clientId, $clientSecret, $redirectUrl)
+	{
+		parent::__construct($request, $clientId, $clientSecret, $redirectUrl);
+        
+        $this->apiKey = $apiKey;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -70,11 +94,19 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getUserByToken($token)
 	{
-		$response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='.$token, [
-			'headers' => [
-				'Accept' => 'application/json',
-			],
-		]);
+		$response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?',
+            [
+                'query' => [
+                    'fields' => 'name(familyName,givenName),nickname,emails/value,image,id',
+                    'prettyPrint' => 'false',
+                    'key' => $this->apiKey,
+                ],
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token,
+                ],
+            ]
+        );
 
 		return json_decode($response->getBody(), true);
 	}
@@ -84,10 +116,30 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function mapUserToObject(array $user)
 	{
-		return (new User)->setRaw($user)->map([
-			'id' => $user['id'], 'nickname' => null, 'name' => $user['given_name'].' '.$user['family_name'],
-			'email' => $user['email'], 'avatar' => array_get($user, 'picture'),
+        return (new User)->setRaw($user)->map([
+			'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => array_get($user, 'displayName'),
+			'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image'),
 		]);
+	}
+
+    /**
+	 * {@inheritdoc}
+	 */
+	public function user($token = false)
+	{
+		if ($this->hasInvalidState())
+		{
+			throw new InvalidStateException;
+		}
+        
+        if(!$token)
+            $token = $this->getAccessToken($this->getCode());
+
+		$user = $this->mapUserToObject($this->getUserByToken(
+			$token
+		));
+
+		return $user->setToken($token);
 	}
 
 }
