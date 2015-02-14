@@ -121,7 +121,7 @@ abstract class AbstractProvider implements ProviderContract {
 	{
 		$session = $this->request->getSession();
 
-        return $url.'?'.http_build_query($this->getCodeRequestParameters($state), '', '&', $this->encodingType);
+		return $url.'?'.http_build_query($this->getCodeRequestParameters($state), '', '&', $this->encodingType);
 	}
 
 	/**
@@ -181,20 +181,20 @@ abstract class AbstractProvider implements ProviderContract {
 		return $this->parseAccessToken($response->getBody());
 	}
 
-    /**
-     * Get the GET parameters for the auth_code request.
-     *
-     * @param  string  $state
-     * @return array
-     */
-    protected function getCodeRequestParameters($state)
-    {
-        return [
-            'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator), 'state' => $state,
-            'response_type' => 'code',
-        ];
-    }
+	/**
+	 * Get the GET parameters for the auth_code request.
+	 *
+	 * @param  string  $state
+	 * @return array
+	 */
+	protected function getCodeRequestParameters($state)
+	{
+		return [
+			'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
+			'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator), 'state' => $state,
+			'response_type' => 'code',
+		];
+	}
 
 	/**
 	 * Get the POST fields for the token request.
