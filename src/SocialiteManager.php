@@ -101,7 +101,7 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 	 * @param  array  $config
 	 * @return array
 	 */
-	protected function formatConfig(array $config)
+	public function formatConfig(array $config)
 	{
 		return [
 			'identifier' => $config['client_id'],
@@ -114,7 +114,7 @@ class SocialiteManager extends Manager implements Contracts\Factory {
 	 * Get the default driver name.
 	 *
 	 * @throws \InvalidArgumentException
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getDefaultDriver()
