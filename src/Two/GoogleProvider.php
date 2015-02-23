@@ -17,8 +17,9 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 * @var array
 	 */
 	protected $scopes = [
-		'https://www.googleapis.com/auth/userinfo.email',
-		'https://www.googleapis.com/auth/userinfo.profile',
+		'https://www.googleapis.com/auth/plus.me',
+		'https://www.googleapis.com/auth/plus.login',
+		'https://www.googleapis.com/auth/plus.profile.emails.read',
 	];
 
 	/**
@@ -70,9 +71,13 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getUserByToken($token)
 	{
-		$response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='.$token, [
+		$response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?',[
+			'query' => [
+				'prettyPrint' => 'false',
+			],
 			'headers' => [
 				'Accept' => 'application/json',
+				'Authorization' => 'Bearer ' . $token,
 			],
 		]);
 
@@ -85,8 +90,8 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface {
 	protected function mapUserToObject(array $user)
 	{
 		return (new User)->setRaw($user)->map([
-			'id' => $user['id'], 'nickname' => null, 'name' => $user['given_name'].' '.$user['family_name'],
-			'email' => $user['email'], 'avatar' => array_get($user, 'picture'),
+			'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
+			'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
 		]);
 	}
 
