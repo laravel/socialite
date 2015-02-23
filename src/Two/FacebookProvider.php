@@ -30,7 +30,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getAuthUrl($state)
 	{
-		return $this->buildAuthUrlFromBase('https://www.facebook.com/dialog/oauth', $state);
+		return $this->buildAuthUrlFromBase('https://www.facebook.com/'.$this->version.'/dialog/oauth', $state);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface {
 	 */
 	protected function getTokenUrl()
 	{
-		return $this->graphUrl . '/oauth/access_token';
+		return $this->graphUrl.'/oauth/access_token';
 	}
 
 	/**
