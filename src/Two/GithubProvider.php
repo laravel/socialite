@@ -49,7 +49,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => $user['login'], 'name' => array_get($user, 'name'),
-            'email' => $user['email'], 'avatar' => $user['avatar_url'],
+            'email' => array_get($user, 'email'), 'avatar' => $user['avatar_url'],
         ]);
     }
 }
