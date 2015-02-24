@@ -2,6 +2,5 @@
 
 class BitbucketProvider extends AbstractProvider
 {
-
     //
 }
