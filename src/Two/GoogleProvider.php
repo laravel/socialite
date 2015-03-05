@@ -28,7 +28,9 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/auth', $state);
+        $rerequest = ($this->rerequest) ? '&approval_prompt=force' : '';
+
+        return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/auth', $state) . $rerequest;
     }
 
     /**

@@ -38,9 +38,11 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Redirect the user to the authentication page for the provider.
      *
+     * @param bool $rerequest Whether or not to rerequest permissions.
+     *
      * @return RedirectResponse
      */
-    public function redirect()
+    public function redirect($rerequest = false)
     {
         $this->request->getSession()->set(
             'oauth.temp', $temp = $this->server->getTemporaryCredentials()

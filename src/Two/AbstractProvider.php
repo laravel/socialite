@@ -50,6 +50,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $encodingType = PHP_QUERY_RFC1738;
 
     /**
+     * Should permissions be rerequested?
+     *
+     * @var bool
+     */
+    protected $rerequest = false;
+
+    /**
      * Create a new provider instance.
      *
      * @param  Request  $request
@@ -100,13 +107,17 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Redirect the user of the application to the provider's authentication screen.
      *
+     * @param bool $rerequest Whether or not to rerequest permissions.
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function redirect()
+    public function redirect($rerequest = false)
     {
         $this->request->getSession()->set(
             'state', $state = sha1(time().$this->request->getSession()->get('_token'))
         );
+
+        $this->rerequest = $rerequest;
 
         return new RedirectResponse($this->getAuthUrl($state));
     }
