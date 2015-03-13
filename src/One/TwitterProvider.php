@@ -3,11 +3,7 @@
 class TwitterProvider extends AbstractProvider
 {
     /**
-     * Get the User instance for the authenticated user.
-     * Overridden to provide access to the urls property that comes back from the
-     * OAuth library
-     *
-     * @return \Laravel\Socialite\One\User
+     * {@inheritdoc}
      */
     public function user()
     {
