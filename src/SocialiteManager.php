@@ -3,6 +3,7 @@
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\MailchimpProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
@@ -37,6 +38,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             'Laravel\Socialite\Two\GithubProvider', $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createMailchimpDriver()
+    {
+        $config = $this->app['config']['services.mailchimp'];
+
+        return $this->buildProvider(
+            'Laravel\Socialite\Two\MailchimpProvider', $config
         );
     }
 
