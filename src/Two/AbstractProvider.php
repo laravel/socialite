@@ -49,6 +49,13 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected $encodingType = PHP_QUERY_RFC1738;
 
+
+    /**
+        * The auth code
+     */
+    protected $code;
+
+
     /**
      * Create a new provider instance.
      *
@@ -188,6 +195,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function getAccessToken($code)
     {
+        //if the code is setted ,use it instead
+        if (!is_null($this->code)) {
+            $code = $this->code;
+        }
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
             'body' => $this->getTokenFields($code),
@@ -265,5 +276,18 @@ abstract class AbstractProvider implements ProviderContract
         $this->request = $request;
 
         return $this;
+    }
+
+    /**
+        * @Synopsis  set code input from mobile client
+        *
+        * @Param $code
+        *
+        * @Returns  $this 
+     */
+    public function setCode($code)
+    {
+         $this->code = $code;
+         return $this;
     }
 }
