@@ -47,6 +47,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessToken($code)
     {
+        //if the code is setted ,use it instead
+        if (!is_null($this->code)) {
+            $code = $this->code;
+        }
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'body' => $this->getTokenFields($code),
         ]);
