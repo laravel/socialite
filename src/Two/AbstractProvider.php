@@ -145,13 +145,23 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $state
      * @return array
      */
-    protected function getCodeFields($state)
+    protected function getCodeFields($state = null)
     {
-        return [
+
+        $fields = [
             'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator), 'state' => $state,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
             'response_type' => 'code',
         ];
+
+        if ( ! $this->isStateless() )
+        {
+            $fields['state'] = $state;
+        }
+
+        return $fields;
+
+
     }
 
     /**
@@ -299,7 +309,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Set if stateless.
+     * Set stateless
      *
      * @param boolean $stateless
      */
@@ -309,6 +319,8 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Set stateless to true.
+     *
      * @return $this
      */
     public function stateless()
