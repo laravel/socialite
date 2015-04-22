@@ -8,6 +8,13 @@ abstract class AbstractProvider implements ProviderContract
 {
 
     /**
+     * use session?
+     *
+     * @var bool
+     */
+    protected $stateless = false;
+
+    /**
      * The HTTP request instance.
      *
      * @var Request
@@ -104,9 +111,15 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-        $this->request->getSession()->set(
-            'state', $state = sha1(time().$this->request->getSession()->get('_token'))
-        );
+
+        $state = null;
+
+        if ( ! $this->isStateless() ) {
+
+            $this->request->getSession()->set(
+                'state', $state = sha1(time().$this->request->getSession()->get('_token'))
+            );
+        }
 
         return new RedirectResponse($this->getAuthUrl($state));
     }
@@ -120,7 +133,8 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function buildAuthUrlFromBase($url, $state)
     {
-        $session = $this->request->getSession();
+        // is this being used?
+        //$session = $this->request->getSession();
 
         return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
     }
@@ -175,6 +189,13 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function hasInvalidState()
     {
+
+        // if this is stateless then the state is not invalid.
+        if ( $this->isStateless() )
+        {
+            return false;
+        }
+
         $session = $this->request->getSession();
 
         return ! ($this->request->input('state') === $session->get('state'));
@@ -266,4 +287,34 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
+
+    /**
+     * Check if stateless.
+     *
+     * @return boolean
+     */
+    public function isStateless()
+    {
+        return $this->stateless;
+    }
+
+    /**
+     * Set if stateless.
+     *
+     * @param boolean $stateless
+     */
+    public function setStateless($stateless)
+    {
+        $this->stateless = $stateless;
+    }
+
+    /**
+     * @return $this
+     */
+    public function stateless()
+    {
+        $this->setStateless(true);
+        return $this;
+    }
+
 }
