@@ -8,7 +8,7 @@ abstract class AbstractProvider implements ProviderContract
 {
 
     /**
-     * use session?
+     * Use session?
      *
      * @var bool
      */
@@ -111,11 +111,9 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-
         $state = null;
 
-        if ( ! $this->isStateless() ) {
-
+        if (! $this->isStateless()) {
             $this->request->getSession()->set(
                 'state', $state = sha1(time().$this->request->getSession()->get('_token'))
             );
@@ -133,9 +131,6 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function buildAuthUrlFromBase($url, $state)
     {
-        // is this being used?
-        //$session = $this->request->getSession();
-
         return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
     }
 
@@ -147,21 +142,17 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getCodeFields($state = null)
     {
-
         $fields = [
             'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
             'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
             'response_type' => 'code',
         ];
 
-        if ( ! $this->isStateless() )
-        {
+        if (! $this->isStateless()) {
             $fields['state'] = $state;
         }
 
         return $fields;
-
-
     }
 
     /**
@@ -199,10 +190,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function hasInvalidState()
     {
-
-        // if this is stateless then the state is not invalid.
-        if ( $this->isStateless() )
-        {
+        if ($this->isStateless()) {
             return false;
         }
 
