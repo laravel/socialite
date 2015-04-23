@@ -303,7 +303,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return boolean
      */
-    public function isStateless()
+    protected function isStateless()
     {
         return $this->stateless;
     }
@@ -313,7 +313,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @param boolean $stateless
      */
-    public function setStateless($stateless)
+    protected function setStateless($stateless)
     {
         $this->stateless = $stateless;
     }
