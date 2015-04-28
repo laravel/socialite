@@ -63,7 +63,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     {
         $codeFields = parent::getCodeFields($state);
 
-        if ( ! is_null($this->appsDomain)) {
+        if (! is_null($this->appsDomain)) {
             $codeFields['hd'] = $this->appsDomain;
         }
 
