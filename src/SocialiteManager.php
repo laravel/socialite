@@ -63,8 +63,13 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $config = $this->app['config']['services.google'];
 
-        return $this->buildProvider(
-            'Laravel\Socialite\Two\GoogleProvider', $config
+        // Google has an optional config item, let's account for that.
+        if (empty($config['apps_domain'])) $config['apps_domain'] = null;
+
+        return new GoogleProvider(
+            $this->app['request'], $config['client_id'],
+            $config['client_secret'], $config['redirect'],
+            $config['apps_domain']
         );
     }
 
