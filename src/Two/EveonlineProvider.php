@@ -15,6 +15,28 @@ class EveonlineProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function getAccessToken($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => [
+                //'Accept' => 'application/json',
+                'Content-Type'  => 'application/x-www-form-urlencoded',
+                'Authorization' => 'Basic '.$this->getEncodedAuth(),
+            ],
+            'body' => "grant_type=authorization_code&code=$code"
+        ]);
+        
+        return $this->parseAccessToken($response->getBody());
+    }
+    
+    protected function getEncodedAuth()
+    {
+        return base64_encode($this->clientId.':'.$this->clientSecret);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://login.eveonline.com/oauth/authorize', $state);
