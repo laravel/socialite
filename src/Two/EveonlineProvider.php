@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class GithubProvider extends AbstractProvider implements ProviderInterface
+class EveonlineProvider extends AbstractProvider implements ProviderInterface
 {
 
     /**
