@@ -1,9 +1,17 @@
 <?php namespace Laravel\Socialite\Two;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Http\Request;
 
 class GoogleProvider extends AbstractProvider implements ProviderInterface
 {
+
+    /**
+     * The google apps domain.
+     *
+     * @var string
+     */
+    protected $appsDomain;
 
     /**
      * The separating character for the requested scopes.
@@ -24,11 +32,42 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     ];
 
     /**
+     * Create a new provider instance.
+     *
+     * @param  Request  $request
+     * @param  string  $clientId
+     * @param  string  $clientSecret
+     * @param  string  $redirectUrl
+     * @param  string  $appsDomain
+     * @return void
+     */
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $appsDomain = null)
+    {
+        parent::__construct($request, $clientId, $clientSecret, $redirectUrl);
+
+        $this->appsDomain = $appsDomain;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/auth', $state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state)
+    {
+        $codeFields = parent::getCodeFields($state);
+
+        if ( ! is_null($this->appsDomain)) {
+            $codeFields['hd'] = $this->appsDomain;
+        }
+
+        return $codeFields;
     }
 
     /**
