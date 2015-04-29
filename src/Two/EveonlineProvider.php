@@ -10,7 +10,8 @@ class EveonlineProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['publicData'];
+    protected $scopes = [];
+    protected $imageUrl = 'https://image.eveonline.com/Character/';
 
     /**
      * {@inheritdoc}
@@ -72,8 +73,7 @@ class EveonlineProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['CharacterID'], 
             'name' => $user['CharacterName'], 
-            'name' => array_get($user, 'name'),
-            'email' => array_get($user, 'email'), 
+            'avatar' => $this->imageUrl.$user['CharacterID'].'_64.jpg', 
         ]);
     }
 }
