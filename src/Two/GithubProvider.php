@@ -1,5 +1,7 @@
 <?php namespace Laravel\Socialite\Two;
 
+use Exception;
+
 class GithubProvider extends AbstractProvider implements ProviderInterface
 {
 
@@ -19,39 +21,6 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the email for the given access token.
-     *
-     * @param  string  $token
-     * @return null|string
-     */
-    protected function getEmailByToken($token)
-    {
-        $emailsUrl = 'https://api.github.com/user/emails?access_token='.$token;
-        $response = $this->getHttpClient()->get($emailsUrl, $this->getRequestOptions());
-        $emails = json_decode($response->getBody(), true);
-        foreach ($emails as $email) {
-            if ($email['primary'] && $email['verified']) {
-                return $email['email'];
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get options for request
-     *
-     * @return array
-     */
-    protected function getRequestOptions()
-    {
-        return [
-            'headers' => [
-                'Accept' => 'application/vnd.github.v3+json',
-            ],
-        ];
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getTokenUrl()
@@ -65,7 +34,11 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $userUrl = 'https://api.github.com/user?access_token='.$token;
-        $response = $this->getHttpClient()->get($userUrl, $this->getRequestOptions());
+
+        $response = $this->getHttpClient()->get(
+            $userUrl, $this->getRequestOptions()
+        );
+
         $user = json_decode($response->getBody(), true);
 
         if (in_array('user:email', $this->scopes)) {
@@ -73,6 +46,31 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
         }
 
         return $user;
+    }
+
+    /**
+     * Get the email for the given access token.
+     *
+     * @param  string  $token
+     * @return string|null
+     */
+    protected function getEmailByToken($token)
+    {
+        $emailsUrl = 'https://api.github.com/user/emails?access_token='.$token;
+
+        try {
+            $response = $this->getHttpClient()->get(
+                $emailsUrl, $this->getRequestOptions()
+            );
+        } catch (Exception $e) {
+            return;
+        }
+
+        foreach (json_decode($response->getBody(), true) as $email) {
+            if ($email['primary'] && $email['verified']) {
+                return $email['email'];
+            }
+        }
     }
 
     /**
@@ -84,5 +82,19 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['id'], 'nickname' => $user['login'], 'name' => array_get($user, 'name'),
             'email' => array_get($user, 'email'), 'avatar' => $user['avatar_url'],
         ]);
+    }
+
+    /**
+     * Get the default options for an HTTP request.
+     *
+     * @return array
+     */
+    protected function getRequestOptions()
+    {
+        return [
+            'headers' => [
+                'Accept' => 'application/vnd.github.v3+json',
+            ],
+        ];
     }
 }
