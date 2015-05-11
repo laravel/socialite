@@ -6,9 +6,8 @@ use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
 abstract class AbstractProvider implements ProviderContract
 {
-
     /**
-     * Use session?
+     * Indicates if the session state should be utilized.
      *
      * @var bool
      */
@@ -113,7 +112,7 @@ abstract class AbstractProvider implements ProviderContract
     {
         $state = null;
 
-        if (! $this->isStateless()) {
+        if ($this->usesState()) {
             $this->request->getSession()->set(
                 'state', $state = sha1(time().$this->request->getSession()->get('_token'))
             );
@@ -137,7 +136,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get the GET parameters for the code request.
      *
-     * @param  string  $state
+     * @param  string|null  $state
      * @return array
      */
     protected function getCodeFields($state = null)
@@ -148,7 +147,7 @@ abstract class AbstractProvider implements ProviderContract
             'response_type' => 'code',
         ];
 
-        if (! $this->isStateless()) {
+        if ($this->usesState()) {
             $fields['state'] = $state;
         }
 
@@ -287,9 +286,19 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Check if stateless.
+     * Determine if the provider is operating with state.
      *
-     * @return boolean
+     * @return bool
+     */
+    protected function usesState()
+    {
+        return ! $this->stateless;
+    }
+
+    /**
+     * Determine if the provider is operating as stateless.
+     *
+     * @return bool
      */
     protected function isStateless()
     {
@@ -297,24 +306,14 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Set stateless
-     *
-     * @param boolean $stateless
-     */
-    protected function setStateless($stateless)
-    {
-        $this->stateless = $stateless;
-    }
-
-    /**
-     * Set stateless to true.
+     * Indicates that the provider should operate as stateless.
      *
      * @return $this
      */
     public function stateless()
     {
-        $this->setStateless(true);
+        $this->stateless = true;
+
         return $this;
     }
-
 }
