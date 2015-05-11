@@ -195,6 +195,16 @@ abstract class AbstractProvider implements ProviderContract
 
         $session = $this->request->getSession();
 
+        if($this->request->has('code')) {
+
+            if($redirectUri = $this->request->get('redirect_uri')) {
+                $this->redirectUrl = $redirectUri;
+            }
+
+            return false;
+
+        }
+
         return ! ($this->request->input('state') === $session->get('state'));
     }
 
