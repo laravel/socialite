@@ -7,13 +7,6 @@ use Laravel\Socialite\Contracts\Provider as ProviderContract;
 abstract class AbstractProvider implements ProviderContract
 {
     /**
-     * Indicates if the session state should be utilized.
-     *
-     * @var bool
-     */
-    protected $stateless = false;
-
-    /**
      * The HTTP request instance.
      *
      * @var Request
@@ -54,6 +47,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
      */
     protected $encodingType = PHP_QUERY_RFC1738;
+
+    /**
+     * Indicates if the session state should be utilized.
+     *
+     * @var bool
+     */
+    protected $stateless = false;
 
     /**
      * Create a new provider instance.
