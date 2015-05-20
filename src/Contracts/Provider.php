@@ -2,7 +2,6 @@
 
 interface Provider
 {
-
     /**
      * Redirect the user to the authentication page for the provider.
      *
@@ -16,4 +15,11 @@ interface Provider
      * @return \Laravel\Socialite\Contracts\User
      */
     public function user();
+
+    /**
+     * Returns version of OAuth protocol implementation.
+     *
+     * @return int
+     */
+    public function getOAuthVersion();
 }

@@ -1,5 +1,6 @@
 <?php namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -99,7 +100,7 @@ abstract class AbstractProvider implements ProviderContract
      * Map the raw user array to a Socialite User instance.
      *
      * @param  array  $user
-     * @return \Laravel\Socialite\User
+     * @return \Laravel\Socialite\Two\User
      */
     abstract protected function mapUserToObject(array $user);
 
@@ -265,11 +266,11 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get a fresh instance of the Guzzle HTTP client.
      *
-     * @return \GuzzleHttp\Client
+     * @return Client
      */
     protected function getHttpClient()
     {
-        return new \GuzzleHttp\Client;
+        return new Client;
     }
 
     /**
@@ -315,5 +316,15 @@ abstract class AbstractProvider implements ProviderContract
         $this->stateless = true;
 
         return $this;
+    }
+
+    /**
+     * Returns version of OAuth protocol implementation.
+     *
+     * @return int
+     */
+    public function getOAuthVersion()
+    {
+        return 2;
     }
 }
