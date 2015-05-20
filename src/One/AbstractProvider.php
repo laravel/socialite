@@ -107,4 +107,14 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
+
+    /**
+     * Returns version of OAuth protocol implementation.
+     *
+     * @return int
+     */
+    public function getOAuthVersion()
+    {
+        return 1;
+    }
 }
