@@ -1,6 +1,7 @@
 <?php namespace Laravel\Socialite\Two;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
@@ -206,9 +207,11 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function getAccessToken($code)
     {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            'body' => $this->getTokenFields($code),
+            $postKey => $this->getTokenFields($code),
         ]);
 
         return $this->parseAccessToken($response->getBody());
