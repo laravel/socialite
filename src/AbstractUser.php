@@ -122,6 +122,7 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
      * Determine if the given raw user attribute exists.
      *
      * @param  string  $offset
+     * @return  bool
      */
     public function offsetExists($offset)
     {
