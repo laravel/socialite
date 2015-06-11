@@ -16,4 +16,12 @@ interface Provider
      * @return \Laravel\Socialite\Contracts\User
      */
     public function user();
+
+    /**
+     * Get the User instance with access token
+     *
+     * @param $token
+     * @return \Laravel\Socialite\Contracts\User
+     */
+    public function userWithToken($token);
 }
