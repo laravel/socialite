@@ -26,12 +26,12 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected $scopes = ['email'];
 
-	/**
-	 * Display the dialog in a popup view.
-	 *
-	 * @var bool
-	 */
-	private $popup = false;
+    /**
+     * Display the dialog in a popup view.
+     *
+     * @var bool
+     */
+    protected $popup = false;
 
     /**
      * {@inheritdoc}
@@ -99,30 +99,29 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
-	/**
-	 * Set the dialog to be displayed as a popup.
-	 *
-	 * @return $this
-	 */
-	public function asPopup()
-	{
-		$this->popup = true;
-
-		return $this;
-	}
-
-	/**
+    /**
      * {@inheritdoc}
      */
     protected function getCodeFields($state = null)
     {
-		$fields = parent::getCodeFields($state);
+        $fields = parent::getCodeFields($state);
 
-		if($this->popup)
-		{
-			$fields['display'] = 'popup';
-		}
+        if ($this->popup) {
+            $fields['display'] = 'popup';
+        }
 
-		return $fields;
+        return $fields;
+    }
+
+    /**
+     * Set the dialog to be displayed as a popup.
+     *
+     * @return $this
+     */
+    public function asPopup()
+    {
+        $this->popup = true;
+
+        return $this;
     }
 }
