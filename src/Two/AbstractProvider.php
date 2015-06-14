@@ -27,6 +27,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var string
      */
     protected $clientSecret;
+    
+    /**
+     * The redirect URL.
+     *
+     * @var string
+     */
+    protected $redirectUrl;
 
     /**
      * The scopes being requested.
