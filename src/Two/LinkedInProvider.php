@@ -43,6 +43,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $fields = implode(',', $this->fields);
+
         $url = 'https://api.linkedin.com/v1/people/~:('.$fields.')';
 
         $response = $this->getHttpClient()->get($url, [
