@@ -93,9 +93,12 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
+
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => null, 'name' => $user['first_name'].' '.$user['last_name'],
-            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture?type=normal',
+            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
+            'avatar_original' => $avatarUrl.'?width=1920',
         ]);
     }
 
