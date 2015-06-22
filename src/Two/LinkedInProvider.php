@@ -1,7 +1,5 @@
 <?php namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\ClientInterface;
-
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
 
@@ -11,6 +9,17 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['r_basicprofile', 'r_emailaddress'];
+    
+    /**
+     * The fields that are included in the profile.
+     * 
+     * @var array
+     */
+    protected $fields = [
+        'id', 'first-name', 'last-name', 'formatted-name',
+        'email-address', 'headline', 'location', 'industry',
+        'public-profile-url', 'picture-url', 'picture-urls::(original)',
+    ];
 
     /**
      * {@inheritdoc}
@@ -33,9 +42,10 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $fields = 'id,email-address,first-name,last-name,formatted-name,headline,picture-url,public-profile-url,location';
+        $fields = implode(',', $this->fields);
+        $url = 'https://api.linkedin.com/v1/people/~:('.$fields.')';
 
-        $response = $this->getHttpClient()->get("https://api.linkedin.com/v1/people/~:({$fields})", [
+        $response = $this->getHttpClient()->get($url, [
           'headers' => [
             'x-li-format' => 'json',
             'Authorization' => 'Bearer ' . $token,
