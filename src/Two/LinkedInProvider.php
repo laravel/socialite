@@ -9,10 +9,10 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['r_basicprofile', 'r_emailaddress'];
-    
+
     /**
      * The fields that are included in the profile.
-     * 
+     *
      * @var array
      */
     protected $fields = [
@@ -47,10 +47,10 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         $url = 'https://api.linkedin.com/v1/people/~:('.$fields.')';
 
         $response = $this->getHttpClient()->get($url, [
-          'headers' => [
-            'x-li-format' => 'json',
-            'Authorization' => 'Bearer ' . $token,
-          ],
+            'headers' => [
+                'x-li-format' => 'json',
+                'Authorization' => 'Bearer ' . $token,
+            ],
         ]);
 
         return json_decode($response->getBody(), true);
@@ -63,7 +63,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => null, 'name' => array_get($user, 'formattedName'),
-            'email' => array_get($user, 'emailAddress'), 'avatar' => $user['pictureUrl'],
+            'email' => array_get($user, 'emailAddress'), 'avatar' => array_get($user, 'pictureUrl'),
+            'avatar_original' => array_get($user, 'pictureUrls.values.0'),
         ]);
     }
 }

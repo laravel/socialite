@@ -19,6 +19,7 @@ class TwitterProvider extends AbstractProvider
         return $instance->map([
             'id' => $user->uid, 'nickname' => $user->nickname,
             'name' => $user->name, 'email' => $user->email, 'avatar' => $user->imageUrl,
+            'avatar_original' => str_replace('_normal', '', $user->imageUrl),
         ]);
     }
 
