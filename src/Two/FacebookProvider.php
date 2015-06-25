@@ -17,7 +17,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $version = 'v2.2';
+    protected $version = 'v2.3';
 
     /**
      * The scopes being requested.
