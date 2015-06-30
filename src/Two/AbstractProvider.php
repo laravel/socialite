@@ -252,7 +252,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get an access token from a previous refresh token.
      *
-     * @param  string $token
+     * @param  string  $token
      * @return string
      */
     public function refreshToken($token)
@@ -301,6 +301,19 @@ abstract class AbstractProvider implements ProviderContract
     protected function getCode()
     {
         return $this->request->input('code');
+    }
+
+    /**
+     * Add scope to the requested access.
+     *
+     * @param  string  $scope
+     * @return $this
+     */
+    public function addScope($scope)
+    {
+        $this->scopes[] = $scope;
+
+        return $this;
     }
 
     /**
