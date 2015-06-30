@@ -186,7 +186,7 @@ abstract class AbstractProvider implements ProviderContract
         $token = $this->getToken($this->getCode());
         $user = $this->mapUserToObject($this->getUserByToken($token->accessToken));
 
-        return $user->setToken($token->accessToken, $token->refreshToken);
+        return $user->setToken($token->accessToken, $token->refreshToken, $token->expiresIn);
     }
 
     /**
@@ -246,7 +246,11 @@ abstract class AbstractProvider implements ProviderContract
     protected function parseToken($body)
     {
         $data = json_decode($body, true);
-        return new Token($data['access_token'], isset($data['refresh_token']) ? $data['refresh_token'] : null);
+        return new Token(
+            $data['access_token'],
+            isset($data['refresh_token']) ? $data['refresh_token'] : null,
+            isset($data['expires_in']) ? $data['expires_in'] : null
+        );
     }
 
     /**

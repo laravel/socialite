@@ -20,15 +20,23 @@ class User extends AbstractUser
     public $refreshToken;
 
     /**
+     * The user's access token expiration delay.
+     *
+     * @var int
+     */
+    public $tokenExpiresIn;
+
+    /**
      * Set the token on the user.
      *
      * @param  string  $token
      * @return $this
      */
-    public function setToken($token, $refreshToken)
+    public function setToken($token, $refreshToken, $tokenExpiresIn)
     {
         $this->token = $token;
         $this->refreshToken = $refreshToken;
+        $this->tokenExpiresIn = $tokenExpiresIn;
 
         return $this;
     }
