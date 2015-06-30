@@ -8,7 +8,7 @@ class Token
      *
      * @var string
      */
-    public $token;
+    public $accessToken;
 
     /**
      * The refresh token.
@@ -24,9 +24,9 @@ class Token
      * @param  string  $refreshToken
      * @return $this
      */
-    public function __construct($token, $refreshToken = null)
+    public function __construct($accessToken, $refreshToken = null)
     {
-        $this->token = $token;
+        $this->accessToken = $accessToken;
         $this->refreshToken = $refreshToken;
 
         return $this;

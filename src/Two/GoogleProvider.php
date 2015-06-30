@@ -119,4 +119,16 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
 
         return $fields;
     }
+
+    /**
+     * Set the token as available offline.
+     *
+     * @return $this
+     */
+    public function asOffline()
+    {
+        $this->offline = true;
+
+        return $this;
+    }
 }
