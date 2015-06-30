@@ -27,7 +27,7 @@ abstract class AbstractProvider implements ProviderContract
      * @var string
      */
     protected $clientSecret;
-    
+
     /**
      * The redirect URL.
      *
@@ -184,7 +184,7 @@ abstract class AbstractProvider implements ProviderContract
         }
 
         $token = $this->getToken($this->getCode());
-        $user = $this->mapUserToObject($this->getUserByToken($token->token));
+        $user = $this->mapUserToObject($this->getUserByToken($token->accessToken));
 
         return $user->setToken($token->accessToken, $token->refreshToken);
     }
