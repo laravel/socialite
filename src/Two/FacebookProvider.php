@@ -50,28 +50,28 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the token for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return \Laravel\Socialite\Two\Token
      */
-    public function getAccessToken($code)
+    public function getToken($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             'query' => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseToken($response->getBody());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function parseAccessToken($body)
+    protected function parseToken($body)
     {
         parse_str($body);
 
-        return $access_token;
+        return new Token($access_token);
     }
 
     /**
