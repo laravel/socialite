@@ -1,12 +1,12 @@
 <?php namespace Laravel\Socialite\Two;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
 abstract class AbstractProvider implements ProviderContract
 {
-
     /**
      * The HTTP request instance.
      *
@@ -27,6 +27,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var string
      */
     protected $clientSecret;
+    
+    /**
+     * The redirect URL.
+     *
+     * @var string
+     */
+    protected $redirectUrl;
 
     /**
      * The scopes being requested.
@@ -48,6 +55,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
      */
     protected $encodingType = PHP_QUERY_RFC1738;
+
+    /**
+     * Indicates if the session state should be utilized.
+     *
+     * @var bool
+     */
+    protected $stateless = false;
 
     /**
      * Create a new provider instance.
@@ -104,9 +118,13 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-        $this->request->getSession()->set(
-            'state', $state = sha1(time().$this->request->getSession()->get('_token'))
-        );
+        $state = null;
+
+        if ($this->usesState()) {
+            $this->request->getSession()->set(
+                'state', $state = sha1(time().$this->request->getSession()->get('_token'))
+            );
+        }
 
         return new RedirectResponse($this->getAuthUrl($state));
     }
@@ -120,13 +138,28 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function buildAuthUrlFromBase($url, $state)
     {
-        $session = $this->request->getSession();
+        return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
+    }
 
-        return $url.'?'.http_build_query([
+    /**
+     * Get the GET parameters for the code request.
+     *
+     * @param  string|null  $state
+     * @return array
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = [
             'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator), 'state' => $state,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
             'response_type' => 'code',
-        ], '', '&', $this->encodingType);
+        ];
+
+        if ($this->usesState()) {
+            $fields['state'] = $state;
+        }
+
+        return $fields;
     }
 
     /**
@@ -164,6 +197,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function hasInvalidState()
     {
+        if ($this->isStateless()) {
+            return false;
+        }
+
         $session = $this->request->getSession();
 
         return ! ($this->request->input('state') === $session->get('state'));
@@ -177,9 +214,11 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function getAccessToken($code)
     {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            'body' => $this->getTokenFields($code),
+            $postKey => $this->getTokenFields($code),
         ]);
 
         return $this->parseAccessToken($response->getBody());
@@ -252,6 +291,38 @@ abstract class AbstractProvider implements ProviderContract
     public function setRequest(Request $request)
     {
         $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the provider is operating with state.
+     *
+     * @return bool
+     */
+    protected function usesState()
+    {
+        return ! $this->stateless;
+    }
+
+    /**
+     * Determine if the provider is operating as stateless.
+     *
+     * @return bool
+     */
+    protected function isStateless()
+    {
+        return $this->stateless;
+    }
+
+    /**
+     * Indicates that the provider should operate as stateless.
+     *
+     * @return $this
+     */
+    public function stateless()
+    {
+        $this->stateless = true;
 
         return $this;
     }

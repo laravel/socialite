@@ -1,5 +1,6 @@
 <?php namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class GoogleProvider extends AbstractProvider implements ProviderInterface
@@ -47,8 +48,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessToken($code)
     {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'body' => $this->getTokenFields($code),
+            $postKey => $this->getTokenFields($code),
         ]);
 
         return $this->parseAccessToken($response->getBody());

@@ -6,7 +6,9 @@ use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
+use Laravel\Socialite\One\BitbucketProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
+use League\OAuth1\Client\Server\Bitbucket as BitbucketServer;
 use Laravel\Socialite\One\AbstractProvider as AbstractOneProvider;
 use Laravel\Socialite\Two\AbstractProvider as AbstractTwoProvider;
 
@@ -67,6 +69,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createLinkedinDriver()
+    {
+        $config = $this->app['config']['services.linkedin'];
+
+        return $this->buildProvider(
+          'Laravel\Socialite\Two\LinkedInProvider', $config
+        );
+    }
+
+    /**
      * Build an OAuth 2 provider instance.
      *
      * @param  string  $provider
@@ -92,6 +108,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return new TwitterProvider(
             $this->app['request'], new TwitterServer($this->formatConfig($config))
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\One\AbstractProvider
+     */
+    protected function createBitbucketDriver()
+    {
+        $config = $this->app['config']['services.bitbucket'];
+
+        return new BitbucketProvider(
+            $this->app['request'], new BitbucketServer($this->formatConfig($config))
         );
     }
 
