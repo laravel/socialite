@@ -34,7 +34,18 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code';
+        return 'https://www.linkedin.com/uas/oauth2/accessToken';
+    }
+
+    /**
+     * Get the POST fields for the token request.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    protected function getTokenFields($code)
+    {
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
     /**
