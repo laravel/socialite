@@ -1,19 +1,17 @@
 <?php namespace Laravel\Socialite\Two;
 
-use Laravel\Socialite\AbstractUser;
-
-class User extends AbstractUser
+class Token
 {
 
     /**
-     * The user's access token.
+     * The access token.
      *
      * @var string
      */
     public $token;
 
     /**
-     * The user's refresh token.
+     * The refresh token.
      *
      * @var string
      */
@@ -23,9 +21,10 @@ class User extends AbstractUser
      * Set the token on the user.
      *
      * @param  string  $token
+     * @param  string  $refreshToken
      * @return $this
      */
-    public function setToken($token, $refreshToken)
+    public function __construct($token, $refreshToken = null)
     {
         $this->token = $token;
         $this->refreshToken = $refreshToken;
