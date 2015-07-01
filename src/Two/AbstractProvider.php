@@ -27,7 +27,7 @@ abstract class AbstractProvider implements ProviderContract
      * @var string
      */
     protected $clientSecret;
-    
+
     /**
      * The redirect URL.
      *
@@ -183,11 +183,10 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
-        ));
+        $token = $this->getToken($this->getCode());
+        $user = $this->mapUserToObject($this->getUserByToken($token->accessToken));
 
-        return $user->setToken($token);
+        return $user->setToken($token->accessToken, $token->refreshToken, $token->expiresIn);
     }
 
     /**
@@ -207,12 +206,12 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the token for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return \Laravel\Socialite\Two\Token
      */
-    public function getAccessToken($code)
+    public function getToken($code)
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
@@ -221,7 +220,7 @@ abstract class AbstractProvider implements ProviderContract
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseToken($response->getBody());
     }
 
     /**
@@ -242,11 +241,48 @@ abstract class AbstractProvider implements ProviderContract
      * Get the access token from the token response body.
      *
      * @param  string  $body
+     * @return \Laravel\Socialite\Two\Token
+     */
+    protected function parseToken($body)
+    {
+        $data = json_decode($body, true);
+        return new Token(
+            $data['access_token'],
+            isset($data['refresh_token']) ? $data['refresh_token'] : null,
+            isset($data['expires_in']) ? $data['expires_in'] : null
+        );
+    }
+
+    /**
+     * Get an access token from a previous refresh token.
+     *
+     * @param  string  $token
      * @return string
      */
-    protected function parseAccessToken($body)
+    public function refreshToken($token)
     {
-        return json_decode($body, true)['access_token'];
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => ['Accept' => 'application/json'],
+            $postKey => $this->getRefreshTokenFields($token),
+        ]);
+
+        return $this->parseToken($response->getBody());
+    }
+
+    /**
+     * Get the POST fields for the token request.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    protected function getRefreshTokenFields($token)
+    {
+        return [
+            'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
+            'refresh_token' => $token, 'grant_type' => 'refresh_token'
+        ];
     }
 
     /**
@@ -257,6 +293,19 @@ abstract class AbstractProvider implements ProviderContract
     protected function getCode()
     {
         return $this->request->input('code');
+    }
+
+    /**
+     * Add scope to the requested access.
+     *
+     * @param  string  $scope
+     * @return $this
+     */
+    public function addScope($scope)
+    {
+        $this->scopes[] = $scope;
+
+        return $this;
     }
 
     /**

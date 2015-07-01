@@ -7,6 +7,13 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
 {
 
     /**
+     * Ask for an offline token.
+     *
+     * @var bool
+     */
+    protected $offline = false;
+
+    /**
      * The separating character for the requested scopes.
      *
      * @var string
@@ -41,12 +48,12 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the token for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return \Laravel\Socialite\Two\Token
      */
-    public function getAccessToken($code)
+    public function getToken($code)
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
@@ -54,7 +61,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseToken($response->getBody());
     }
 
     /**
@@ -97,5 +104,31 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
             'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if ($this->offline) {
+            $fields['access_type'] = 'offline';
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Set the token as available offline.
+     *
+     * @return $this
+     */
+    public function asOffline()
+    {
+        $this->offline = true;
+
+        return $this;
     }
 }
