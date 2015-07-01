@@ -268,7 +268,7 @@ abstract class AbstractProvider implements ProviderContract
             $postKey => $this->getRefreshTokenFields($token),
         ]);
 
-        return $this->parseRefreshToken($response->getBody());
+        return $this->parseToken($response->getBody());
     }
 
     /**
@@ -283,18 +283,6 @@ abstract class AbstractProvider implements ProviderContract
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'refresh_token' => $token, 'grant_type' => 'refresh_token'
         ];
-    }
-
-    /**
-     * Get the access token from the refresh token response body.
-     *
-     * @param  string  $body
-     * @return string
-     */
-    protected function parseRefreshToken($body)
-    {
-        $data = json_decode($body, true);
-        return $data['access_token'];
     }
 
     /**
