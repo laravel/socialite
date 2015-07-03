@@ -1,5 +1,6 @@
 <?php namespace Laravel\Socialite\Two;
 
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class FacebookProvider extends AbstractProvider implements ProviderInterface
@@ -58,8 +59,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
+            'exceptions' => false,
             'query' => $this->getTokenFields($code),
         ]);
+        if ($response->getStatusCode() != 200) {
+          $body = json_decode($response->getBody(), true);
+          throw new Exception($body['error']['message']);
+        }
 
         return $this->parseAccessToken($response->getBody());
     }
@@ -80,12 +86,17 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->graphUrl.'/'. $this->version .'/me?access_token='.$token, [
+            'exceptions' => false,
             'headers' => [
                 'Accept' => 'application/json',
             ],
         ]);
+        $body = json_decode($response->getBody(), true);
+        if ($response->getStatusCode() != 200) {
+          throw new Exception($body['error']['message']);
+        }
 
-        return json_decode($response->getBody(), true);
+        return $body;
     }
 
     /**
