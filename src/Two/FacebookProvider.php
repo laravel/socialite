@@ -27,6 +27,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['email'];
 
     /**
+     * The fields being requested.
+     *
+     * @var array
+     */
+    protected $fields = ['first_name', 'last_name', 'email'];
+
+    /**
      * Display the dialog in a popup view.
      *
      * @var bool
@@ -75,11 +82,24 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * Set the user fields to be returned
+     *
+     * @param  array  $fields
+     * @return $this
+     */
+    public function fields(array $fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->graphUrl.'/'. $this->version .'/me?access_token='.$token, [
+        $response = $this->getHttpClient()->get($this->graphUrl.'/'. $this->version .'/me?access_token='.$token.'&fields='.implode(',', $this->fields), [
             'headers' => [
                 'Accept' => 'application/json',
             ],
