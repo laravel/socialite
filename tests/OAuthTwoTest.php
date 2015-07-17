@@ -17,7 +17,6 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase {
 	{
 		$request = Request::create('foo');
 		$request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
-		$session->shouldReceive('get')->once()->with('_token')->andReturn('token');
 		$session->shouldReceive('set')->once();
 		$provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
 		$response = $provider->redirect();
