@@ -1,7 +1,7 @@
 <?php namespace Laravel\Socialite\Two;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -28,7 +28,7 @@ abstract class AbstractProvider implements ProviderContract
      * @var string
      */
     protected $clientSecret;
-    
+
     /**
      * The redirect URL.
      *
