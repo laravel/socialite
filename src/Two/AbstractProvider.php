@@ -1,6 +1,7 @@
 <?php namespace Laravel\Socialite\Two;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
