@@ -1,6 +1,7 @@
 <?php namespace Laravel\Socialite\Two;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -121,9 +122,7 @@ abstract class AbstractProvider implements ProviderContract
         $state = null;
 
         if ($this->usesState()) {
-            $this->request->getSession()->set(
-                'state', $state = sha1(time().$this->request->getSession()->get('_token'))
-            );
+            $this->request->getSession()->set('state', $state = Str::random(40));
         }
 
         return new RedirectResponse($this->getAuthUrl($state));
