@@ -24,7 +24,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $fields = ['first_name', 'last_name', 'email'];
+    protected $fields = ['first_name', 'last_name', 'email', 'gender', 'verified'];
 
     /**
      * The scopes being requested.
