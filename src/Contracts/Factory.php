@@ -1,8 +1,9 @@
-<?php namespace Laravel\Socialite\Contracts;
+<?php
+
+namespace Laravel\Socialite\Contracts;
 
 interface Factory
 {
-
     /**
      * Get an OAuth provider implementation.
      *

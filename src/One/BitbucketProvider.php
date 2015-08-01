@@ -1,4 +1,6 @@
-<?php namespace Laravel\Socialite\One;
+<?php
+
+namespace Laravel\Socialite\One;
 
 class BitbucketProvider extends AbstractProvider
 {

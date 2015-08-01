@@ -1,10 +1,11 @@
-<?php namespace Laravel\Socialite\Two;
+<?php
+
+namespace Laravel\Socialite\Two;
 
 use Exception;
 
 class GithubProvider extends AbstractProvider implements ProviderInterface
 {
-
     /**
      * The scopes being requested.
      *

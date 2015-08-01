@@ -1,11 +1,11 @@
-<?php namespace Laravel\Socialite\Two;
+<?php
+
+namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class GoogleProvider extends AbstractProvider implements ProviderInterface
 {
-
     /**
      * The separating character for the requested scopes.
      *
@@ -81,7 +81,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 

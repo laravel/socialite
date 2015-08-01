@@ -1,8 +1,9 @@
-<?php namespace Laravel\Socialite\Contracts;
+<?php
+
+namespace Laravel\Socialite\Contracts;
 
 interface User
 {
-
     /**
      * Get the unique identifier for the user.
      *

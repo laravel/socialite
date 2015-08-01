@@ -1,8 +1,9 @@
-<?php namespace Laravel\Socialite\Two;
+<?php
+
+namespace Laravel\Socialite\Two;
 
 interface ProviderInterface
 {
-
     /**
      * Redirect the user to the authentication page for the provider.
      *
