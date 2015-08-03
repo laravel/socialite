@@ -1,8 +1,9 @@
-<?php namespace Laravel\Socialite\Two;
+<?php
+
+namespace Laravel\Socialite\Two;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
-
     /**
      * The scopes being requested.
      *
@@ -60,7 +61,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
                 'x-li-format' => 'json',
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 

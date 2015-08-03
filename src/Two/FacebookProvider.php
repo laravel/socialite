@@ -1,10 +1,9 @@
-<?php namespace Laravel\Socialite\Two;
+<?php
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+namespace Laravel\Socialite\Two;
 
 class FacebookProvider extends AbstractProvider implements ProviderInterface
 {
-
     /**
      * The base Facebook Graph URL.
      *
@@ -86,7 +85,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->graphUrl.'/'. $this->version .'/me?access_token='.$token.'&fields='.implode(',', $this->fields), [
+        $response = $this->getHttpClient()->get($this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields), [
             'headers' => [
                 'Accept' => 'application/json',
             ],
