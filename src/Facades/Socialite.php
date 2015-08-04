@@ -1,4 +1,6 @@
-<?php namespace Laravel\Socialite\Facades;
+<?php
+
+namespace Laravel\Socialite\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -7,7 +9,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Socialite extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

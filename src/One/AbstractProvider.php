@@ -1,13 +1,15 @@
-<?php namespace Laravel\Socialite\One;
+<?php
+
+namespace Laravel\Socialite\One;
 
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use League\OAuth1\Client\Server\Server;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
 abstract class AbstractProvider implements ProviderContract
 {
-
     /**
      * The HTTP request instance.
      *
@@ -57,7 +59,7 @@ abstract class AbstractProvider implements ProviderContract
     public function user()
     {
         if (! $this->hasNecessaryVerifier()) {
-            throw new \InvalidArgumentException("Invalid request. Missing OAuth verifier.");
+            throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
 
         $user = $this->server->getUserDetails($token = $this->getToken());

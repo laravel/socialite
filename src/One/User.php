@@ -1,10 +1,11 @@
-<?php namespace Laravel\Socialite\One;
+<?php
+
+namespace Laravel\Socialite\One;
 
 use Laravel\Socialite\AbstractUser;
 
 class User extends AbstractUser
 {
-
     /**
      * The user's access token.
      *

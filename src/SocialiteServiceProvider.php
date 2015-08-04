@@ -1,10 +1,11 @@
-<?php namespace Laravel\Socialite;
+<?php
+
+namespace Laravel\Socialite;
 
 use Illuminate\Support\ServiceProvider;
 
 class SocialiteServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *

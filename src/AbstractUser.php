@@ -1,10 +1,11 @@
-<?php namespace Laravel\Socialite;
+<?php
+
+namespace Laravel\Socialite;
 
 use ArrayAccess;
 
 abstract class AbstractUser implements ArrayAccess, Contracts\User
 {
-
     /**
      * The unique identifier for the user.
      *
