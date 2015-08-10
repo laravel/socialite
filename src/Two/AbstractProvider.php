@@ -39,6 +39,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $redirectUrl;
 
     /**
+     * The custom parameters to be sent.
+     *
+     * @var array
+     */
+    protected $parameters = [];
+
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -160,6 +167,8 @@ abstract class AbstractProvider implements ProviderContract
             $fields['state'] = $state;
         }
 
+        $fields = array_merge($fields, $this->parameters);
+
         return $fields;
     }
 
@@ -258,6 +267,19 @@ abstract class AbstractProvider implements ProviderContract
     protected function getCode()
     {
         return $this->request->input('code');
+    }
+
+    /**
+     * Set the custom parameters of the request.
+     *
+     * @param  array  $parameters
+     * @return $this
+     */
+    public function parameters(array $parameters)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
     }
 
     /**
