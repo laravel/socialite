@@ -65,7 +65,7 @@ class DropboxProvider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get($this->apiUrl.'/'.$this->version.'/account/info', [
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '. $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
