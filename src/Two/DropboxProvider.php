@@ -77,9 +77,6 @@ class DropboxProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        // Dropbox does not provide any avatar image
-        $avatarUrl = null;
-
         $firstName = isset($user['name_details']['given_name']) ? $user['name_details']['given_name'] : null;
 
         $lastName = isset($user['name_details']['surname']) ? $user['name_details']['surname'] : null;
