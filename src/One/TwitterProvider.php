@@ -17,7 +17,12 @@ class TwitterProvider extends AbstractProvider
 
         $user = $this->server->getUserDetails($token = $this->getToken());
 
-        $instance = (new User)->setRaw(array_merge($user->extra, $user->urls))
+        $extraDetails = [
+            'location' => $user->location,
+            'description' => $user->description,
+        ];
+
+        $instance = (new User)->setRaw(array_merge($user->extra, $user->urls, $extraDetails))
                 ->setToken($token->getIdentifier(), $token->getSecret());
 
         return $instance->map([
