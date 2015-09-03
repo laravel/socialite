@@ -79,4 +79,17 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
             'avatar_original' => array_get($user, 'pictureUrls.values.0'),
         ]);
     }
+
+    /**
+     * Set the user fields to request from LinkedIn.
+     *
+     * @param  array  $fields
+     * @return $this
+     */
+    public function fields(array $fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
 }
