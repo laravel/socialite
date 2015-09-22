@@ -129,11 +129,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function formatConfig(array $config)
     {
-        return [
-            'identifier' => $config['client_id'],
-            'secret' => $config['client_secret'],
-            'callback_uri' => $config['redirect'],
-        ];
+        $return = array();
+        $custom = array('client_id' => 'identifier', 'client_secret' => 'secret', 'redirect' => 'callback_uri');
+
+        foreach ($config as $key => $value) {
+            // If there is a custom mapping for this config
+            if (isset($custom[$key])) {
+                $return[ $custom[$key] ] = $value;
+            }
+            else {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
     }
 
     /**
