@@ -122,18 +122,18 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
-     * Format the Twitter server configuration.
+     * Format the server configuration.
      *
      * @param  array  $config
      * @return array
      */
     public function formatConfig(array $config)
     {
-        return [
+        return array_merge([
             'identifier' => $config['client_id'],
             'secret' => $config['client_secret'],
             'callback_uri' => $config['redirect'],
-        ];
+        ], $config);
     }
 
     /**
