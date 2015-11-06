@@ -275,9 +275,19 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function scopes(array $scopes)
     {
-        $this->scopes = $scopes;
+        $this->scopes = array_unique(array_merge($this->scopes, $scopes));
 
         return $this;
+    }
+	
+    /**
+     * Get the current scopes.
+     *
+     * @return array
+     */
+    public function getScopes()
+    {
+        return $this->scopes;
     }
 
     /**
