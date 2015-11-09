@@ -19,6 +19,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = [
+        'openid',
         'profile',
         'email',
     ];
