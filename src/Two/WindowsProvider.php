@@ -21,6 +21,13 @@ class WindowsProvider extends AbstractProvider implements ProviderInterface
     protected $version = 'v5.0';
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -99,8 +106,9 @@ class WindowsProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['name'],
-            'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
+            'id' => $user['id'], 'nickname' => null, 'name' => isset($user['name']) ? $user['name'] : null,
+            'email' => isset($user['emails']['preferred']) ? $user['emails']['preferred'] : null,
+            'avatar' => $this->baseUrl.'/'.$this->version.'/'.$user['id'].'/picture',
         ]);
     }
 }
