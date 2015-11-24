@@ -43,17 +43,17 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
         $user = json_decode($response->getBody(), true);
 
         // Fetch uuid from 2.0 API
-        $userUrl = 'https://api.bitbucket.org/2.0/users/'.array_get($user,'user.username').'?access_token='.$token;
+        $userUrl = 'https://api.bitbucket.org/2.0/users/'.array_get($user, 'user.username').'?access_token='.$token;
         $response = $this->getHttpClient()->get(
             $userUrl, $this->getRequestOptions()
         );
 
         $additionalUserData = json_decode($response->getBody(), true);
 
-        $user['id'] = array_get($additionalUserData,'uuid');
+        $user['id'] = array_get($additionalUserData, 'uuid');
 
         if (in_array('email', $this->scopes)) {
-            $user['email'] = $this->getEmailByUsernameAndToken(array_get($user,'user.username'),$token);
+            $user['email'] = $this->getEmailByUsernameAndToken(array_get($user, 'user.username'), $token);
         }
 
         return $user;
@@ -92,7 +92,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => array_get($user, 'user.username'), 'name' => array_get($user, 'user.display_name'),
-            'email' => $user['email'] , 'avatar' => array_get($user, 'user.avatar')
+            'email' => $user['email'] , 'avatar' => array_get($user, 'user.avatar'),
         ]);
     }
 
