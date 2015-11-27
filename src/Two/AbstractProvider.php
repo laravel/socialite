@@ -117,7 +117,7 @@ abstract class AbstractProvider implements ProviderContract
      * Map the raw user array to a Socialite User instance.
      *
      * @param  array  $user
-     * @return \Laravel\Socialite\User
+     * @return \Laravel\Socialite\Two\User
      */
     abstract protected function mapUserToObject(array $user);
 
