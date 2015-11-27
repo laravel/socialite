@@ -279,7 +279,7 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-	
+
     /**
      * Get the current scopes.
      *
