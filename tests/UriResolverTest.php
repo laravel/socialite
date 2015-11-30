@@ -8,7 +8,6 @@ use Illuminate\Routing\RouteCollection;
 
 class UriResolverTest extends PHPUnit_Framework_TestCase
 {
-
     public function testProperUrlIsGeneratedWhenNamedRouteIsPresent()
     {
         $uriResolver = $this->generateUrlResolver([
@@ -38,7 +37,6 @@ class UriResolverTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('http://www.foo.com/callback', $uriResolver->resolve('callback'));
         $this->assertEquals('http://www.foo.com/absent_callback', $uriResolver->resolve('absent_callback'));
-
     }
 
     protected function generateUrlResolver(array $routes, Request $request = null)
