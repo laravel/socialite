@@ -33,7 +33,7 @@ class UriResolverTest extends PHPUnit_Framework_TestCase
     {
         $uriResolver = $this->generateUrlResolver([
             new Route(['GET'], '/callback', []),
-            new Route(['GET'], '/other_callback', [])
+            new Route(['GET'], '/other_callback', []),
         ]);
 
         $this->assertEquals('http://www.foo.com/callback', $uriResolver->resolve('callback'));
