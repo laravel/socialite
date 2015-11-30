@@ -1,4 +1,6 @@
-<?php namespace Laravel\Socialite;
+<?php
+
+namespace Laravel\Socialite;
 
 use InvalidArgumentException;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
@@ -25,7 +27,7 @@ class UriResolver
     {
         try {
             return $this->urlGenerator->route($redirectUri, [], true);
-        } catch(InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             // No route with the provided name exists.
             // We will pass the redirect uri to UrlGenerator.
             return $this->urlGenerator->to($redirectUri);

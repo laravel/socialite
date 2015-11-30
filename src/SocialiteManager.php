@@ -15,7 +15,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     protected $uriResolver;
 
     /**
-     * Create a new SocialiteManager instance
+     * Create a new SocialiteManager instance.
      *
      * @param \Illuminate\Foundation\Application $app
      */
@@ -122,7 +122,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
-     * Generate a URL from the provided redirect URI
+     * Generate a URL from the provided redirect URI.
      *
      * @param string $redirectUri
      * @return string
