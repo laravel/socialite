@@ -199,8 +199,8 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get a Social User instance from a known access token
-     * Oauth 2 only
+     * Get a Social User instance from a known access token.
+     * Oauth 2 only.
      *
      * @param $access_token
      * @return \Laravel\Socialite\User
