@@ -199,6 +199,19 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Get a Social User instance from a known access token.
+     * Oauth 2 only.
+     *
+     * @param $access_token
+     * @return \Laravel\Socialite\Two\User
+     */
+    public function userFromToken($access_token)
+    {
+        $user = $this->mapUserToObject($this->getUserByToken($access_token));
+        return $user->setToken($access_token);
+    }
+
+    /**
      * Determine if the current request / session has a mismatching "state".
      *
      * @return bool
