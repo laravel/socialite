@@ -92,6 +92,16 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     }
 
     /**
+     * Get the raw user array.
+     *
+     * @return array
+     */
+    public function getRaw()
+    {
+        return $this->user;
+    }
+
+    /**
      * Set the raw user array from the provider.
      *
      * @param  array  $user
@@ -102,16 +112,6 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
         $this->user = $user;
 
         return $this;
-    }
-
-    /**
-     * Get the raw user array
-     *
-     * @return array
-     */
-    public function getRaw()
-    {
-        return $this->user;
     }
 
     /**
