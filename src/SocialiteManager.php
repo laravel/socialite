@@ -10,6 +10,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Supported providers.
      *
+     * @var array
      */
     private $providers = [
 
@@ -67,9 +68,15 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * @param  string  $driver
      * @param  array   $config
      * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
     public function withDynamic($driver, $config)
     {
+        if (!isset($this->providers[$driver])) {
+            throw new InvalidArgumentException("Driver [$driver] not supported.");
+        }
+
         $provider = $this->providers[$driver];
 
         if (is_array($provider)) {
