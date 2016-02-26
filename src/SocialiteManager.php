@@ -73,7 +73,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function withDynamic($driver, $config)
     {
-        if (!isset($this->providers[$driver])) {
+        if (! isset($this->providers[$driver])) {
             throw new InvalidArgumentException("Driver [$driver] not supported.");
         }
 
