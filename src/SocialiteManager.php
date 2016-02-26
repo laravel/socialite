@@ -48,6 +48,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     public function extendProviders($providers)
     {
         $this->providers = array_merge($this->providers, $providers);
+
         return $this;
     }
 
