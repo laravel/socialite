@@ -4,13 +4,52 @@ namespace Laravel\Socialite;
 
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
-use Laravel\Socialite\One\TwitterProvider;
-use Laravel\Socialite\One\BitbucketProvider;
-use League\OAuth1\Client\Server\Twitter as TwitterServer;
-use League\OAuth1\Client\Server\Bitbucket as BitbucketServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
 {
+    /**
+     * Supported providers.
+     *
+     */
+    private $providers = [
+
+        /*
+        |--------------------------------------------------------------------------
+        | OAuth2
+        |--------------------------------------------------------------------------
+        */
+        'github'   => \Laravel\Socialite\Two\GithubProvider::class,
+        'facebook' => \Laravel\Socialite\Two\FacebookProvider::class,
+        'google'   => \Laravel\Socialite\Two\GoogleProvider::class,
+        'linkedin' => \Laravel\Socialite\Two\LinkedInProvider::class,
+
+        /*
+        |--------------------------------------------------------------------------
+        | OAuth1
+        |--------------------------------------------------------------------------
+        */
+        'twitter' => [
+            'provider' => \Laravel\Socialite\One\TwitterProvider::class,
+            'server'   => \League\OAuth1\Client\Server\Twitter::class,
+        ],
+        'bitbucket' => [
+            'provider' => \Laravel\Socialite\One\BitbucketProvider::class,
+            'server'   => \League\OAuth1\Client\Server\Bitbucket::class,
+        ],
+    ];
+
+    /**
+     * Extend/override supported providers.
+     *
+     * @param  array  $providers
+     * @return self
+     */
+    public function extendProviders($providers)
+    {
+        $this->providers = array_merge($this->providers, $providers);
+        return $this;
+    }
+
     /**
      * Get a driver instance.
      *
@@ -23,6 +62,28 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
+     * Get a dynamic driver instance.
+     *
+     * @param  string  $driver
+     * @param  array   $config
+     * @return mixed
+     */
+    public function withDynamic($driver, $config)
+    {
+        $provider = $this->providers[$driver];
+
+        if (is_array($provider)) {
+            return new $provider['provider'](
+                $this->app['request'], new $provider['server']($this->formatConfig($config))
+            );
+        } else {
+            return $this->buildProvider(
+                $provider, $config
+            );
+        }
+    }
+
+    /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
@@ -32,7 +93,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.github'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GithubProvider', $config
+            $this->providers['github'], $config
         );
     }
 
@@ -46,7 +107,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.facebook'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\FacebookProvider', $config
+            $this->providers['facebook'], $config
         );
     }
 
@@ -60,7 +121,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.google'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GoogleProvider', $config
+            $this->providers['google'], $config
         );
     }
 
@@ -74,7 +135,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.linkedin'];
 
         return $this->buildProvider(
-          'Laravel\Socialite\Two\LinkedInProvider', $config
+          $this->providers['linkedin'], $config
         );
     }
 
@@ -102,8 +163,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $config = $this->app['config']['services.twitter'];
 
-        return new TwitterProvider(
-            $this->app['request'], new TwitterServer($this->formatConfig($config))
+        return new $this->providers['twitter']['provider'](
+            $this->app['request'], new $this->providers['twitter']['server']($this->formatConfig($config))
         );
     }
 
@@ -116,8 +177,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $config = $this->app['config']['services.bitbucket'];
 
-        return new BitbucketProvider(
-            $this->app['request'], new BitbucketServer($this->formatConfig($config))
+        return new $this->providers['bitbucket']['provider'](
+            $this->app['request'], new $this->providers['bitbucket']['server']($this->formatConfig($config))
         );
     }
 
