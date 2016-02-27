@@ -10,7 +10,7 @@ class FacebookProviderTest extends PHPUnit_Framework_TestCase
         return [
             ['foobar', 'token', [], 'fb/v/me?access_token=token&appsecret_proof=foobar&fields=name,email'],
             ['baz', 'token2', ['locale' => 'ja'], 'fb/v/me?access_token=token2&appsecret_proof=baz&fields=name,email&locale=ja'],
-            ['baz', 'token3', ['locale' => 'ja', 'return_ssl_resources' => 'false'], 'fb/v/me?access_token=token3&appsecret_proof=baz&fields=name,email&locale=ja&return_ssl_resources=false']
+            ['baz', 'token3', ['locale' => 'ja', 'return_ssl_resources' => 'false'], 'fb/v/me?access_token=token3&appsecret_proof=baz&fields=name,email&locale=ja&return_ssl_resources=false'],
         ];
     }
 
@@ -36,6 +36,7 @@ class FacebookProviderWrapper extends FacebookProvider
         $this->version = 'v';
         $this->fields = ['name', 'email'];
     }
+
     public function callCreateGetUserUrl($token, $appSecretProof)
     {
         return $this->createGetUserUrl($token, $appSecretProof);
