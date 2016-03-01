@@ -26,9 +26,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.pinterest.com/v1/oauth/token?'.http_build_query([
-            'grant_type' => 'authorization_code',
-        ]);
+        return 'https://api.pinterest.com/v1/oauth/token';
     }
 
     /**
