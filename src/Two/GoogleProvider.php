@@ -81,7 +81,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer '.$token['access_token'],
             ],
         ]);
 
@@ -97,5 +97,13 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
             'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseAccessToken($body)
+    {
+        return json_decode($body, true);
     }
 }
