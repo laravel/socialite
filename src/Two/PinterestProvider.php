@@ -5,7 +5,7 @@ namespace Laravel\Socialite\Two;
 class PinterestProvider extends AbstractProvider implements ProviderInterface
 {
     protected $fields = [
-        'id', 'username', 'url', 'first_name', 'last_name', 'bio', 'image'
+        'id', 'username', 'url', 'first_name', 'last_name', 'bio', 'image',
     ];
 
     /**
@@ -26,7 +26,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.pinterest.com/v1/oauth/token?' . http_build_query([
+        return 'https://api.pinterest.com/v1/oauth/token?'.http_build_query([
             'grant_type' => 'authorization_code',
         ]);
     }
@@ -47,7 +47,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
             ],
             'query' => [
                 'access_token' => $token,
-                'fields' => implode(',', $this->fields)
+                'fields' => implode(',', $this->fields),
             ],
         ]);
 
@@ -67,7 +67,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['username'],
-            'name' => $user['first_name'] . ' ' . $user['last_name'],
+            'name' => $user['first_name'].' '.$user['last_name'],
             'email' => null,
             'avatar' => $user['image']['60x60']['url'],
             'avatar_original' => null,
