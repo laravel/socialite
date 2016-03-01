@@ -243,6 +243,7 @@ abstract class AbstractProvider implements ProviderContract
         return [
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'code' => $code, 'redirect_uri' => $this->redirectUrl,
+            'grant_type' => 'authorization_code'
         ];
     }
 
