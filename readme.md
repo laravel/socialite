@@ -107,3 +107,13 @@ Once you have a user instance, you can grab a few more details about the user:
     $user->getName();
     $user->getEmail();
     $user->getAvatar();
+
+#### Usage With Stateless API
+
+To fetch generated url:
+
+    Socialite::with('facebook')->stateless()->redirect()->getTargetUrl()
+    
+To fetch user with `code`:
+
+    Socialite::with('facebook')->stateless()->user()
