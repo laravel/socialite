@@ -38,6 +38,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      * @var bool
      */
     protected $popup = false;
+    
+    /**
+     * Re-request a declined permission.
+     *
+     * @var bool
+     */
+    protected $re_request = false;
 
     /**
      * {@inheritdoc}
@@ -120,6 +127,10 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         if ($this->popup) {
             $fields['display'] = 'popup';
         }
+        
+        if ($this->re_request) {
+            $fields['auth_type'] = 'rerequest';
+        }
 
         return $fields;
     }
@@ -147,5 +158,15 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         $this->popup = true;
 
         return $this;
+    }
+    
+    /**
+     * Re-request permissions which were declined.
+     *
+     * @return $this
+     */
+    public function reRequest()
+    {
+        $this->re_request = true;
     }
 }
