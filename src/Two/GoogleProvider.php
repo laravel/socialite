@@ -54,7 +54,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseAccessToken($response->getBody()->getContents());
     }
 
     /**
@@ -85,7 +85,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
