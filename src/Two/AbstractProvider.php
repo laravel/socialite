@@ -242,7 +242,7 @@ abstract class AbstractProvider implements ProviderContract
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseAccessToken($response->getBody()->getContents());
     }
 
     /**

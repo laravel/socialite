@@ -74,7 +74,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             'query' => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseAccessToken($response->getBody()->getContents());
     }
 
     /**
@@ -100,7 +100,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

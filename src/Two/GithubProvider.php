@@ -40,7 +40,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
             $userUrl, $this->getRequestOptions()
         );
 
-        $user = json_decode($response->getBody(), true);
+        $user = json_decode($response->getBody()->getContents(), true);
 
         if (in_array('user:email', $this->scopes)) {
             $user['email'] = $this->getEmailByToken($token);
@@ -67,7 +67,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
             return;
         }
 
-        foreach (json_decode($response->getBody(), true) as $email) {
+        foreach (json_decode($response->getBody()->getContents(), true) as $email) {
             if ($email['primary'] && $email['verified']) {
                 return $email['email'];
             }
