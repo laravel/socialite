@@ -49,7 +49,7 @@ Next, you are ready to authenticate users! You will need two routes: one for red
 ```php
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Socialite;
 
