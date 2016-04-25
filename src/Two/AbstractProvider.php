@@ -314,10 +314,10 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set a instance of the Guzzle HTTP client.
      *
-     * @param Client|null $client
+     * @param Client $client
      * @return $this
      */
-    public function setHttpClient(Client $client = null)
+    public function setHttpClient(Client $client)
     {
         $this->httpClient = $client;
 
