@@ -312,19 +312,6 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Set a instance of the Guzzle HTTP client.
-     *
-     * @param Client $client
-     * @return $this
-     */
-    public function setHttpClient(Client $client)
-    {
-        $this->httpClient = $client;
-
-        return $this;
-    }
-
-    /**
      * Get a instance of the Guzzle HTTP client.
      *
      * @return \GuzzleHttp\Client
@@ -336,6 +323,19 @@ abstract class AbstractProvider implements ProviderContract
         }
 
         return $this->httpClient;
+    }
+
+    /**
+     * Set the Guzzle HTTP client instance.
+     *
+     * @param Client $client
+     * @return $this
+     */
+    public function setHttpClient(Client $client)
+    {
+        $this->httpClient = $client;
+
+        return $this;
     }
 
     /**
