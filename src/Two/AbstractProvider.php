@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
@@ -16,6 +17,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var Request
      */
     protected $request;
+
+    /**
+     * The HTTP Client instance.
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $httpClient;
 
     /**
      * The client ID.
@@ -304,13 +312,30 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get a fresh instance of the Guzzle HTTP client.
+     * Set a instance of the Guzzle HTTP client.
+     *
+     * @param Client|null $client
+     * @return $this
+     */
+    public function setHttpClient(Client $client = null)
+    {
+        $this->httpClient = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get a instance of the Guzzle HTTP client.
      *
      * @return \GuzzleHttp\Client
      */
     protected function getHttpClient()
     {
-        return new \GuzzleHttp\Client;
+        if (is_null($this->httpClient)) {
+            $this->httpClient = new Client();
+        }
+
+        return $this->httpClient;
     }
 
     /**
