@@ -199,11 +199,17 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
-        ));
+        $tokenResponse = $this->getAccessTokenResponse($this->getCode());
 
-        return $user->setToken($token);
+        $token = array_get($tokenResponse, 'access_token');
+        $refreshToken = array_get($tokenResponse, 'refresh_token');
+        $expiresIn = array_get($tokenResponse, 'expires_in');
+
+        $user = $this->mapUserToObject($this->getUserByToken($token));
+
+        return $user->setToken($token)
+                    ->setRefreshToken($refreshToken)
+                    ->setExpiresIn($expiresIn);
     }
 
     /**
@@ -236,12 +242,12 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return array access_token, refresh_token (optional) and expires_in values
      */
-    public function getAccessToken($code)
+    public function getAccessTokenResponse($code)
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
@@ -250,7 +256,7 @@ abstract class AbstractProvider implements ProviderContract
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -265,17 +271,6 @@ abstract class AbstractProvider implements ProviderContract
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'code' => $code, 'redirect_uri' => $this->redirectUrl,
         ];
-    }
-
-    /**
-     * Get the access token from the token response body.
-     *
-     * @param  string  $body
-     * @return string
-     */
-    protected function parseAccessToken($body)
-    {
-        return json_decode($body, true)['access_token'];
     }
 
     /**
