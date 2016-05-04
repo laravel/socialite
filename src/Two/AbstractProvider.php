@@ -14,7 +14,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * The HTTP request instance.
      *
-     * @var Request
+     * @var \Illuminate\Http\Request
      */
     protected $request;
 
@@ -84,7 +84,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Create a new provider instance.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $clientId
      * @param  string  $clientSecret
      * @param  string  $redirectUrl
@@ -328,7 +328,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the Guzzle HTTP client instance.
      *
-     * @param Client $client
+     * @param  \GuzzleHttp\Client  $client
      * @return $this
      */
     public function setHttpClient(Client $client)
@@ -341,7 +341,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the request instance.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return $this
      */
     public function setRequest(Request $request)
