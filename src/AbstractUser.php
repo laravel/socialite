@@ -42,7 +42,7 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     public $avatar;
 
     /**
-     * The user attributes.
+     * The user's raw attributes.
      *
      * @var array
      */
