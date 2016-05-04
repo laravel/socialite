@@ -42,6 +42,13 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     public $avatar;
 
     /**
+     * The user attributes.
+     *
+     * @var array
+     */
+    protected $user;
+
+    /**
      * Get the unique identifier for the user.
      *
      * @return string
