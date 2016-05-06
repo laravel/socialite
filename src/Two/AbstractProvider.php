@@ -166,9 +166,9 @@ abstract class AbstractProvider implements ProviderContract
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'response_type' => 'code',
+            'client_id'     => $this->clientId , 'redirect_uri' => $this->redirectUrl ,
+            'scope'         => $this->formatScopes ( $this->scopes , $this->scopeSeparator ) ,
+            'response_type' => 'code' ,
         ];
 
         if ($this->usesState()) {
