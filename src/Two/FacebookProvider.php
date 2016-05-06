@@ -33,6 +33,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['email'];
 
     /**
+     * The value for the HTTP Accept header to use when requesting an access token.
+     *
+     * @var string
+     */
+    protected $accessTokenAcceptHeader = '*/*';
+
+    /**
      * Display the dialog in a popup view.
      *
      * @var bool
@@ -60,31 +67,6 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected function getTokenUrl()
     {
         return $this->graphUrl.'/oauth/access_token';
-    }
-
-    /**
-     * Get the access token for the given code.
-     *
-     * @param  string  $code
-     * @return string
-     */
-    public function getAccessToken($code)
-    {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($code),
-        ]);
-
-        return $this->parseAccessToken($response->getBody());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function parseAccessToken($body)
-    {
-        parse_str($body);
-
-        return $access_token;
     }
 
     /**

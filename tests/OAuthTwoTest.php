@@ -2,6 +2,7 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use GuzzleHttp\ClientInterface;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 
@@ -24,21 +25,37 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://auth.url', $response->getTargetUrl());
     }
 
-    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
+    public function getMockResponses()
+    {
+        return [
+            ['application/json', '{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }'],
+            ['application/x-www-form-urlencoded', 'access_token=access_token&refresh_token=refresh_token&expires_in=3600'],
+        ];
+    }
+
+    /**
+     * @dataProvider getMockResponses
+     */
+    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest($contentType, $responseBody)
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock('StdClass');
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
         $provider->http->shouldReceive('post')->once()->with('http://token.url', [
-            'headers' => ['Accept' => 'application/json'], 'form_params' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+            'headers' => ['Accept' => 'application/json'], $postKey => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
         ])->andReturn($response = m::mock('StdClass'));
-        $response->shouldReceive('getBody')->once()->andReturn('access_token=access_token');
+        $response->shouldReceive('getHeader')->once()->with('Content-Type')->andReturn([$contentType]);
+        $response->shouldReceive('getBody')->once()->andReturn($responseBody);
         $user = $provider->user();
 
         $this->assertInstanceOf('Laravel\Socialite\Two\User', $user);
         $this->assertEquals('foo', $user->id);
+        $this->assertEquals('access_token', $user->token);
+        $this->assertEquals('refresh_token', $user->refreshToken);
+        $this->assertEquals(3600, $user->expiresIn);
     }
 
     /**

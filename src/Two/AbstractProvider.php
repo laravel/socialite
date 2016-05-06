@@ -68,6 +68,34 @@ abstract class AbstractProvider implements ProviderContract
     protected $scopeSeparator = ',';
 
     /**
+     * The value for the HTTP Accept header to use when requesting an access token.
+     *
+     * @var string
+     */
+    protected $accessTokenAcceptHeader = 'application/json';
+
+    /**
+     * The name of the field containing the OAuth Bearer token in the access token response body.
+     *
+     * @var string
+     */
+    protected $accessTokenParameterName = 'access_token';
+
+    /**
+     * The name of the field containing the OAuth refresh token in the access token response body.
+     *
+     * @var string
+     */
+    protected $refreshTokenParameterName = 'refresh_token';
+
+    /**
+     * The name of the field in the access token response body containing the number of seconds the OAuth Bearer token is valid.
+     *
+     * @var string
+     */
+    protected $expiresInParameterName = 'expires_in';
+
+    /**
      * The type of the encoding in the query.
      *
      * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
@@ -199,11 +227,17 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
-        ));
+        $tokenResponse = $this->getAccessTokenResponse($this->getCode());
 
-        return $user->setToken($token);
+        $token = array_get($tokenResponse, $this->accessTokenParameterName);
+        $refreshToken = array_get($tokenResponse, $this->refreshTokenParameterName);
+        $expiresIn = array_get($tokenResponse, $this->expiresInParameterName);
+
+        $user = $this->mapUserToObject($this->getUserByToken($token));
+
+        return $user->setToken($token)
+                    ->setRefreshToken($refreshToken)
+                    ->setExpiresIn($expiresIn);
     }
 
     /**
@@ -236,21 +270,29 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the access token for the given code.
+     * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return string
+     * @return array access_token, refresh_token (optional) and expires_in values
      */
-    public function getAccessToken($code)
+    public function getAccessTokenResponse($code)
     {
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
+            'headers' => ['Accept' => $this->accessTokenAcceptHeader],
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        $contentTypes = $response->getHeader('Content-Type');
+        if (! empty($contentTypes) && preg_match('#^application/json#', $contentTypes[0])) {
+            $data = json_decode($response->getBody(), true);
+        } else {
+            $data = [];
+            parse_str($response->getBody(), $data);
+        }
+
+        return $data;
     }
 
     /**
@@ -265,17 +307,6 @@ abstract class AbstractProvider implements ProviderContract
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'code' => $code, 'redirect_uri' => $this->redirectUrl,
         ];
-    }
-
-    /**
-     * Get the access token from the token response body.
-     *
-     * @param  string  $body
-     * @return string
-     */
-    protected function parseAccessToken($body)
-    {
-        return json_decode($body, true)['access_token'];
     }
 
     /**

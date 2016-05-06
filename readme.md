@@ -109,6 +109,8 @@ $user = Socialite::driver('github')->user();
 
 // OAuth Two Providers
 $token = $user->token;
+$refreshToken = $user->refreshToken; // not always provided
+$expiresIn = $user->expiresIn;
 
 // OAuth One Providers
 $token = $user->token;
