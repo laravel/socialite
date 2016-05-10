@@ -4,7 +4,7 @@
 
 Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Facebook, Twitter, Google, LinkedIn, GitHub and Bitbucket. It handles almost all of the boilerplate social authentication code you are dreading writing.
 
-#### Please note that we are not accepting new adapters to this package.
+**We are not accepting new adapters.**
 
 ## License
 
