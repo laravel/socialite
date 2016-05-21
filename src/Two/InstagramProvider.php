@@ -16,7 +16,7 @@ class InstagramProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://api.instagram.com/oauth/authorize/?client_id=' . $this->clientId . '&redirect_uri=' . $this->redirectUrl . '&response_type=code', $state);
+        return $this->buildAuthUrlFromBase('https://api.instagram.com/oauth/authorize/?client_id='.$this->clientId.'&redirect_uri=' . $this->redirectUrl . '&response_type=code', $state);
     }
 
     /**
@@ -34,7 +34,7 @@ class InstagramProvider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get('https://api.instagram.com/v1/users/self', [
             'query' => [
-                'access_token' => $token
+                'access_token' => $token,
             ],
         ]);
 
