@@ -2,8 +2,10 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use GuzzleHttp\ClientInterface;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
+use Laravel\Socialite\Two\FacebookProvider;
 
 class OAuthTwoTest extends PHPUnit_Framework_TestCase
 {
@@ -31,14 +33,39 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock('StdClass');
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
         $provider->http->shouldReceive('post')->once()->with('http://token.url', [
-            'headers' => ['Accept' => 'application/json'], 'form_params' => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+            'headers' => ['Accept' => 'application/json'], $postKey => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
         ])->andReturn($response = m::mock('StdClass'));
-        $response->shouldReceive('getBody')->once()->andReturn('access_token=access_token');
+        $response->shouldReceive('getBody')->once()->andReturn('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
         $user = $provider->user();
 
         $this->assertInstanceOf('Laravel\Socialite\Two\User', $user);
         $this->assertEquals('foo', $user->id);
+        $this->assertEquals('access_token', $user->token);
+        $this->assertEquals('refresh_token', $user->refreshToken);
+        $this->assertEquals(3600, $user->expiresIn);
+    }
+
+    public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
+    {
+        $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
+        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock('StdClass');
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+        $provider->http->shouldReceive('post')->once()->with('https://graph.facebook.com/oauth/access_token', [
+            $postKey => ['client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+        ])->andReturn($response = m::mock('StdClass'));
+        $response->shouldReceive('getBody')->once()->andReturn('access_token=access_token&expires=5183085');
+        $user = $provider->user();
+
+        $this->assertInstanceOf('Laravel\Socialite\Two\User', $user);
+        $this->assertEquals('foo', $user->id);
+        $this->assertEquals('access_token', $user->token);
+        $this->assertNull($user->refreshToken);
+        $this->assertEquals(5183085, $user->expiresIn);
     }
 
     /**
@@ -88,6 +115,30 @@ class OAuthTwoTestProviderStub extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->map(['id' => $user['id']]);
+    }
+
+    /**
+     * Get a fresh instance of the Guzzle HTTP client.
+     *
+     * @return \GuzzleHttp\Client
+     */
+    protected function getHttpClient()
+    {
+        if ($this->http) {
+            return $this->http;
+        }
+
+        return $this->http = m::mock('StdClass');
+    }
+}
+
+class FacebookTestProviderStub extends FacebookProvider
+{
+    public $http;
+
+    protected function getUserByToken($token)
+    {
+        return ['id' => 'foo'];
     }
 
     /**
