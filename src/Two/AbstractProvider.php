@@ -199,17 +199,15 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
-        $tokenResponse = $this->getAccessTokenResponse($this->getCode());
+        $response = $this->getAccessTokenResponse($this->getCode());
 
-        $token = array_get($tokenResponse, 'access_token');
-        $refreshToken = array_get($tokenResponse, 'refresh_token');
-        $expiresIn = array_get($tokenResponse, 'expires_in');
-
-        $user = $this->mapUserToObject($this->getUserByToken($token));
+        $user = $this->mapUserToObject($this->getUserByToken(
+            $token = array_get($response, 'access_token')
+        ));
 
         return $user->setToken($token)
-                    ->setRefreshToken($refreshToken)
-                    ->setExpiresIn($expiresIn);
+                    ->setRefreshToken(array_get($response, 'refresh_token'))
+                    ->setExpiresIn(array_get($response, 'expires_in'));
     }
 
     /**
@@ -245,7 +243,7 @@ abstract class AbstractProvider implements ProviderContract
      * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return array access_token, refresh_token (optional) and expires_in values
+     * @return array
      */
     public function getAccessTokenResponse($code)
     {

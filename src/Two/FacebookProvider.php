@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use Illuminate\Support\Arr;
 use GuzzleHttp\ClientInterface;
 
 class FacebookProvider extends AbstractProvider implements ProviderInterface
@@ -76,11 +77,10 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         ]);
 
         $data = [];
-        parse_str($response->getBody(), $data);
-        $data['expires_in'] = $data['expires'];
-        unset($data['expires']);
 
-        return $data;
+        parse_str($response->getBody(), $data);
+
+        return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
     }
 
     /**

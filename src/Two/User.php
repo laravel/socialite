@@ -54,7 +54,7 @@ class User extends AbstractUser
     }
 
     /**
-     * Set the number of seconds the access token is valid for as measured from when the access token was granted.
+     * Set the number of seconds the access token is valid for.
      *
      * @param  int  $expiresIn
      * @return $this
