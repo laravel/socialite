@@ -46,7 +46,7 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
      *
      * @var array
      */
-    protected $user;
+    public $user;
 
     /**
      * Get the unique identifier for the user.
