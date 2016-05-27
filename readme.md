@@ -101,7 +101,8 @@ A number of OAuth providers support optional parameters in the redirect request.
 return Socialite::driver('google')
             ->with(['hd' => 'example.com'])->redirect();
 ```
-> **Note:** In order to avoid conflicts, do not include `response_type` or `state`.
+
+When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
 #### Retrieving User Details
 
