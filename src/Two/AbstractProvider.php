@@ -343,7 +343,7 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-	
+
     /**
      * Set the redirect url after initialization.
      *
