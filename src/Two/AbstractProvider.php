@@ -350,7 +350,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $url
      * @return $this
      */
-    public function setRedirectUrl($url)
+    public function redirectUrl($url)
     {
         $this->redirectUrl = $url;
 
