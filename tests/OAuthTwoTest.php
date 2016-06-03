@@ -1,11 +1,13 @@
 <?php
 
+namespace Tests;
+
 use Mockery as m;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
-use Laravel\Socialite\Two\User;
-use Laravel\Socialite\Two\AbstractProvider;
-use Laravel\Socialite\Two\FacebookProvider;
+use PHPUnit_Framework_TestCase;
+use Tests\Fixtures\FacebookTestProviderStub;
+use Tests\Fixtures\OAuthTwoTestProviderStub;
 
 class OAuthTwoTest extends PHPUnit_Framework_TestCase
 {
@@ -69,7 +71,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laravel\Socialite\Two\InvalidStateException
+     * @expectedException \Laravel\Socialite\Two\InvalidStateException
      */
     public function testExceptionIsThrownIfStateIsInvalid()
     {
@@ -81,7 +83,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Laravel\Socialite\Two\InvalidStateException
+     * @expectedException \Laravel\Socialite\Two\InvalidStateException
      */
     public function testExceptionIsThrownIfStateIsNotSet()
     {
@@ -90,68 +92,5 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $session->shouldReceive('pull')->once()->with('state');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $user = $provider->user();
-    }
-}
-
-class OAuthTwoTestProviderStub extends AbstractProvider
-{
-    public $http;
-
-    protected function getAuthUrl($state)
-    {
-        return 'http://auth.url';
-    }
-
-    protected function getTokenUrl()
-    {
-        return 'http://token.url';
-    }
-
-    protected function getUserByToken($token)
-    {
-        return ['id' => 'foo'];
-    }
-
-    protected function mapUserToObject(array $user)
-    {
-        return (new User)->map(['id' => $user['id']]);
-    }
-
-    /**
-     * Get a fresh instance of the Guzzle HTTP client.
-     *
-     * @return \GuzzleHttp\Client
-     */
-    protected function getHttpClient()
-    {
-        if ($this->http) {
-            return $this->http;
-        }
-
-        return $this->http = m::mock('StdClass');
-    }
-}
-
-class FacebookTestProviderStub extends FacebookProvider
-{
-    public $http;
-
-    protected function getUserByToken($token)
-    {
-        return ['id' => 'foo'];
-    }
-
-    /**
-     * Get a fresh instance of the Guzzle HTTP client.
-     *
-     * @return \GuzzleHttp\Client
-     */
-    protected function getHttpClient()
-    {
-        if ($this->http) {
-            return $this->http;
-        }
-
-        return $this->http = m::mock('StdClass');
     }
 }
