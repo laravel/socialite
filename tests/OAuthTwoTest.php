@@ -23,7 +23,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $response = $provider->redirect();
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
-        $this->assertEquals('http://auth.url', $response->getTargetUrl());
+        $this->assertSame('http://auth.url', $response->getTargetUrl());
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
@@ -41,10 +41,10 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $user = $provider->user();
 
         $this->assertInstanceOf('Laravel\Socialite\Two\User', $user);
-        $this->assertEquals('foo', $user->id);
-        $this->assertEquals('access_token', $user->token);
-        $this->assertEquals('refresh_token', $user->refreshToken);
-        $this->assertEquals(3600, $user->expiresIn);
+        $this->assertSame('foo', $user->id);
+        $this->assertSame('access_token', $user->token);
+        $this->assertSame('refresh_token', $user->refreshToken);
+        $this->assertSame(3600, $user->expiresIn);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
@@ -62,8 +62,8 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $user = $provider->user();
 
         $this->assertInstanceOf('Laravel\Socialite\Two\User', $user);
-        $this->assertEquals('foo', $user->id);
-        $this->assertEquals('access_token', $user->token);
+        $this->assertSame('foo', $user->id);
+        $this->assertSame('access_token', $user->token);
         $this->assertNull($user->refreshToken);
         $this->assertEquals(5183085, $user->expiresIn);
     }

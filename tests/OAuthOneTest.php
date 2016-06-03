@@ -47,9 +47,9 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $user = $provider->user();
 
         $this->assertInstanceOf('Laravel\Socialite\One\User', $user);
-        $this->assertEquals('uid', $user->id);
-        $this->assertEquals('foo@bar.com', $user->email);
-        $this->assertEquals(['extra' => 'extra'], $user->user);
+        $this->assertSame('uid', $user->id);
+        $this->assertSame('foo@bar.com', $user->email);
+        $this->assertSame(['extra' => 'extra'], $user->user);
     }
 
     /**
