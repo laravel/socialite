@@ -2,6 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
+use Illuminate\Support\Arr;
+
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
     /**
@@ -74,9 +76,9 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => array_get($user, 'formattedName'),
-            'email' => array_get($user, 'emailAddress'), 'avatar' => array_get($user, 'pictureUrl'),
-            'avatar_original' => array_get($user, 'pictureUrls.values.0'),
+            'id' => $user['id'], 'nickname' => null, 'name' => Arr::get($user, 'formattedName'),
+            'email' => Arr::get($user, 'emailAddress'), 'avatar' => Arr::get($user, 'pictureUrl'),
+            'avatar_original' => Arr::get($user, 'pictureUrls.values.0'),
         ]);
     }
 
