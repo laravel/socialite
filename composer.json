@@ -26,6 +26,11 @@
             "Laravel\\Socialite\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"

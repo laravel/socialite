@@ -1,8 +1,11 @@
 <?php
 
+namespace Tests;
+
 use Mockery as m;
 use Illuminate\Http\Request;
-use Laravel\Socialite\One\AbstractProvider;
+use PHPUnit_Framework_TestCase;
+use Tests\Fixtures\OAuthOneTestProviderStub;
 
 class OAuthOneTest extends PHPUnit_Framework_TestCase
 {
@@ -53,7 +56,7 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExceptionIsThrownWhenVerifierIsMissing()
     {
@@ -64,8 +67,4 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $provider = new OAuthOneTestProviderStub($request, $server);
         $user = $provider->user();
     }
-}
-
-class OAuthOneTestProviderStub extends AbstractProvider
-{
 }
