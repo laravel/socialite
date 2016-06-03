@@ -1,5 +1,11 @@
 # Laravel Socialite
 
+[![Build Status](https://travis-ci.org/laravel/socialite.svg)](https://travis-ci.org/laravel/socialite)
+[![Total Downloads](https://poser.pugx.org/laravel/socialite/d/total.svg)](https://packagist.org/packages/laravel/socialite)
+[![Latest Stable Version](https://poser.pugx.org/laravel/socialite/v/stable.svg)](https://packagist.org/packages/laravel/socialite)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/socialite/v/unstable.svg)](https://packagist.org/packages/laravel/socialite)
+[![License](https://poser.pugx.org/laravel/socialite/license.svg)](https://packagist.org/packages/laravel/socialite)
+
 ## Introduction
 
 Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Facebook, Twitter, Google, LinkedIn, GitHub and Bitbucket. It handles almost all of the boilerplate social authentication code you are dreading writing.
