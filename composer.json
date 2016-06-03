@@ -11,10 +11,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "~5.0|~6.0",
         "illuminate/contracts": "~5.0",
         "illuminate/http": "~5.0",
         "illuminate/support": "~5.0",
-        "guzzlehttp/guzzle": "~5.0|~6.0",
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
