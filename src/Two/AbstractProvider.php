@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
@@ -202,12 +203,12 @@ abstract class AbstractProvider implements ProviderContract
         $response = $this->getAccessTokenResponse($this->getCode());
 
         $user = $this->mapUserToObject($this->getUserByToken(
-            $token = array_get($response, 'access_token')
+            $token = Arr::get($response, 'access_token')
         ));
 
         return $user->setToken($token)
-                    ->setRefreshToken(array_get($response, 'refresh_token'))
-                    ->setExpiresIn(array_get($response, 'expires_in'));
+                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
+                    ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**
