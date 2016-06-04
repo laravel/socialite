@@ -346,6 +346,19 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Set the redirect url after initialization.
+     *
+     * @param  string  $url
+     * @return $this
+     */
+    public function redirectUrl($url)
+    {
+        $this->redirectUrl = $url;
+
+        return $this;
+    }
+
+    /**
      * Determine if the provider is operating with state.
      *
      * @return bool
