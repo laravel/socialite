@@ -140,7 +140,7 @@ abstract class AbstractProvider implements ProviderContract
         $state = null;
 
         if ($this->usesState()) {
-            $this->request->getSession()->set('state', $state = Str::random(40));
+            $this->request->session()->set('state', $state = Str::random(40));
         }
 
         return new RedirectResponse($this->getAuthUrl($state));
@@ -235,7 +235,7 @@ abstract class AbstractProvider implements ProviderContract
             return false;
         }
 
-        $state = $this->request->getSession()->pull('state');
+        $state = $this->request->session()->pull('state');
 
         return ! (strlen($state) > 0 && $this->request->input('state') === $state);
     }
