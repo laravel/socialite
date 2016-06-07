@@ -5,6 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/laravel/socialite/v/stable.svg)](https://packagist.org/packages/laravel/socialite)
 [![Latest Unstable Version](https://poser.pugx.org/laravel/socialite/v/unstable.svg)](https://packagist.org/packages/laravel/socialite)
 [![License](https://poser.pugx.org/laravel/socialite/license.svg)](https://packagist.org/packages/laravel/socialite)
+[![Dependency Status](https://www.versioneye.com/php/laravel:socialite/dev-master/badge?style=flat)](https://www.versioneye.com/php/laravel:socialite/dev-master)
 
 ## Introduction
 
