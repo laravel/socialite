@@ -90,7 +90,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     {
         $meUrl = $this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
-        if (!empty($this->clientSecret)) {
+        if (! empty($this->clientSecret)) {
             $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
 
             $meUrl .= '&appsecret_proof='.$appSecretProof;
