@@ -12,6 +12,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['r_basicprofile', 'r_emailaddress'];
+    
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * The fields that are included in the profile.
@@ -29,7 +36,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://www.linkedin.com/uas/oauth2/authorization', $state);
+        return $this->buildAuthUrlFromBase('https://www.linkedin.com/oauth/v2/authorization', $state);
     }
 
     /**
@@ -37,7 +44,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://www.linkedin.com/uas/oauth2/accessToken';
+        return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
 
     /**
