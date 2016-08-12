@@ -13,6 +13,8 @@ Laravel Socialite provides an expressive, fluent interface to OAuth authenticati
 
 **We are not accepting new adapters.**
 
+Adapters for other platforms can be found at [Socialite Providers](https://socialiteproviders.github.io/).
+
 ## License
 
 Laravel Socialite is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
