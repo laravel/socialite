@@ -5,6 +5,20 @@ namespace Laravel\Socialite\Two;
 class FacebookProvider extends AbstractProvider implements ProviderInterface
 {
     /**
+     * The Avatar Type for the request.
+     *
+     * @var string 
+     */
+    protected $avatarType = 'normal';
+
+    /**
+     * The default Avatar Types provided by Facebook
+     * 
+     * @var array
+     */
+    protected $avatarTypes = ['small', 'normal', 'album', 'large', 'square'];
+
+    /**
      * The base Facebook Graph URL.
      *
      * @var string
@@ -109,7 +123,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
 
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => null, 'name' => $firstName.' '.$lastName,
-            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
+            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type='.$this->getAvatarType(),
             'avatar_original' => $avatarUrl.'?width=1920',
         ]);
     }
@@ -126,6 +140,32 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         }
 
         return $fields;
+    }
+    
+    /* Setting the avatar type
+     * 
+     * @param string $avatarType Sets the Avatar Type | 'normal'
+     * @return $this
+     */
+    public function setAvatarType($avatarType)
+    {
+        $avatarType = strtolower($avatarType);
+        
+        if( in_array($avatarType, $this->avatarTypes,true)){
+            $this->avatarType = $avatarType;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Get the avatar Type
+     * 
+     * @return string Returns specified avatar type or 'normal'
+     */
+    protected function getAvatarType()
+    {
+        return $this->avatarType;
     }
 
     /**
