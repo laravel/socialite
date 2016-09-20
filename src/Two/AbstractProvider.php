@@ -389,12 +389,12 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-    
+
     /**
-    * Get the string used for session state
-    *
-    * @return string
-    */
+     * Get the string used for session state
+     *
+     * @return string
+     */
     public function getState()
     {
         return Str::random(40);
