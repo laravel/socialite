@@ -395,7 +395,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    public function getState()
+    protected function getState()
     {
         return Str::random(40);
     }
