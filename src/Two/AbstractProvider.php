@@ -391,7 +391,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the string used for session state
+     * Get the string used for session state.
      *
      * @return string
      */
