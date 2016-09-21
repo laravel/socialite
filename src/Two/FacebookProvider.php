@@ -171,7 +171,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     public function reRequest()
     {
         $this->reRequest = true;
-        
+
         return $this;
     }
 }
