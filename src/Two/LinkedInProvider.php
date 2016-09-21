@@ -12,7 +12,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['r_basicprofile', 'r_emailaddress'];
-    
+
     /**
      * The separating character for the requested scopes.
      *
