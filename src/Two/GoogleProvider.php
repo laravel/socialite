@@ -79,6 +79,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => Arr::get($user, 'nickname'), 'name' => $user['displayName'],
             'email' => $user['emails'][0]['value'], 'avatar' => Arr::get($user, 'image')['url'],
+            'avatar_original' => preg_replace('/\?sz=([0-9]+)/', '', Arr::get($user, 'image')['url']),
         ]);
     }
 }
