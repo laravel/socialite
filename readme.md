@@ -113,6 +113,15 @@ return Socialite::driver('google')
 
 When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
+##### Stateless Authentication
+
+The `stateless` method can used to disable session state checking. This is useful when adding social authentication to an API.
+
+```php
+return Socialite::driver('google')->stateless()->user();
+```
+
+
 #### Retrieving User Details
 
 Once you have a user instance, you can grab a few more details about the user:
