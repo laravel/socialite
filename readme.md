@@ -115,7 +115,7 @@ When using the `with` method, be careful not to pass any reserved keywords such 
 
 ##### Stateless Authentication
 
-The `stateless` method can used to disable session state checking. This is useful when adding social authentication to an API.
+The `stateless` method can be used to disable session state checking. This is useful when adding social authentication to an API.
 
 ```php
 return Socialite::driver('google')->stateless()->user();
