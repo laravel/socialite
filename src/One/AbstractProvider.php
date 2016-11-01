@@ -76,14 +76,16 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * @param $token
-     * @param $secret
+     * Get a Social User instance from a known access token and secret.
      *
-     * @return  $this
+     * @param  string  $token
+     * @param  string  $secret
+     * @return \Laravel\Socialite\One\User
      */
     public function userFromTokenAndSecret($token, $secret)
     {
         $tokenCredentials = new TokenCredentials();
+
         $tokenCredentials->setIdentifier($token);
         $tokenCredentials->setSecret($secret);
 
