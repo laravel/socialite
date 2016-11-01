@@ -147,9 +147,9 @@ $user->getAvatar();
 ```
 
 
-#### Retrieving User From Token
+#### Retrieving User Details From Token
 
-If you have a valid access token, you can get the user:
+If you already have a valid access token for a user, you can retrieve their details using the `userFromToken` method:
 
 ```php
 $user = Socialite::driver('github')->userFromToken($token);
