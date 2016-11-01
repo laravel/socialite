@@ -4,6 +4,7 @@ namespace Laravel\Socialite\One;
 
 use Illuminate\Http\Request;
 use InvalidArgumentException;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Server\Server;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -67,6 +68,29 @@ abstract class AbstractProvider implements ProviderContract
 
         $instance = (new User)->setRaw($user->extra)
                 ->setToken($token->getIdentifier(), $token->getSecret());
+
+        return $instance->map([
+            'id' => $user->uid, 'nickname' => $user->nickname,
+            'name' => $user->name, 'email' => $user->email, 'avatar' => $user->imageUrl,
+        ]);
+    }
+
+    /**
+     * @param $token
+     * @param $secret
+     *
+     * @return  $this
+     */
+    public function userFromTokenAndSecret($token, $secret)
+    {
+        $tokenCredentials = new TokenCredentials();
+        $tokenCredentials->setIdentifier($token);
+        $tokenCredentials->setSecret($secret);
+
+        $user = $this->server->getUserDetails($tokenCredentials);
+
+        $instance = (new User)->setRaw($user->extra)
+            ->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret());
 
         return $instance->map([
             'id' => $user->uid, 'nickname' => $user->nickname,
