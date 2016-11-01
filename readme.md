@@ -146,7 +146,6 @@ $user->getEmail();
 $user->getAvatar();
 ```
 
-
 #### Retrieving User Details From Token
 
 If you already have a valid access token for a user, you can retrieve their details using the `userFromToken` method:
