@@ -145,3 +145,12 @@ $user->getName();
 $user->getEmail();
 $user->getAvatar();
 ```
+
+
+#### Retrieving User From Token
+
+If you have a valid access token, you can get the user:
+
+```php
+$user = Socialite::driver('github')->userFromToken($token);
+```
