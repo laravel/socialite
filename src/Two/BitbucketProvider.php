@@ -3,7 +3,6 @@
 namespace Laravel\Socialite\Two;
 
 use Exception;
-use GuzzleHttp\ClientInterface;
 
 class BitbucketProvider extends AbstractProvider implements ProviderInterface
 {
@@ -51,7 +50,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the email for the given access token.
      *
-     * @param  string  $token
+     * @param  string $token
      * @return string|null
      */
     protected function getEmailByToken($token)
@@ -79,41 +78,19 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['uuid'], 'nickname' => $user['username'],
-            'name' => array_get($user, 'display_name'), 'email' => array_get($user, 'email'),
+            'id' => $user['uuid'],
+            'nickname' => $user['username'],
+            'name' => array_get($user, 'display_name'),
+            'email' => array_get($user, 'email'),
             'avatar' => array_get($user, 'links.avatar.href'),
         ]);
     }
 
     /**
-     * Get the access token for the given code.
-     *
-     * @param  string  $code
-     * @return string
-     */
-    public function getAccessToken($code)
-    {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'auth' => [$this->clientId, $this->clientSecret],
-            'headers' => ['Accept' => 'application/json'],
-            $postKey => $this->getTokenFields($code),
-        ]);
-
-        return $this->parseAccessToken($response->getBody());
-    }
-
-    /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
+     * {@inheritdoc}
      */
     protected function getTokenFields($code)
     {
-        return [
-            'code' => $code, 'redirect_uri' => $this->redirectUrl, 'grant_type' => 'authorization_code',
-        ];
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 }
