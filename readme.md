@@ -23,7 +23,7 @@ Laravel Socialite is open-sourced software licensed under the [MIT license](http
 
 In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication with Facebook, Twitter, LinkedIn, Google, GitHub and Bitbucket.
 
-To get started with Socialite, add to your `composer.json` file as a dependency:
+To get started with Socialite, use Composer to add the package to your project's dependencies:
 
     composer require laravel/socialite
 
