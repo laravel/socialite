@@ -1,11 +1,11 @@
-# Laravel Socialite
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-socialite.svg"></p>
 
-[![Build Status](https://travis-ci.org/laravel/socialite.svg)](https://travis-ci.org/laravel/socialite)
-[![Total Downloads](https://poser.pugx.org/laravel/socialite/d/total.svg)](https://packagist.org/packages/laravel/socialite)
-[![Latest Stable Version](https://poser.pugx.org/laravel/socialite/v/stable.svg)](https://packagist.org/packages/laravel/socialite)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/socialite/v/unstable.svg)](https://packagist.org/packages/laravel/socialite)
-[![License](https://poser.pugx.org/laravel/socialite/license.svg)](https://packagist.org/packages/laravel/socialite)
-[![Dependency Status](https://www.versioneye.com/php/laravel:socialite/dev-master/badge?style=flat)](https://www.versioneye.com/php/laravel:socialite/dev-master)
+<p align="center">
+<a href="https://travis-ci.org/laravel/socialite"><img src="https://travis-ci.org/laravel/socialite.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/socialite"><img src="https://poser.pugx.org/laravel/socialite/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/socialite"><img src="https://poser.pugx.org/laravel/socialite/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/socialite"><img src="https://poser.pugx.org/laravel/socialite/license.svg" alt="License"></a>
+</p>
 
 ## Introduction
 
