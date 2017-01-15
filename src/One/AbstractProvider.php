@@ -44,7 +44,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-        $this->request->getSession()->set(
+        $this->request->getSession()->put(
             'oauth.temp', $temp = $this->server->getTemporaryCredentials()
         );
 

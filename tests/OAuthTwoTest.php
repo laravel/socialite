@@ -15,8 +15,8 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     public function testRedirectGeneratesTheProperSymfonyRedirectResponse()
     {
         $request = Request::create('foo');
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
-        $session->shouldReceive('set')->once();
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
+        $session->shouldReceive('put')->once();
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
 
@@ -27,7 +27,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock('StdClass');
@@ -47,7 +47,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     public function testExceptionIsThrownIfStateIsInvalid()
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('B', 40), 'code' => 'code']);
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $user = $provider->user();
@@ -59,7 +59,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
     public function testExceptionIsThrownIfStateIsNotSet()
     {
         $request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
         $session->shouldReceive('pull')->once()->with('state');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $user = $provider->user();

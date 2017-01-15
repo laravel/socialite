@@ -17,8 +17,8 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $server->shouldReceive('getTemporaryCredentials')->once()->andReturn('temp');
         $server->shouldReceive('getAuthorizationUrl')->once()->with('temp')->andReturn('http://auth.url');
         $request = Request::create('foo');
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
-        $session->shouldReceive('set')->once()->with('oauth.temp', 'temp');
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
+        $session->shouldReceive('put')->once()->with('oauth.temp', 'temp');
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $response = $provider->redirect();
@@ -40,7 +40,7 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $user->email = 'foo@bar.com';
         $user->extra = ['extra' => 'extra'];
         $request = Request::create('foo', 'GET', ['oauth_token' => 'oauth_token', 'oauth_verifier' => 'oauth_verifier']);
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
         $session->shouldReceive('get')->once()->with('oauth.temp')->andReturn($temp);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
@@ -58,7 +58,7 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
     {
         $server = m::mock('League\OAuth1\Client\Server\Twitter');
         $request = Request::create('foo');
-        $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $user = $provider->user();
