@@ -4,11 +4,14 @@ namespace Laravel\Socialite;
 
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
+use Illuminate\Support\Traits\Macroable;
 use Laravel\Socialite\One\TwitterProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
 {
+    use Macroable;
+
     /**
      * Get a driver instance.
      *
