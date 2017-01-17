@@ -26,6 +26,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $server;
 
     /**
+     * Indicates if the session state should be utilized.
+     *
+     * @var bool
+     */
+    protected $stateless = false;
+
+    /**
      * Create a new provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -45,11 +52,17 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-        $this->request->session()->set(
-            'oauth.temp', $temp = $this->server->getTemporaryCredentials()
-        );
+        $temp = $this->server->getTemporaryCredentials();
+        
+        if ($this->usesState()) {
+            $this->request->session()->set(
+                'oauth.temp', $temp
+            );
+            return $this->redirectResponse($temp);
+        }
 
-        return new RedirectResponse($this->server->getAuthorizationUrl($temp));
+        $_SESSION['oauth.temp'] = $temp;
+        return $this->redirectResponse($temp);
     }
 
     /**
@@ -107,11 +120,21 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
-        $temp = $this->request->session()->get('oauth.temp');
+        $temp = $this->usesState() ? $this->request->session()->get('oauth.temp') : $_SESSION['oauth.temp'];
 
         return $this->server->getTokenCredentials(
             $temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
         );
+    }
+
+    /**
+     * Redirect the user to the authentication 
+     *
+     * @return bool
+     */
+    protected function redirectResponse($temp)
+    {
+        return new RedirectResponse($this->server->getAuthorizationUrl($temp));
     }
 
     /**
@@ -133,6 +156,39 @@ abstract class AbstractProvider implements ProviderContract
     public function setRequest(Request $request)
     {
         $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the provider is operating with state.
+     *
+     * @return bool
+     */
+    protected function usesState()
+    {
+        return ! $this->stateless;
+    }
+
+    /**
+     * Determine if the provider is operating as stateless.
+     *
+     * @return bool
+     */
+    protected function isStateless()
+    {
+        return $this->stateless;
+    }
+
+    /**
+     * Indicates that the provider should operate as stateless.
+     *
+     * @return $this
+     */
+    public function stateless()
+    {
+        session_start();
+        $this->stateless = true;
 
         return $this;
     }
