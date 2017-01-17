@@ -4,8 +4,8 @@ namespace Laravel\Socialite\One;
 
 use Illuminate\Http\Request;
 use InvalidArgumentException;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Server\Server;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
@@ -53,15 +53,17 @@ abstract class AbstractProvider implements ProviderContract
     public function redirect()
     {
         $temp = $this->server->getTemporaryCredentials();
-        
+
         if ($this->usesState()) {
             $this->request->session()->set(
                 'oauth.temp', $temp
             );
+
             return $this->redirectResponse($temp);
         }
 
         $_SESSION['oauth.temp'] = $temp;
+
         return $this->redirectResponse($temp);
     }
 
@@ -128,7 +130,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Redirect the user to the authentication 
+     * Redirect the user to the authentication.
      *
      * @return bool
      */
