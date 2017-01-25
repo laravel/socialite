@@ -2,6 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
+use Illuminate\Support\Arr;
+
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
     /**
@@ -10,6 +12,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['r_basicprofile', 'r_emailaddress'];
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * The fields that are included in the profile.
@@ -27,7 +36,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://www.linkedin.com/uas/oauth2/authorization', $state);
+        return $this->buildAuthUrlFromBase('https://www.linkedin.com/oauth/v2/authorization', $state);
     }
 
     /**
@@ -35,7 +44,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://www.linkedin.com/uas/oauth2/accessToken';
+        return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
 
     /**
@@ -74,9 +83,9 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => array_get($user, 'formattedName'),
-            'email' => array_get($user, 'emailAddress'), 'avatar' => array_get($user, 'pictureUrl'),
-            'avatar_original' => array_get($user, 'pictureUrls.values.0'),
+            'id' => $user['id'], 'nickname' => null, 'name' => Arr::get($user, 'formattedName'),
+            'email' => Arr::get($user, 'emailAddress'), 'avatar' => Arr::get($user, 'pictureUrl'),
+            'avatar_original' => Arr::get($user, 'pictureUrls.values.0'),
         ]);
     }
 

@@ -2,6 +2,9 @@
 
 namespace Laravel\Socialite\Two;
 
+use Illuminate\Support\Arr;
+use GuzzleHttp\ClientInterface;
+
 class FacebookProvider extends AbstractProvider implements ProviderInterface
 {
     /**
@@ -16,14 +19,14 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $version = 'v2.5';
+    protected $version = 'v2.8';
 
     /**
      * The user fields being requested.
      *
      * @var array
      */
-    protected $fields = ['first_name', 'last_name', 'email', 'gender', 'verified'];
+    protected $fields = ['name', 'email', 'gender', 'verified', 'link'];
 
     /**
      * The scopes being requested.
@@ -38,6 +41,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      * @var bool
      */
     protected $popup = false;
+
+    /**
+     * Re-request a declined permission.
+     *
+     * @var bool
+     */
+    protected $reRequest = false;
 
     /**
      * {@inheritdoc}
@@ -56,28 +66,21 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the access token for the given code.
-     *
-     * @param  string  $code
-     * @return string
-     */
-    public function getAccessToken($code)
-    {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($code),
-        ]);
-
-        return $this->parseAccessToken($response->getBody());
-    }
-
-    /**
      * {@inheritdoc}
      */
-    protected function parseAccessToken($body)
+    public function getAccessTokenResponse($code)
     {
-        parse_str($body);
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
-        return $access_token;
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            $postKey => $this->getTokenFields($code),
+        ]);
+
+        $data = [];
+
+        parse_str($response->getBody(), $data);
+
+        return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
     }
 
     /**
@@ -85,9 +88,15 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
+        $meUrl = $this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
-        $response = $this->getHttpClient()->get($this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&appsecret_proof='.$appSecretProof.'&fields='.implode(',', $this->fields), [
+        if (! empty($this->clientSecret)) {
+            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
+
+            $meUrl .= '&appsecret_proof='.$appSecretProof;
+        }
+
+        $response = $this->getHttpClient()->get($meUrl, [
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -103,14 +112,11 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     {
         $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
 
-        $firstName = isset($user['first_name']) ? $user['first_name'] : null;
-
-        $lastName = isset($user['last_name']) ? $user['last_name'] : null;
-
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => $firstName.' '.$lastName,
+            'id' => $user['id'], 'nickname' => null, 'name' => isset($user['name']) ? $user['name'] : null,
             'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
             'avatar_original' => $avatarUrl.'?width=1920',
+            'profileUrl' => isset($user['link']) ? $user['link'] : null,
         ]);
     }
 
@@ -123,6 +129,10 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
 
         if ($this->popup) {
             $fields['display'] = 'popup';
+        }
+
+        if ($this->reRequest) {
+            $fields['auth_type'] = 'rerequest';
         }
 
         return $fields;
@@ -149,6 +159,18 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     public function asPopup()
     {
         $this->popup = true;
+
+        return $this;
+    }
+
+    /**
+     * Re-request permissions which were previously declined.
+     *
+     * @return $this
+     */
+    public function reRequest()
+    {
+        $this->reRequest = true;
 
         return $this;
     }

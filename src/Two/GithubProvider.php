@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use Exception;
+use Illuminate\Support\Arr;
 
 class GithubProvider extends AbstractProvider implements ProviderInterface
 {
@@ -80,8 +81,8 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['login'], 'name' => array_get($user, 'name'),
-            'email' => array_get($user, 'email'), 'avatar' => $user['avatar_url'],
+            'id' => $user['id'], 'nickname' => $user['login'], 'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'), 'avatar' => $user['avatar_url'],
         ]);
     }
 
