@@ -191,9 +191,18 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidStateException;
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
-        ));
+        return $this->userWithToken($this->getAccessToken($this->getCode()));
+    }
+
+    /**
+     * Get the User instance with access token
+     *
+     * @param string $token
+     * @return \Laravel\Socialite\Contracts\User
+     */
+    public function userWithToken($token)
+    {
+        $user = $this->mapUserToObject($this->getUserByToken($token));
 
         return $user->setToken($token);
     }

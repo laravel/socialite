@@ -62,7 +62,19 @@ abstract class AbstractProvider implements ProviderContract
             throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
 
-        $user = $this->server->getUserDetails($token = $this->getToken());
+        return $this->userWithToken($this->getToken());
+    }
+
+
+    /**
+     * Get the User instance with access token
+     *
+     * @param \League\OAuth1\Client\Credentials\TokenCredentials $token
+     * @return \Laravel\Socialite\One\User
+     */
+    public function userWithToken($token)
+    {
+        $user = $this->server->getUserDetails($token);
 
         $instance = (new User)->setRaw($user->extra)
                 ->setToken($token->getIdentifier(), $token->getSecret());
