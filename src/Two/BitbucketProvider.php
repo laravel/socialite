@@ -101,7 +101,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return json_decode($response->getBody(), true)['access_token'];
     }
 
     /**
