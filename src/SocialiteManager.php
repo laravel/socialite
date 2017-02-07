@@ -4,7 +4,12 @@ namespace Laravel\Socialite;
 
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
+use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\One\TwitterProvider;
+use Laravel\Socialite\Two\FacebookProvider;
+use Laravel\Socialite\Two\LinkedInProvider;
+use Laravel\Socialite\Two\BitbucketProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -30,7 +35,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.github'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GithubProvider', $config
+            GithubProvider::class, $config
         );
     }
 
@@ -44,7 +49,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.facebook'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\FacebookProvider', $config
+            FacebookProvider::class, $config
         );
     }
 
@@ -58,7 +63,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.google'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GoogleProvider', $config
+            GoogleProvider::class, $config
         );
     }
 
@@ -72,7 +77,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.linkedin'];
 
         return $this->buildProvider(
-          'Laravel\Socialite\Two\LinkedInProvider', $config
+          LinkedInProvider::class, $config
         );
     }
 
@@ -86,7 +91,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.bitbucket'];
 
         return $this->buildProvider(
-          'Laravel\Socialite\Two\BitbucketProvider', $config
+          BitbucketProvider::class, $config
         );
     }
 
