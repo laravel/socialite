@@ -11,10 +11,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "~6.0",
         "illuminate/contracts": "~5.4",
         "illuminate/http": "~5.4",
         "illuminate/support": "~5.4",
-        "guzzlehttp/guzzle": "~6.0",
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
@@ -35,6 +35,9 @@
         "branch-alias": {
             "dev-master": "3.0-dev"
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
