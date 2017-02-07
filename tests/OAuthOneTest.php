@@ -65,6 +65,6 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
 
         $provider = new OAuthOneTestProviderStub($request, $server);
-        $user = $provider->user();
+        $provider->user();
     }
 }

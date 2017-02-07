@@ -91,6 +91,6 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
         $session->shouldReceive('pull')->once()->with('state');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
-        $user = $provider->user();
+        $provider->user();
     }
 }
