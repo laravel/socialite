@@ -64,7 +64,7 @@ namespace App\Http\Controllers\Auth;
 
 use Socialite;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
     /**
      * Redirect the user to the GitHub authentication page.
@@ -100,8 +100,8 @@ return Socialite::driver('github')
 Of course, you will need to define routes to your controller methods:
 
 ```php
-Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('login/github', 'Auth\LoginController@redirectToProvider');
+Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
 ```
 
 A number of OAuth providers support optional parameters in the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
