@@ -38,6 +38,11 @@ interface User
      * @return string
      */
     public function getAvatar();
-    
+
+    /**
+     * Get the gender of the user.
+     *
+     * @return string
+     */
     public function getGender();
 }
