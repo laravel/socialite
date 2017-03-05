@@ -38,4 +38,5 @@ interface User
      * @return string
      */
     public function getAvatar();
+    public function getGender(); 
 }
