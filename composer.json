@@ -18,6 +18,7 @@
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
+        "illuminate/routing":"~5.0",
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0"
     },

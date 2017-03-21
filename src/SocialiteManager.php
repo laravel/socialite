@@ -10,6 +10,22 @@ use League\OAuth1\Client\Server\Twitter as TwitterServer;
 class SocialiteManager extends Manager implements Contracts\Factory
 {
     /**
+     * @var \Laravel\Socialite\UriResolver
+     */
+    protected $uriResolver;
+
+    /**
+     * Create a new SocialiteManager instance.
+     *
+     * @param \Illuminate\Foundation\Application $app
+     */
+    public function __construct(\Illuminate\Foundation\Application $app)
+    {
+        parent::__construct($app);
+        $this->uriResolver = new UriResolver($app['url']);
+    }
+
+    /**
      * Get a driver instance.
      *
      * @param  string  $driver
@@ -101,8 +117,19 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         return new $provider(
             $this->app['request'], $config['client_id'],
-            $config['client_secret'], $config['redirect']
+            $config['client_secret'], $this->resolveRedirectUri($config['redirect'])
         );
+    }
+
+    /**
+     * Generate a URL from the provided redirect URI.
+     *
+     * @param string $redirectUri
+     * @return string
+     */
+    protected function resolveRedirectUri($redirectUri)
+    {
+        return $this->uriResolver->resolve($redirectUri);
     }
 
     /**
@@ -130,7 +157,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         return array_merge([
             'identifier' => $config['client_id'],
             'secret' => $config['client_secret'],
-            'callback_uri' => $config['redirect'],
+            'callback_uri' => $this->resolveRedirectUri($config['redirect']),
         ], $config);
     }
 
