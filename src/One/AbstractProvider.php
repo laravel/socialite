@@ -4,8 +4,8 @@ namespace Laravel\Socialite\One;
 
 use Illuminate\Http\Request;
 use InvalidArgumentException;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Server\Server;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
@@ -24,6 +24,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var \League\OAuth1\Client\Server\Server
      */
     protected $server;
+
+    /**
+     * Indicates if the session state should be utilized.
+     *
+     * @var bool
+     */
+    protected $stateless = false;
 
     /**
      * Create a new provider instance.
@@ -45,11 +52,19 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
-        $this->request->session()->set(
-            'oauth.temp', $temp = $this->server->getTemporaryCredentials()
-        );
+        $temp = $this->server->getTemporaryCredentials();
 
-        return new RedirectResponse($this->server->getAuthorizationUrl($temp));
+        if ($this->usesState()) {
+            $this->request->session()->set(
+                'oauth.temp', $temp
+            );
+
+            return $this->redirectResponse($temp);
+        }
+
+        $_SESSION['oauth.temp'] = $temp;
+
+        return $this->redirectResponse($temp);
     }
 
     /**
@@ -107,11 +122,21 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
-        $temp = $this->request->session()->get('oauth.temp');
+        $temp = $this->usesState() ? $this->request->session()->get('oauth.temp') : $_SESSION['oauth.temp'];
 
         return $this->server->getTokenCredentials(
             $temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
         );
+    }
+
+    /**
+     * Redirect the user to the authentication.
+     *
+     * @return bool
+     */
+    protected function redirectResponse($temp)
+    {
+        return new RedirectResponse($this->server->getAuthorizationUrl($temp));
     }
 
     /**
@@ -133,6 +158,39 @@ abstract class AbstractProvider implements ProviderContract
     public function setRequest(Request $request)
     {
         $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the provider is operating with state.
+     *
+     * @return bool
+     */
+    protected function usesState()
+    {
+        return ! $this->stateless;
+    }
+
+    /**
+     * Determine if the provider is operating as stateless.
+     *
+     * @return bool
+     */
+    protected function isStateless()
+    {
+        return $this->stateless;
+    }
+
+    /**
+     * Indicates that the provider should operate as stateless.
+     *
+     * @return $this
+     */
+    public function stateless()
+    {
+        session_start();
+        $this->stateless = true;
 
         return $this;
     }
