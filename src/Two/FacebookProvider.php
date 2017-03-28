@@ -26,7 +26,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $fields = ['name', 'email', 'gender', 'verified', 'link'];
+    protected $fields = ['name', 'email', 'gender', 'verified', 'link', 'age_range'];
 
     /**
      * The scopes being requested.
@@ -117,6 +117,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
             'avatar_original' => $avatarUrl.'?width=1920',
             'profileUrl' => isset($user['link']) ? $user['link'] : null,
+            'age_range' => isset($user['age_range']) ? $user['age_range'] : null,
         ]);
     }
 
