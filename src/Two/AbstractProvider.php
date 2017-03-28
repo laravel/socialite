@@ -176,7 +176,7 @@ abstract class AbstractProvider implements ProviderContract
             $fields['state'] = $state;
         }
 
-        return array_merge($fields, $this->parameters);
+        return array_merge($this->parameters, $fields);
     }
 
     /**
