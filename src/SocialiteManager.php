@@ -41,6 +41,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
+    protected function createGitlabDriver()
+    {
+        $config = $this->app['config']['services.gitlab'];
+
+        return $this->buildProvider(
+            'Laravel\Socialite\Two\GitlabProvider', $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
     protected function createFacebookDriver()
     {
         $config = $this->app['config']['services.facebook'];
