@@ -27,6 +27,28 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
+    protected function createMicrosoftDriver()
+    {
+        $config = $this->app['config']['services.microsoft'];
+        /** @var MicrosoftProvider $provider */
+        $provider = $this->buildProvider(
+            'Laravel\Socialite\Two\MicrosoftProvider', $config
+        );
+        if (isset($config['partner_domain'])) {
+            $provider->setPartnerDomain($config['partner_domain']);
+        }
+        if (isset($config['tenant_id'])) {
+            $provider->setTenantId($config['tenant_id']);
+        }
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
     protected function createGithubDriver()
     {
         $config = $this->app['config']['services.github'];
