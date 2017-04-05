@@ -93,4 +93,16 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionIsThrownWhenAuthorizationCodeIsMissing()
+    {
+        $request = Request::create('foo');
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
+
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+        $provider->user();
+    }
 }

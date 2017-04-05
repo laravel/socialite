@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -196,6 +197,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function user()
     {
+        if (! $this->hasNecessaryCode()) {
+            throw new InvalidArgumentException('Invalid request. Missing code parameter.');
+        }
+
         if ($this->hasInvalidState()) {
             throw new InvalidStateException;
         }
@@ -270,6 +275,16 @@ abstract class AbstractProvider implements ProviderContract
             'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
             'code' => $code, 'redirect_uri' => $this->redirectUrl,
         ];
+    }
+
+    /**
+     * Determine if the request has the necessary authorization code.
+     *
+     * @return bool
+     */
+    protected function hasNecessaryCode()
+    {
+        return $this->request->has('code');
     }
 
     /**
