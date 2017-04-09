@@ -79,6 +79,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createMeetupDriver()
+    {
+        $config = $this->app['config']['services.meetup'];
+
+        return $this->buildProvider(
+          'Laravel\Socialite\Two\MeetupProvider', $config
+        );
+    }
+
+    /**
      * Build an OAuth 2 provider instance.
      *
      * @param  string  $provider
