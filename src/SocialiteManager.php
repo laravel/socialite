@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\One\BitbucketProvider;
+use Laravel\Socialite\Two\EveonlineProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 use League\OAuth1\Client\Server\Bitbucket as BitbucketServer;
 
@@ -61,6 +62,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             'Laravel\Socialite\Two\GoogleProvider', $config
+        );
+    }
+    
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createEveonlineDriver()
+    {
+        $config = $this->app['config']['services.eveonline'];
+
+        return $this->buildProvider(
+            'Laravel\Socialite\Two\EveonlineProvider', $config
         );
     }
 
