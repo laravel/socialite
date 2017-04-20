@@ -53,6 +53,18 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
      *
      * @return string
      */
+    public $gender;
+
+    /**
+     * Get the unique identifier for the gender.
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->user['gender']; //new pull from array of objects
+    }
+
     public function getId()
     {
         return $this->id;

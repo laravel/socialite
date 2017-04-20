@@ -144,6 +144,7 @@ $user->getNickname();
 $user->getName();
 $user->getEmail();
 $user->getAvatar();
+$user->getGender();
 ```
 
 #### Retrieving User Details From Token
