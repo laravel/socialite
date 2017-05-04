@@ -90,11 +90,15 @@ class LoginController extends Controller
 }
 ```
 
-The `redirect` method takes care of sending the user to the OAuth provider, while the `user` method will read the incoming request and retrieve the user's information from the provider. Before redirecting the user, you may also set "scopes" on the request using the `scopes` method. This method will overwrite all existing scopes:
+The `redirect` method takes care of sending the user to the OAuth provider, while the `user` method will read the incoming request and retrieve the user's information from the provider. Before redirecting the user, you may also add additional "scopes" on the request using the `scopes` method. This method will merge all existing scopes with the ones you supply:
 
 ```php
 return Socialite::driver('github')
             ->scopes(['scope1', 'scope2'])->redirect();
+
+// You can also overwrite all exisiting scopes using setScopes
+return Socialite::driver('github')
+            ->setScopes(['scope1', 'scope2'])->redirect();
 ```
 
 Of course, you will need to define routes to your controller methods:
