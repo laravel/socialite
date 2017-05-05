@@ -95,8 +95,11 @@ The `redirect` method takes care of sending the user to the OAuth provider, whil
 ```php
 return Socialite::driver('github')
             ->scopes(['scope1', 'scope2'])->redirect();
+```
 
-// You can also overwrite all exisiting scopes using setScopes
+You can overwrite all exisiting scopes using the `setScopes` method:
+
+```php
 return Socialite::driver('github')
             ->setScopes(['scope1', 'scope2'])->redirect();
 ```
