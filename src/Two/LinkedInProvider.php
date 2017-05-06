@@ -69,6 +69,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
+                'x-li-src' => 'msdk',
                 'x-li-format' => 'json',
                 'Authorization' => 'Bearer '.$token,
             ],
