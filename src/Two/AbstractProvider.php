@@ -83,7 +83,7 @@ abstract class AbstractProvider implements ProviderContract
     protected $stateless = false;
 
     /**
-     * Set custom Guzzle config options
+     * Set custom Guzzle config options.
      *
      * @var bool
      */

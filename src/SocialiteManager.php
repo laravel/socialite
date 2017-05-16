@@ -2,8 +2,8 @@
 
 namespace Laravel\Socialite;
 
-use InvalidArgumentException;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
