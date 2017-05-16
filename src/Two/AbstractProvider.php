@@ -83,20 +83,29 @@ abstract class AbstractProvider implements ProviderContract
     protected $stateless = false;
 
     /**
+     * Set custom Guzzle config options
+     *
+     * @var bool
+     */
+    protected $guzzleConfig = [];
+
+    /**
      * Create a new provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $clientId
      * @param  string  $clientSecret
      * @param  string  $redirectUrl
+     * @param  array   $guzzleConfig
      * @return void
      */
-    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl)
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzleConfig)
     {
         $this->request = $request;
         $this->clientId = $clientId;
         $this->redirectUrl = $redirectUrl;
         $this->clientSecret = $clientSecret;
+        $this->guzzleConfig = $guzzleConfig;
     }
 
     /**
@@ -339,7 +348,7 @@ abstract class AbstractProvider implements ProviderContract
     protected function getHttpClient()
     {
         if (is_null($this->httpClient)) {
-            $this->httpClient = new Client();
+            $this->httpClient = new Client($this->guzzleConfig);
         }
 
         return $this->httpClient;

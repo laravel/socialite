@@ -3,6 +3,7 @@
 namespace Laravel\Socialite;
 
 use InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
@@ -106,7 +107,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         return new $provider(
             $this->app['request'], $config['client_id'],
-            $config['client_secret'], value($config['redirect'])
+            $config['client_secret'], value($config['redirect']),
+            Arr::get($config, 'guzzle', [])
         );
     }
 
