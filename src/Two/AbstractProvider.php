@@ -294,12 +294,12 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Merge the scopes of the requested access.
      *
-     * @param  array  $scopes
+     * @param  array|string  $scopes
      * @return $this
      */
-    public function scopes(array $scopes)
+    public function scopes($scopes)
     {
-        $this->scopes = array_unique(array_merge($this->scopes, $scopes));
+        $this->scopes = array_unique(array_merge($this->scopes, (array) $scopes));
 
         return $this;
     }
@@ -307,12 +307,12 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the scopes of the requested access.
      *
-     * @param  array  $scopes
+     * @param  array|string  $scopes
      * @return $this
      */
-    public function setScopes(array $scopes)
+    public function setScopes($scopes)
     {
-        $this->scopes = $scopes;
+        $this->scopes = array_unique((array) $scopes);
 
         return $this;
     }
