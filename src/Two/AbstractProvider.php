@@ -99,7 +99,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  array   $guzzleConfig
      * @return void
      */
-    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzleConfig)
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzleConfig = [])
     {
         $this->request = $request;
         $this->clientId = $clientId;
