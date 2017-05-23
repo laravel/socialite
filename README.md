@@ -13,6 +13,8 @@ Laravel Socialite provides an expressive, fluent interface to OAuth authenticati
 
 **We are not accepting new adapters.**
 
+**For Laravel less than 5.4, please use the [2.0 branch](https://github.com/laravel/socialite/tree/2.0)!**
+
 Adapters for other platforms are listed at the community driven [Socialite Providers](https://socialiteproviders.github.io/) website.
 
 ## License
