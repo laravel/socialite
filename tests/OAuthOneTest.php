@@ -14,7 +14,7 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function testRedirectGeneratesTheProperSymfonyRedirectResponse()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponse()
     {
         $server = m::mock('League\OAuth1\Client\Server\Twitter');
         $server->shouldReceive('getTemporaryCredentials')->once()->andReturn('temp');
@@ -27,6 +27,7 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $response = $provider->redirect();
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $response);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
