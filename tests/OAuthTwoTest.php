@@ -16,7 +16,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function testRedirectGeneratesTheProperSymfonyRedirectResponse()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponse()
     {
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
@@ -25,6 +25,7 @@ class OAuthTwoTest extends PHPUnit_Framework_TestCase
         $response = $provider->redirect();
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $response);
         $this->assertSame('http://auth.url', $response->getTargetUrl());
     }
 
