@@ -40,7 +40,7 @@
                 "Laravel\\Socialite\\SocialiteServiceProvider"
             ],
             "aliases": {
-                "Socialite": "Laravel\\Socialite\\Facade"
+                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
             }
         }
     },
