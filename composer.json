@@ -34,6 +34,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Laravel\\Socialite\\SocialiteServiceProvider"
+            ],
+            "aliases": {
+                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+            }
         }
     },
     "config": {
