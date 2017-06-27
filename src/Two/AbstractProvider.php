@@ -85,7 +85,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * The custom Guzzle configuration options.
      *
-     * @var bool
+     * @var array
      */
     protected $guzzle = [];
 
