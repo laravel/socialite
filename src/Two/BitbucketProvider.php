@@ -13,7 +13,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['email'];
-    
+
     /**
      * The separating character for the requested scopes.
      *
