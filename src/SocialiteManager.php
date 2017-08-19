@@ -142,9 +142,9 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
-     * Return the callback URL resolving a relative URI if needed.
+     * Format the callback URL, resolving a relative URI if needed.
      *
-     * @param array $config
+     * @param  array  $config
      * @return string
      */
     protected function formatRedirectUrl(array $config)
