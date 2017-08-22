@@ -55,6 +55,9 @@ You will also need to add credentials for the OAuth services your application ut
     'redirect' => 'http://your-callback-url',
 ],
 ```
+
+If you specify a relative path starting with a slash for the `redirect` variable (e.g. /foo/bar), it will be resolved to a fully qualified URL.
+
 ### Basic Usage
 
 Next, you are ready to authenticate users! You will need two routes: one for redirecting the user to the OAuth provider, and another for receiving the callback from the provider after authentication. We will access Socialite using the `Socialite` facade:
