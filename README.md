@@ -48,6 +48,7 @@ Also, add the `Socialite` facade to the `aliases` array in your `app` configurat
 ```
 
 You will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your `config/services.php` configuration file, and should use the key `facebook`, `twitter`, `linkedin`, `google`, `github` or `bitbucket`, depending on the providers your application requires. For example:
+
 ```php
 'github' => [
     'client_id' => 'your-github-app-id',
@@ -56,7 +57,7 @@ You will also need to add credentials for the OAuth services your application ut
 ],
 ```
 
-If you specify a relative path starting with a slash for the `redirect` variable (e.g. /foo/bar), it will be resolved to a fully qualified URL.
+If the `redirect` option contains a relative path, it will automatically be resolved to a fully qualified URL.
 
 ### Basic Usage
 
