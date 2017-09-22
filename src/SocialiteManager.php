@@ -3,6 +3,7 @@
 namespace Laravel\Socialite;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\GithubProvider;
@@ -11,6 +12,7 @@ use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
+use Laravel\Socialite\Two\SlackProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -93,6 +95,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
           BitbucketProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createSlackDriver()
+    {
+        $config = $this->app['config']['services.slack'];
+
+        return $this->buildProvider(
+            SlackProvider::class, $config
         );
     }
 
