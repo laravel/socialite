@@ -84,6 +84,43 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * Requests the long lived access token on facebook
+     *
+     * @param  string  $accessToken
+     *
+     * @return array
+     */
+    public function getLongLivedAccessToken($accessToken)
+    {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            $postKey => $this->getLongLivedTokenFields($accessToken),
+        ]);
+
+        $data = [];
+
+        $data = json_decode($response->getBody(), true);
+
+        return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
+    }
+
+    /**
+     * Get the parameters to request the long lived token
+     *
+     * @param  string  $shortLivingAccessToken
+     *
+     * @return array
+     */
+    public function getLongLivedTokenFields($shortLivingAccessToken)
+    {
+        return [
+            'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
+            'grant_type' => 'fb_exchange_token', 'fb_exchange_token' => $shortLivingAccessToken,
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getUserByToken($token)
