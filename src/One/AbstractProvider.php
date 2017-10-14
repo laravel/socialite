@@ -75,7 +75,7 @@ abstract class AbstractProvider implements ProviderContract
             'nickname' => $user->nickname,
             'name' => $user->name,
             'email' => $user->email,
-            'avatar' => $user->imageUrl
+            'avatar' => $user->imageUrl,
         ]);
     }
 
@@ -104,7 +104,7 @@ abstract class AbstractProvider implements ProviderContract
             'nickname' => $user->nickname,
             'name' => $user->name,
             'email' => $user->email,
-            'avatar' => $user->imageUrl
+            'avatar' => $user->imageUrl,
         ]);
     }
 
