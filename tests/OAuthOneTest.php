@@ -4,10 +4,10 @@ namespace Tests;
 
 use Mockery as m;
 use Illuminate\Http\Request;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\OAuthOneTestProviderStub;
 
-class OAuthOneTest extends PHPUnit_Framework_TestCase
+class OAuthOneTest extends TestCase
 {
     public function tearDown()
     {
