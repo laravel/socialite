@@ -2,9 +2,10 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
 use Laravel\Socialite\One\AbstractProvider;
 
-class OAuthOneTest extends PHPUnit_Framework_TestCase
+class OAuthOneTest extends TestCase
 {
     public function tearDown()
     {
