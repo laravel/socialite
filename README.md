@@ -31,6 +31,8 @@ To get started with Socialite, use Composer to add the package to your project's
 
 ### Configuration
 
+> If you are using Laravel 5.5+, you do not need to register the service provider or the alias for the facade. Laravel's [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery) will handle this for you.
+
 After installing the Socialite library, register the `Laravel\Socialite\SocialiteServiceProvider` in your `config/app.php` configuration file:
 
 ```php
