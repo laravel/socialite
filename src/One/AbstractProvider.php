@@ -136,7 +136,7 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-    
+
     /**
      * Get authorization URL to use with API and SPA.
      *
