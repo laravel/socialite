@@ -136,4 +136,14 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
+
+    /**
+     * Get authorization URL to use with API and SPA.
+     *
+     * @return string
+     */
+    public function getAuthorizationUrl()
+    {
+        return $this->server->getAuthorizationUrl($this->server->getTemporaryCredentials());
+    }
 }
