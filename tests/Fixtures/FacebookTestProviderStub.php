@@ -28,6 +28,6 @@ class FacebookTestProviderStub extends FacebookProvider
             return $this->http;
         }
 
-        return $this->http = m::mock(\StdClass::class);
+        return $this->http = m::mock(\stdClass::class);
     }
 }
