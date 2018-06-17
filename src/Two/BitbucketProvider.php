@@ -4,7 +4,6 @@ namespace Laravel\Socialite\Two;
 
 use Exception;
 use Illuminate\Support\Arr;
-use GuzzleHttp\ClientInterface;
 
 class BitbucketProvider extends AbstractProvider implements ProviderInterface
 {
