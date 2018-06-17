@@ -70,10 +70,8 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessTokenResponse($code)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            $postKey => $this->getTokenFields($code),
+            $this->getPostKey() => $this->getTokenFields($code),
         ]);
 
         $data = [];
