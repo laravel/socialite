@@ -7,6 +7,9 @@ use Laravel\Socialite\Two\FacebookProvider;
 
 class FacebookTestProviderStub extends FacebookProvider
 {
+    /**
+     * @var \GuzzleHttp\Client|\Mockery\MockInterface
+     */
     public $http;
 
     protected function getUserByToken($token)
@@ -17,7 +20,7 @@ class FacebookTestProviderStub extends FacebookProvider
     /**
      * Get a fresh instance of the Guzzle HTTP client.
      *
-     * @return \GuzzleHttp\Client
+     * @return \GuzzleHttp\Client|\Mockery\MockInterface
      */
     protected function getHttpClient()
     {
@@ -25,6 +28,6 @@ class FacebookTestProviderStub extends FacebookProvider
             return $this->http;
         }
 
-        return $this->http = m::mock('StdClass');
+        return $this->http = m::mock(\stdClass::class);
     }
 }

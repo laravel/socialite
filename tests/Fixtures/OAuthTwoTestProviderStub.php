@@ -8,6 +8,9 @@ use Laravel\Socialite\Two\AbstractProvider;
 
 class OAuthTwoTestProviderStub extends AbstractProvider
 {
+    /**
+     * @var \GuzzleHttp\Client|\Mockery\MockInterface
+     */
     public $http;
 
     protected function getAuthUrl($state)
@@ -33,7 +36,7 @@ class OAuthTwoTestProviderStub extends AbstractProvider
     /**
      * Get a fresh instance of the Guzzle HTTP client.
      *
-     * @return \GuzzleHttp\Client
+     * @return \GuzzleHttp\Client|\Mockery\MockInterface
      */
     protected function getHttpClient()
     {
@@ -41,6 +44,6 @@ class OAuthTwoTestProviderStub extends AbstractProvider
             return $this->http;
         }
 
-        return $this->http = m::mock('StdClass');
+        return $this->http = m::mock(\stdClass::class);
     }
 }
