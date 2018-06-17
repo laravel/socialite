@@ -3,6 +3,11 @@
     "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
     "keywords": ["oauth", "laravel"],
     "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/socialite/issues",
+        "source": "https://github.com/laravel/socialite"
+    },
     "authors": [
         {
             "name": "Taylor Otwell",
