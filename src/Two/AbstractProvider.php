@@ -250,6 +250,20 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Get the post key.
+     *
+     * @return string
+     */
+    protected function getPostKey()
+    {
+        if (version_compare(ClientInterface::VERSION, '6') === 1) {
+            return 'form_params';
+        }
+
+        return 'body';
+    }
+
+    /**
      * Get the access token response for the given code.
      *
      * @param  string  $code
@@ -257,11 +271,9 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function getAccessTokenResponse($code)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey => $this->getTokenFields($code),
+            $this->getPostKey() => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);
