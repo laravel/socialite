@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
 
 abstract class AbstractProvider implements ProviderContract
@@ -83,16 +83,25 @@ abstract class AbstractProvider implements ProviderContract
     protected $stateless = false;
 
     /**
+     * The custom Guzzle configuration options.
+     *
+     * @var array
+     */
+    protected $guzzle = [];
+
+    /**
      * Create a new provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $clientId
      * @param  string  $clientSecret
      * @param  string  $redirectUrl
+     * @param  array  $guzzle
      * @return void
      */
-    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl)
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzle = [])
     {
+        $this->guzzle = $guzzle;
         $this->request = $request;
         $this->clientId = $clientId;
         $this->redirectUrl = $redirectUrl;
@@ -133,14 +142,14 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Redirect the user of the application to the provider's authentication screen.
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function redirect()
     {
         $state = null;
 
         if ($this->usesState()) {
-            $this->request->session()->set('state', $state = $this->getState());
+            $this->request->session()->put('state', $state = $this->getState());
         }
 
         return new RedirectResponse($this->getAuthUrl($state));
@@ -283,14 +292,27 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Set the scopes of the requested access.
+     * Merge the scopes of the requested access.
      *
-     * @param  array  $scopes
+     * @param  array|string  $scopes
      * @return $this
      */
-    public function scopes(array $scopes)
+    public function scopes($scopes)
     {
-        $this->scopes = array_unique(array_merge($this->scopes, $scopes));
+        $this->scopes = array_unique(array_merge($this->scopes, (array) $scopes));
+
+        return $this;
+    }
+
+    /**
+     * Set the scopes of the requested access.
+     *
+     * @param  array|string  $scopes
+     * @return $this
+     */
+    public function setScopes($scopes)
+    {
+        $this->scopes = array_unique((array) $scopes);
 
         return $this;
     }
@@ -326,7 +348,7 @@ abstract class AbstractProvider implements ProviderContract
     protected function getHttpClient()
     {
         if (is_null($this->httpClient)) {
-            $this->httpClient = new Client();
+            $this->httpClient = new Client($this->guzzle);
         }
 
         return $this->httpClient;

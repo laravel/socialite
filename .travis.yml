@@ -1,15 +1,13 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
-  - hhvm
+  - 7.2
 
 sudo: false
 
-install: travis_retry composer install --no-interaction --prefer-dist
+install: travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script: vendor/bin/phpunit --verbose

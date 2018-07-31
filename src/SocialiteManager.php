@@ -2,12 +2,17 @@
 
 namespace Laravel\Socialite;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
+use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\One\TwitterProvider;
-use Laravel\Socialite\One\BitbucketProvider;
+use Laravel\Socialite\Two\FacebookProvider;
+use Laravel\Socialite\Two\LinkedInProvider;
+use Laravel\Socialite\Two\BitbucketProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
-use League\OAuth1\Client\Server\Bitbucket as BitbucketServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
 {
@@ -32,7 +37,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.github'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GithubProvider', $config
+            GithubProvider::class, $config
         );
     }
 
@@ -46,7 +51,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.facebook'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\FacebookProvider', $config
+            FacebookProvider::class, $config
         );
     }
 
@@ -60,7 +65,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.google'];
 
         return $this->buildProvider(
-            'Laravel\Socialite\Two\GoogleProvider', $config
+            GoogleProvider::class, $config
         );
     }
 
@@ -74,7 +79,21 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.linkedin'];
 
         return $this->buildProvider(
-          'Laravel\Socialite\Two\LinkedInProvider', $config
+          LinkedInProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createBitbucketDriver()
+    {
+        $config = $this->app['config']['services.bitbucket'];
+
+        return $this->buildProvider(
+          BitbucketProvider::class, $config
         );
     }
 
@@ -89,7 +108,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         return new $provider(
             $this->app['request'], $config['client_id'],
-            $config['client_secret'], $config['redirect']
+            $config['client_secret'], $this->formatRedirectUrl($config),
+            Arr::get($config, 'guzzle', [])
         );
     }
 
@@ -108,20 +128,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
-     * Create an instance of the specified driver.
-     *
-     * @return \Laravel\Socialite\One\AbstractProvider
-     */
-    protected function createBitbucketDriver()
-    {
-        $config = $this->app['config']['services.bitbucket'];
-
-        return new BitbucketProvider(
-            $this->app['request'], new BitbucketServer($this->formatConfig($config))
-        );
-    }
-
-    /**
      * Format the server configuration.
      *
      * @param  array  $config
@@ -132,8 +138,23 @@ class SocialiteManager extends Manager implements Contracts\Factory
         return array_merge([
             'identifier' => $config['client_id'],
             'secret' => $config['client_secret'],
-            'callback_uri' => $config['redirect'],
+            'callback_uri' => $this->formatRedirectUrl($config),
         ], $config);
+    }
+
+    /**
+     * Format the callback URL, resolving a relative URI if needed.
+     *
+     * @param  array  $config
+     * @return string
+     */
+    protected function formatRedirectUrl(array $config)
+    {
+        $redirect = value($config['redirect']);
+
+        return Str::startsWith($redirect, '/')
+                    ? $this->app['url']->to($redirect)
+                    : $redirect;
     }
 
     /**

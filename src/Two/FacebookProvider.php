@@ -26,7 +26,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $fields = ['name', 'email', 'gender', 'verified', 'link'];
+    protected $fields = ['name', 'email', 'verified'];
 
     /**
      * The scopes being requested.
@@ -75,8 +75,6 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             $postKey => $this->getTokenFields($code),
         ]);
-
-        $data = [];
 
         $data = json_decode($response->getBody(), true);
 
