@@ -24,6 +24,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var \League\OAuth1\Client\Server\Server
      */
     protected $server;
+	
+	/**
+	 * Hash representing the last requested user
+	 *
+	 * @var string
+	 */
+	protected $userHash;
 
     /**
      * Create a new provider instance.
@@ -63,8 +70,9 @@ abstract class AbstractProvider implements ProviderContract
         if (! $this->hasNecessaryVerifier()) {
             throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
-
-        $user = $this->server->getUserDetails($token = $this->getToken());
+        
+		$token = $this->getToken();
+        $user = $this->server->getUserDetails($token, $this->isNewUser($token->getIdentifier(), $token->getSecret()));
 
         $instance = (new User)->setRaw($user->extra)
                 ->setToken($token->getIdentifier(), $token->getSecret());
@@ -89,7 +97,7 @@ abstract class AbstractProvider implements ProviderContract
         $tokenCredentials->setIdentifier($token);
         $tokenCredentials->setSecret($secret);
 
-        $user = $this->server->getUserDetails($tokenCredentials);
+        $user = $this->server->getUserDetails($tokenCredentials, $this->isNewUser($token, $secret));
 
         $instance = (new User)->setRaw($user->extra)
             ->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret());
@@ -136,4 +144,19 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
+    
+    protected function isNewUser($token, $secret)
+	{
+		if (!empty($this->userHash) && !password_verify(sprintf('%s_%s', $token, $secret), $this->userHash)) {
+			$this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
+			
+			return true;
+		}
+		
+		if (empty($this->userHash)) {
+			$this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
+		}
+		
+		return false;
+	}
 }
