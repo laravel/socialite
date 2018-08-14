@@ -144,14 +144,14 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-	
-	/**
-	 * Checks if the credentials are for the same user as the previous request
-	 *
-	 * @param  string  $token
-	 * @param  string  $secret
-	 * @return bool
-	 */
+
+    /**
+     * Checks if the credentials are for the same user as the previous request.
+     *
+     * @param  string  $token
+     * @param  string  $secret
+     * @return bool
+     */
     protected function isNewUser($token, $secret)
     {
         if (! empty($this->userHash) && ! password_verify(sprintf('%s_%s', $token, $secret), $this->userHash)) {
