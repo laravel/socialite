@@ -24,13 +24,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var \League\OAuth1\Client\Server\Server
      */
     protected $server;
-	
-	/**
-	 * Hash representing the last requested user
-	 *
-	 * @var string
-	 */
-	protected $userHash;
+
+    /**
+     * Hash representing the last requested user.
+     *
+     * @var string
+     */
+    protected $userHash;
 
     /**
      * Create a new provider instance.
@@ -70,8 +70,8 @@ abstract class AbstractProvider implements ProviderContract
         if (! $this->hasNecessaryVerifier()) {
             throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
-        
-		$token = $this->getToken();
+
+        $token = $this->getToken();
         $user = $this->server->getUserDetails($token, $this->isNewUser($token->getIdentifier(), $token->getSecret()));
 
         $instance = (new User)->setRaw($user->extra)
@@ -144,19 +144,26 @@ abstract class AbstractProvider implements ProviderContract
 
         return $this;
     }
-    
+	
+	/**
+	 * Checks if the credentials are for the same user as the previous request
+	 *
+	 * @param  string  $token
+	 * @param  string  $secret
+	 * @return bool
+	 */
     protected function isNewUser($token, $secret)
-	{
-		if (!empty($this->userHash) && !password_verify(sprintf('%s_%s', $token, $secret), $this->userHash)) {
-			$this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
-			
-			return true;
-		}
-		
-		if (empty($this->userHash)) {
-			$this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
-		}
-		
-		return false;
-	}
+    {
+        if (! empty($this->userHash) && ! password_verify(sprintf('%s_%s', $token, $secret), $this->userHash)) {
+            $this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
+
+            return true;
+        }
+
+        if (empty($this->userHash)) {
+            $this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
+        }
+
+        return false;
+    }
 }
