@@ -37,9 +37,9 @@ class OAuthOneTest extends PHPUnit_Framework_TestCase
         $server->shouldReceive('getTokenCredentials')->once()->with($temp, 'oauth_token', 'oauth_verifier')->andReturn(
             $token = m::mock(\League\OAuth1\Client\Credentials\TokenCredentials::class)
         );
-        $server->shouldReceive('getUserDetails')->once()->with($token)->andReturn($user = m::mock(\League\OAuth1\Client\Server\User::class));
-        $token->shouldReceive('getIdentifier')->once()->andReturn('identifier');
-        $token->shouldReceive('getSecret')->once()->andReturn('secret');
+        $server->shouldReceive('getUserDetails')->once()->with($token, false)->andReturn($user = m::mock(\League\OAuth1\Client\Server\User::class));
+        $token->shouldReceive('getIdentifier')->twice()->andReturn('identifier');
+        $token->shouldReceive('getSecret')->twice()->andReturn('secret');
         $user->uid = 'uid';
         $user->email = 'foo@bar.com';
         $user->extra = ['extra' => 'extra'];
