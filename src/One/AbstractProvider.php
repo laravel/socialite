@@ -26,7 +26,7 @@ abstract class AbstractProvider implements ProviderContract
     protected $server;
 
     /**
-     * Hash representing the last requested user.
+     * A hash representing the last requested user.
      *
      * @var string
      */
@@ -72,7 +72,10 @@ abstract class AbstractProvider implements ProviderContract
         }
 
         $token = $this->getToken();
-        $user = $this->server->getUserDetails($token, $this->isNewUser($token->getIdentifier(), $token->getSecret()));
+
+        $user = $this->server->getUserDetails(
+            $token, $this->shouldBypassCache($token->getIdentifier(), $token->getSecret())
+        );
 
         $instance = (new User)->setRaw($user->extra)
                 ->setToken($token->getIdentifier(), $token->getSecret());
@@ -97,7 +100,9 @@ abstract class AbstractProvider implements ProviderContract
         $tokenCredentials->setIdentifier($token);
         $tokenCredentials->setSecret($secret);
 
-        $user = $this->server->getUserDetails($tokenCredentials, $this->isNewUser($token, $secret));
+        $user = $this->server->getUserDetails(
+            $tokenCredentials, $this->shouldBypassCache($token, $secret)
+        );
 
         $instance = (new User)->setRaw($user->extra)
             ->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret());
@@ -133,6 +138,28 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Determine if the user information cache should be bypassed.
+     *
+     * @param  string  $token
+     * @param  string  $secret
+     * @return bool
+     */
+    protected function shouldBypassCache($token, $secret)
+    {
+        $newHash = sha1($token.'_'.$secret);
+
+        if (! empty($this->userHash) && $newHash !== $this->userHash) {
+            $this->userHash = $newHash;
+
+            return true;
+        }
+
+        $this->userHash = $this->userHash ?: $newHash;
+
+        return false;
+    }
+
+    /**
      * Set the request instance.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -143,27 +170,5 @@ abstract class AbstractProvider implements ProviderContract
         $this->request = $request;
 
         return $this;
-    }
-
-    /**
-     * Checks if the credentials are for the same user as the previous request.
-     *
-     * @param  string  $token
-     * @param  string  $secret
-     * @return bool
-     */
-    protected function isNewUser($token, $secret)
-    {
-        if (! empty($this->userHash) && ! password_verify(sprintf('%s_%s', $token, $secret), $this->userHash)) {
-            $this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
-
-            return true;
-        }
-
-        if (empty($this->userHash)) {
-            $this->userHash = password_hash(sprintf('%s_%s', $token, $secret), PASSWORD_DEFAULT);
-        }
-
-        return false;
     }
 }
