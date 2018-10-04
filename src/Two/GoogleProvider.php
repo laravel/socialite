@@ -2,8 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use Illuminate\Support\Arr;
-
 class GoogleProvider extends AbstractProvider implements ProviderInterface
 {
     /**
@@ -58,15 +56,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?', [
-            'query' => [
-                'prettyPrint' => 'false',
-            ],
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+        $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='.$token);
 
         return json_decode($response->getBody(), true);
     }
@@ -76,12 +66,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        $avatarUrl = Arr::get($user, 'image.url');
-
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => Arr::get($user, 'nickname'), 'name' => $user['displayName'],
-            'email' => Arr::get($user, 'emails.0.value'), 'avatar' => $avatarUrl,
-            'avatar_original' => preg_replace('/\?sz=([0-9]+)/', '', $avatarUrl),
+            'id' => $user['id'], 'nickname' => $user['name'], 'name' => $user['name'],
+            'email' => $user['email'], 'avatar' => $user['picture'],
+            'avatar_original' => preg_replace('/\?sz=([0-9]+)/', '', $user['picture']),
         ]);
     }
 }
