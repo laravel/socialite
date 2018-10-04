@@ -2,8 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use Illuminate\Support\Arr;
-
 class GoogleProvider extends AbstractProvider implements ProviderInterface
 {
     /**
