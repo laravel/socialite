@@ -74,7 +74,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://www.googleapis.com/plus/v1/people/me?', [
+        $response = $this->getHttpClient()->get('https://www.googleapis.com/userinfo/v2/me?', [
             'query' => [
                 'prettyPrint' => 'false',
             ],
@@ -93,8 +93,8 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['displayName'],
-            'email' => $user['emails'][0]['value'], 'avatar' => array_get($user, 'image')['url'],
+            'id' => $user['id'], 'nickname' => array_get($user, 'nickname'), 'name' => $user['name'],
+            'email' => $user['email'], 'avatar' => array_get($user, 'picture'),
         ]);
     }
 }
