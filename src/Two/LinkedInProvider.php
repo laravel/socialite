@@ -71,6 +71,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
             'headers' => [
                 'x-li-format' => 'json',
                 'Authorization' => 'Bearer '.$token,
+                'x-li-src' => 'msdk'
             ],
         ]);
 
