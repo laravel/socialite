@@ -83,8 +83,11 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => Arr::get($user, 'formattedName'),
-            'email' => Arr::get($user, 'emailAddress'), 'avatar' => Arr::get($user, 'pictureUrl'),
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => Arr::get($user, 'formattedName'),
+            'email' => Arr::get($user, 'emailAddress'),
+            'avatar' => Arr::get($user, 'pictureUrl'),
             'avatar_original' => Arr::get($user, 'pictureUrls.values.0'),
         ]);
     }
