@@ -26,8 +26,11 @@ class TwitterProvider extends AbstractProvider
                 ->setToken($token->getIdentifier(), $token->getSecret());
 
         return $instance->map([
-            'id' => $user->uid, 'nickname' => $user->nickname,
-            'name' => $user->name, 'email' => $user->email, 'avatar' => $user->imageUrl,
+            'id' => $user->uid,
+            'nickname' => $user->nickname,
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->imageUrl,
             'avatar_original' => str_replace('_normal', '', $user->imageUrl),
         ]);
     }
