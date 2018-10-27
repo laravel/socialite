@@ -13,7 +13,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $githubEmails = [];
-    
+
     /**
      * The scopes being requested.
      *
@@ -77,7 +77,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
         }
 
         $this->githubEmails = json_decode($response->getBody(), true);
-        
+
         foreach ($this->githubEmails as $email) {
             if ($email['primary'] && $email['verified']) {
                 return $email['email'];
