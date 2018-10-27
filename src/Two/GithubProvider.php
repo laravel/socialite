@@ -8,6 +8,13 @@ use Illuminate\Support\Arr;
 class GithubProvider extends AbstractProvider implements ProviderInterface
 {
     /**
+     * The all emails from github from getEmailByToken() request.
+     *
+     * @var array
+     */
+    protected $githubEmails = [];
+    
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -45,6 +52,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
 
         if (in_array('user:email', $this->scopes)) {
             $user['email'] = $this->getEmailByToken($token);
+            $user['emails'] = $this->githubEmails;
         }
 
         return $user;
@@ -68,7 +76,9 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
             return;
         }
 
-        foreach (json_decode($response->getBody(), true) as $email) {
+        $this->githubEmails = json_decode($response->getBody(), true);
+        
+        foreach ($this->githubEmails as $email) {
             if ($email['primary'] && $email['verified']) {
                 return $email['email'];
             }
