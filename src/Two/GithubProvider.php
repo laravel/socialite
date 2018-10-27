@@ -45,7 +45,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
 
         if (in_array('user:email', $this->scopes)) {
             $user['emails'] = $this->getEmailsByToken($token);
-            
+
             foreach ($user['emails'] as $email) {
                 if ($email['primary'] && $email['verified']) {
                     $user['email'] = $email['email'];
