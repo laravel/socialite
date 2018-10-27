@@ -44,19 +44,25 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
         $user = json_decode($response->getBody(), true);
 
         if (in_array('user:email', $this->scopes)) {
-            $user['email'] = $this->getEmailByToken($token);
+            $user['emails'] = $this->getEmailsByToken($token);
+            
+            foreach ($user['emails'] as $email) {
+                if ($email['primary'] && $email['verified']) {
+                    $user['email'] = $email['email'];
+                }
+            }
         }
 
         return $user;
     }
 
     /**
-     * Get the email for the given access token.
+     * Get emails for the given access token.
      *
      * @param  string  $token
-     * @return string|null
+     * @return array
      */
-    protected function getEmailByToken($token)
+    protected function getEmailsByToken($token)
     {
         $emailsUrl = 'https://api.github.com/user/emails?access_token='.$token;
 
@@ -65,14 +71,10 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
                 $emailsUrl, $this->getRequestOptions()
             );
         } catch (Exception $e) {
-            return;
+            return [];
         }
 
-        foreach (json_decode($response->getBody(), true) as $email) {
-            if ($email['primary'] && $email['verified']) {
-                return $email['email'];
-            }
-        }
+        return json_decode($response->getBody(), true);
     }
 
     /**
