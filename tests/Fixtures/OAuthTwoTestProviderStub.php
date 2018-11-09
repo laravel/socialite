@@ -5,6 +5,7 @@ namespace Tests\Fixtures;
 use Mockery as m;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
+use stdClass;
 
 class OAuthTwoTestProviderStub extends AbstractProvider
 {
@@ -44,6 +45,6 @@ class OAuthTwoTestProviderStub extends AbstractProvider
             return $this->http;
         }
 
-        return $this->http = m::mock(\stdClass::class);
+        return $this->http = m::mock(stdClass::class);
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Fixtures;
 
 use Mockery as m;
 use Laravel\Socialite\Two\FacebookProvider;
+use stdClass;
 
 class FacebookTestProviderStub extends FacebookProvider
 {
@@ -28,6 +29,6 @@ class FacebookTestProviderStub extends FacebookProvider
             return $this->http;
         }
 
-        return $this->http = m::mock(\stdClass::class);
+        return $this->http = m::mock(stdClass::class);
     }
 }
