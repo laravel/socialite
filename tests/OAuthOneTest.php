@@ -2,18 +2,18 @@
 
 namespace Tests;
 
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\RedirectResponse;
-use Laravel\Socialite\One\User as SocialiteUser;
-use League\OAuth1\Client\Credentials\TemporaryCredentials;
-use League\OAuth1\Client\Credentials\TokenCredentials;
-use League\OAuth1\Client\Server\Twitter;
-use League\OAuth1\Client\Server\User;
 use Mockery as m;
 use Illuminate\Http\Request;
 use PHPUnit_Framework_TestCase;
-use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
+use Illuminate\Http\RedirectResponse;
+use League\OAuth1\Client\Server\User;
+use League\OAuth1\Client\Server\Twitter;
+use Illuminate\Contracts\Session\Session;
 use Tests\Fixtures\OAuthOneTestProviderStub;
+use Laravel\Socialite\One\User as SocialiteUser;
+use League\OAuth1\Client\Credentials\TokenCredentials;
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class OAuthOneTest extends PHPUnit_Framework_TestCase
 {
