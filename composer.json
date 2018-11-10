@@ -11,10 +11,11 @@
     ],
     "require": {
         "php": ">=7.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "~6.0",
         "illuminate/contracts": "~5.4",
         "illuminate/http": "~5.4",
         "illuminate/support": "~5.4",
-        "guzzlehttp/guzzle": "~6.0",
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
@@ -38,6 +39,9 @@
                 "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
             }
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
