@@ -7,7 +7,7 @@ use Mockery as m;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
 use Laravel\Socialite\Two\User;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Session\Session;
 use Tests\Fixtures\FacebookTestProviderStub;
@@ -15,7 +15,7 @@ use Tests\Fixtures\OAuthTwoTestProviderStub;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
-class OAuthTwoTest extends PHPUnit_Framework_TestCase
+class OAuthTwoTest extends TestCase
 {
     public function tearDown()
     {
