@@ -17,8 +17,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse
 
 class OAuthTwoTest extends PHPUnit_Framework_TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
+        parent::tearDown();
+
         m::close();
     }
 
