@@ -4,7 +4,7 @@ namespace Tests;
 
 use Mockery as m;
 use Illuminate\Http\Request;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Http\RedirectResponse;
 use League\OAuth1\Client\Server\User;
 use League\OAuth1\Client\Server\Twitter;
@@ -15,7 +15,7 @@ use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
-class OAuthOneTest extends PHPUnit_Framework_TestCase
+class OAuthOneTest extends TestCase
 {
     protected function tearDown()
     {
