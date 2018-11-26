@@ -2,8 +2,8 @@
 
 namespace Laravel\Socialite\One;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Illuminate\Http\RedirectResponse;
 use League\OAuth1\Client\Server\Server;
@@ -76,7 +76,7 @@ abstract class AbstractProvider implements ProviderContract
             // Add encrypted credentials to configured callback URL
             $callback = $this->server->getClientCredentials()->getCallbackUri();
             $this->server->getClientCredentials()->setCallbackUri(
-                $callback . (strpos($callback, '?') !== false ? '&' : '?') . http_build_query([
+                $callback.(strpos($callback, '?') !== false ? '&' : '?').http_build_query([
                     'tempId' => $tempId,
                 ])
             );
@@ -265,6 +265,6 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getTempIdCacheKey($tempId)
     {
-        return 'twitter-sign-in-temp:' . $tempId;
+        return 'twitter-sign-in-temp:'.$tempId;
     }
 }
