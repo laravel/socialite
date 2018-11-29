@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Laravel\Socialite\Contracts\Factory;
 
 /**
  * @see \Laravel\Socialite\SocialiteManager
@@ -16,6 +17,6 @@ class Socialite extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Laravel\Socialite\Contracts\Factory';
+        return Factory::class;
     }
 }

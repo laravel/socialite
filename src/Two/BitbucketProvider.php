@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use Exception;
+use Illuminate\Support\Arr;
 use GuzzleHttp\ClientInterface;
 
 class BitbucketProvider extends AbstractProvider implements ProviderInterface
@@ -13,6 +14,13 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['email'];
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -79,9 +87,11 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['uuid'], 'nickname' => $user['username'],
-            'name' => array_get($user, 'display_name'), 'email' => array_get($user, 'email'),
-            'avatar' => array_get($user, 'links.avatar.href'),
+            'id' => $user['uuid'],
+            'nickname' => $user['username'],
+            'name' => Arr::get($user, 'display_name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => Arr::get($user, 'links.avatar.href'),
         ]);
     }
 
@@ -101,7 +111,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
         ]);
 
-        return $this->parseAccessToken($response->getBody());
+        return json_decode($response->getBody(), true)['access_token'];
     }
 
     /**
@@ -112,8 +122,6 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        return [
-            'code' => $code, 'redirect_uri' => $this->redirectUrl, 'grant_type' => 'authorization_code',
-        ];
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 }
