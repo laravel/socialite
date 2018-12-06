@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Laravel\Socialite\Tests\Fixtures;
 
 use stdClass;
 use Mockery as m;
