@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Laravel\Socialite\Tests;
 
 use stdClass;
 use Mockery as m;
@@ -10,8 +10,8 @@ use Laravel\Socialite\Two\User;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Session\Session;
-use Tests\Fixtures\FacebookTestProviderStub;
-use Tests\Fixtures\OAuthTwoTestProviderStub;
+use Laravel\Socialite\Tests\Fixtures\FacebookTestProviderStub;
+use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
