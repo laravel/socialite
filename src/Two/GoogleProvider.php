@@ -79,10 +79,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         $avatarUrl = Arr::get($user, 'picture');
 
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 
-            'nickname' => Arr::get($user, 'nickname'), 
+            'id' => $user['id'],
+            'nickname' => Arr::get($user, 'nickname'),
             'name' => Arr::get($user, 'name'),
-            'email' => Arr::get($user, 'email'), 
+            'email' => Arr::get($user, 'email'),
             'avatar' => $avatarUrl,
             'avatar_original' => preg_replace('/\?sz=([0-9]+)/', '', $avatarUrl),
         ]);
