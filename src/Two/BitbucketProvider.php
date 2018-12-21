@@ -87,8 +87,10 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['uuid'], 'nickname' => $user['username'],
-            'name' => Arr::get($user, 'display_name'), 'email' => Arr::get($user, 'email'),
+            'id' => $user['uuid'],
+            'nickname' => $user['username'],
+            'name' => Arr::get($user, 'display_name'),
+            'email' => Arr::get($user, 'email'),
             'avatar' => Arr::get($user, 'links.avatar.href'),
         ]);
     }

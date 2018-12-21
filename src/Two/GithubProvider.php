@@ -81,8 +81,11 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['login'], 'name' => Arr::get($user, 'name'),
-            'email' => Arr::get($user, 'email'), 'avatar' => $user['avatar_url'],
+            'id' => $user['id'],
+            'nickname' => $user['login'],
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => $user['avatar_url'],
         ]);
     }
 
