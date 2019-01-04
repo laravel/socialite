@@ -4,9 +4,14 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
+  - 7.3
 
 sudo: false
 
-install: travis_retry composer install --no-interaction --prefer-dist
+before_install:
+  - phpenv config-rm xdebug.ini || true
+
+install: travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script: vendor/bin/phpunit --verbose

@@ -3,18 +3,23 @@
     "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
     "keywords": ["oauth", "laravel"],
     "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/socialite/issues",
+        "source": "https://github.com/laravel/socialite"
+    },
     "authors": [
         {
             "name": "Taylor Otwell",
-            "email": "taylorotwell@gmail.com"
+            "email": "taylor@laravel.com"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.4",
+        "guzzlehttp/guzzle": "~6.0",
         "illuminate/contracts": "~5.4",
         "illuminate/http": "~5.4",
         "illuminate/support": "~5.4",
-        "guzzlehttp/guzzle": "~6.0",
         "league/oauth1-client": "~1.0"
     },
     "require-dev": {
@@ -28,13 +33,24 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Laravel\\Socialite\\Tests\\": "tests/"
         }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Laravel\\Socialite\\SocialiteServiceProvider"
+            ],
+            "aliases": {
+                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+            }
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true

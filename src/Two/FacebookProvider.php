@@ -19,7 +19,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $version = 'v2.8';
+    protected $version = 'v3.0';
 
     /**
      * The user fields being requested.
@@ -62,7 +62,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return $this->graphUrl.'/oauth/access_token';
+        return $this->graphUrl.'/'.$this->version.'/oauth/access_token';
     }
 
     /**
@@ -76,9 +76,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
         ]);
 
-        $data = [];
-
-        parse_str($response->getBody(), $data);
+        $data = json_decode($response->getBody(), true);
 
         return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
     }
@@ -113,8 +111,11 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
 
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => isset($user['name']) ? $user['name'] : null,
-            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => isset($user['name']) ? $user['name'] : null,
+            'email' => isset($user['email']) ? $user['email'] : null,
+            'avatar' => $avatarUrl.'?type=normal',
             'avatar_original' => $avatarUrl.'?width=1920',
             'profileUrl' => isset($user['link']) ? $user['link'] : null,
         ]);
