@@ -17,6 +17,8 @@ use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
 {
+    private $config;
+
     /**
      * Get a driver instance.
      *
@@ -29,16 +31,27 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
+     * Configure driver.
+     *
+     * @param array $config
+     * @return $this
+     */
+    public function configure(array $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
     protected function createGithubDriver()
     {
-        $config = $this->app['config']['services.github'];
-
         return $this->buildProvider(
-            GithubProvider::class, $config
+            GithubProvider::class, $this->config('github')
         );
     }
 
@@ -49,10 +62,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createFacebookDriver()
     {
-        $config = $this->app['config']['services.facebook'];
-
         return $this->buildProvider(
-            FacebookProvider::class, $config
+            FacebookProvider::class, $this->config('facebook')
         );
     }
 
@@ -63,10 +74,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createGoogleDriver()
     {
-        $config = $this->app['config']['services.google'];
-
         return $this->buildProvider(
-            GoogleProvider::class, $config
+            GoogleProvider::class, $this->config('google')
         );
     }
 
@@ -77,10 +86,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createLinkedinDriver()
     {
-        $config = $this->app['config']['services.linkedin'];
-
         return $this->buildProvider(
-          LinkedInProvider::class, $config
+          LinkedInProvider::class, $this->config('linkedin')
         );
     }
 
@@ -91,10 +98,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createBitbucketDriver()
     {
-        $config = $this->app['config']['services.bitbucket'];
-
         return $this->buildProvider(
-          BitbucketProvider::class, $config
+          BitbucketProvider::class, $this->config('bitbucket')
         );
     }
 
@@ -105,10 +110,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createGitlabDriver()
     {
-        $config = $this->app['config']['services.gitlab'];
-
         return $this->buildProvider(
-            GitlabProvider::class, $config
+            GitlabProvider::class, $this->config('gitlab')
         );
     }
 
@@ -135,10 +138,9 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createTwitterDriver()
     {
-        $config = $this->app['config']['services.twitter'];
-
         return new TwitterProvider(
-            $this->app['request'], new TwitterServer($this->formatConfig($config))
+            $this->app['request'],
+            new TwitterServer($this->formatConfig($this->config('twitter')))
         );
     }
 
@@ -182,5 +184,16 @@ class SocialiteManager extends Manager implements Contracts\Factory
     public function getDefaultDriver()
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
+    }
+
+    /**
+     * Resolve driver config.
+     *
+     * @param string $driver
+     * @return array
+     */
+    private function config(string $driver): array
+    {
+        return $this->config ?? $this->app['config']["services.{$driver}"];
     }
 }
