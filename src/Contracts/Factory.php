@@ -11,4 +11,12 @@ interface Factory
      * @return \Laravel\Socialite\Contracts\Provider
      */
     public function driver($driver = null);
+
+    /**
+     * Configure driver.
+     *
+     * @param array $config
+     * @return $this
+     */
+    public function configure(array $config);
 }
