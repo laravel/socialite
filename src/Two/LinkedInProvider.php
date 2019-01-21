@@ -104,7 +104,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         $name = Arr::get($user, 'firstName.localized.en_US').' '.Arr::get($user, 'lastName.localized.en_US');
-        $images = Arr::get($user, 'profilePicture.displayImage~.elements');
+        $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
         $avatar = Arr::first(Arr::where($images, function ($image) {
             return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 100;
         }));
