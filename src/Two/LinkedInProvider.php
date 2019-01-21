@@ -119,6 +119,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['id'],
             'nickname' => null,
             'name' => $firstName . ' ' . $lastName,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'email' => Arr::get($user, 'emailAddress'),
             'avatar' => Arr::get($avatar, 'identifiers.0.identifier'),
             'avatar_original' => Arr::get($originalAvatar, 'identifiers.0.identifier'),
