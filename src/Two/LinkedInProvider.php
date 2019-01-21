@@ -103,9 +103,9 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        $preferredLocale = Arr::get($user, 'firstName.preferredLocale.language') . '_' . Arr::get($user, 'firstName.preferredLocale.country');
-        $firstName = Arr::get($user, 'firstName.localized.' . $preferredLocale);
-        $lastName  = Arr::get($user, 'lastName.localized.' . $preferredLocale);
+        $preferredLocale = Arr::get($user, 'firstName.preferredLocale.language').'_'.Arr::get($user, 'firstName.preferredLocale.country');
+        $firstName = Arr::get($user, 'firstName.localized.'.$preferredLocale);
+        $lastName = Arr::get($user, 'lastName.localized.'.$preferredLocale);
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
         $avatar = Arr::first(Arr::where($images, function ($image) {
@@ -118,7 +118,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => null,
-            'name' => $firstName . ' ' . $lastName,
+            'name' => $firstName.' '.$lastName,
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => Arr::get($user, 'emailAddress'),
