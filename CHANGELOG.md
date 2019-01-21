@@ -1,5 +1,10 @@
 # Release Notes
 
+## [v4.0.3 (2019-01-21)](https://github.com/laravel/socialite/compare/v4.0.2...v4.0.3)
+
+### Fixed
+- Use proper localized name ([#329](https://github.com/laravel/socialite/pull/329))
+
 ## [v4.0.2 (2019-01-21)](https://github.com/laravel/socialite/compare/v4.0.1...v4.0.2)
 
 ### Fixed
