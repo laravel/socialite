@@ -1,5 +1,18 @@
 # Release Notes
 
+## [v4.1.0 (2019-02-14)](https://github.com/laravel/socialite/compare/v4.0.3...v4.1.0)
+
+### Added
+- Laravel 5.8 support ([32b5ecf](https://github.com/laravel/socialite/commit/32b5ecf537648759bbb90dec8298424477c14f19))
+
+### Fixed
+- Handle Google responses excluding 'name' ([#340](https://github.com/laravel/socialite/pull/340))
+
+## [v4.0.3 (2019-01-21)](https://github.com/laravel/socialite/compare/v4.0.2...v4.0.3)
+
+### Fixed
+- Use proper localized name ([#329](https://github.com/laravel/socialite/pull/329))
+
 ## [v4.0.2 (2019-01-21)](https://github.com/laravel/socialite/compare/v4.0.1...v4.0.2)
 
 ### Fixed
