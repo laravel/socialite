@@ -1,5 +1,10 @@
 # Release Notes
 
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.0...4.0)
+
+### Fixed
+- Update Google API urls ([#346](https://github.com/laravel/socialite/pull/346))
+
 ## [v4.1.0 (2019-02-14)](https://github.com/laravel/socialite/compare/v4.0.3...v4.1.0)
 
 ### Added
