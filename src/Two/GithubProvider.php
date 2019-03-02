@@ -99,7 +99,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
         return [
             'headers' => [
                 'Accept' => 'application/vnd.github.v3+json',
-                'Authorization' => 'token ' . $this->token,
+                'Authorization' => 'token ' . $token,
             ],
         ];
     }
