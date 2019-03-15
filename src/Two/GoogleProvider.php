@@ -87,7 +87,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),
             'avatar' => $avatarUrl = Arr::get($user, 'picture'),
-            'original_avatar' => $avatarUrl,
+            'avatar_original' => $avatarUrl,
         ]);
     }
 }
