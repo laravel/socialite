@@ -8,6 +8,7 @@
 ### Fixed
 - Use proper key name for original avatar in Google Provider ([5ec0024](https://github.com/laravel/socialite/commit/5ec0024284d15df527376ced59b9e7b393f6f88b))
 
+
 ## [v4.1.1](https://github.com/laravel/socialite/compare/v4.1.0...v4.1.1)
 
 ### Fixed
