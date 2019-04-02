@@ -1,15 +1,21 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.2...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.3...4.0)
 
 
-## [v4.1.2](https://github.com/laravel/socialite/compare/v4.1.1...v4.1.2)
+## [v4.1.3 (2019-04-02)](https://github.com/laravel/socialite/compare/v4.1.2...v4.1.3)
+
+### Fixed
+- Fix bug with no LinkedIn email addresses ([#355](https://github.com/laravel/socialite/pull/355))
+
+
+## [v4.1.2 (2019-03-15)](https://github.com/laravel/socialite/compare/v4.1.1...v4.1.2)
 
 ### Fixed
 - Use proper key name for original avatar in Google Provider ([5ec0024](https://github.com/laravel/socialite/commit/5ec0024284d15df527376ced59b9e7b393f6f88b))
 
 
-## [v4.1.1](https://github.com/laravel/socialite/compare/v4.1.0...v4.1.1)
+## [v4.1.1 (2019-03-12)](https://github.com/laravel/socialite/compare/v4.1.0...v4.1.1)
 
 ### Fixed
 - Update Google API urls ([#346](https://github.com/laravel/socialite/pull/346))
