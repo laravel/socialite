@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.3...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.3...master)
 
 
 ## [v4.1.3 (2019-04-02)](https://github.com/laravel/socialite/compare/v4.1.2...v4.1.3)
