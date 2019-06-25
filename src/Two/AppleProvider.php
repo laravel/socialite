@@ -9,8 +9,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['name'];
-    //TODO AFTER THE UPDATE BACK TO EMAIL protected $scopes = ['name', 'email'];
+    protected $scopes = ['name', 'email'];
 
     /**
      * {@inheritdoc}
@@ -22,11 +21,6 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        //TODO After the apple update we could delete this
-        if (in_array('email', $this->getScopes())) {
-            throw new \InvalidArgumentException("Scope email not implemented yet, see https://forums.developer.apple.com/thread/118209");
-        }
-
         return $this->buildAuthUrlFromBase('https://appleid.apple.com/auth/authorize', $state);
     }
 
@@ -87,7 +81,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['sub'],
             'nickname' => null,
             'name' => Arr::get($user, 'apple_update_name'), //TODO After the apple update, we need to change this
-            'email' => Arr::get($user, 'apple_update_email'),
+            'email' => Arr::get($user, 'apple_update_email'), //TODO After the apple update, we need to change this
             'avatar' => null,
         ]);
     }
