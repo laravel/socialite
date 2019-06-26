@@ -43,25 +43,9 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function user()
+    protected function getUserByAccessTokenResponse($response)
     {
-        if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
-        }
-
-        $response = $this->getAccessTokenResponse($this->getCode());
-
-        // User info already in the token response, extra metadata request is not needed, skipping method getUserByToken
-        // See: https://forums.developer.apple.com/thread/118209
-        $id_token = json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
-        $token = Arr::get($response, 'access_token');
-
-        $user = $this->mapUserToObject($id_token);
-
-        return $user->setToken($token)
-            ->setRefreshToken(Arr::get($response, 'refresh_token'))
-            ->setExpiresIn(Arr::get($response, 'expires_in'));
-
+         return json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
     }
 
     /**
@@ -69,7 +53,8 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        // User info already in the token response
+        // User info already in the token response, todo find method in the documentation, is this is possible?
+        throw new \BadMethodCallException( "User info already in the authorization_code token response.");
     }
 
     /**
@@ -80,8 +65,8 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['sub'],
             'nickname' => null,
-            'name' => Arr::get($user, 'apple_update_name'), //TODO After the apple update, we need to change this
-            'email' => Arr::get($user, 'apple_update_email'), //TODO After the apple update, we need to change this
+            'name' => null,
+            'email' => Arr::get($user, 'email_dummy'), //TODO After the apple update, we need to change this
             'avatar' => null,
         ]);
     }
