@@ -21,7 +21,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://appleid.apple.com/auth/authorize', $state) . "&response_mode=form_post";
+        return $this->buildAuthUrlFromBase('https://appleid.apple.com/auth/authorize', $state);
     }
 
     /**
@@ -68,7 +68,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['sub'],
             'nickname' => null,
             'name' => null,
-            'email' => Arr::get($user, 'email_dummy'), //TODO After the apple update, we need to change this
+            'email' => Arr::get($user, 'email'),
             'avatar' => null,
         ]);
     }
