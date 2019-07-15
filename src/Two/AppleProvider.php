@@ -45,7 +45,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByAccessTokenResponse($response)
     {
-         return json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
+        return json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
     }
 
     /**
@@ -54,9 +54,9 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         // Refresh_token
-        // User info already in the token response, todo find method in the documentation, is this is possible?
+        // User info already in the token response, you only get the email the first time
         // No user meta data in the grant_type refresh_token, https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens
-        throw new \BadMethodCallException( "User info already in the authorization_code token response.");
+        return [];
     }
 
     /**
@@ -68,7 +68,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
             'id' => $user['sub'],
             'nickname' => null,
             'name' => null,
-            'email' => Arr::get($user, 'email_dummy'), //TODO After the apple update, we need to change this
+            'email' => Arr::get($user, 'email'),
             'avatar' => null,
         ]);
     }
