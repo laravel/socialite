@@ -45,7 +45,7 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByAccessTokenResponse($response)
     {
-         return json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
+        return json_decode(base64_decode(explode('.', Arr::get($response, 'id_token'))[1]), true);
     }
 
     /**

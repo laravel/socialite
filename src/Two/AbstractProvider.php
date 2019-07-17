@@ -222,9 +222,7 @@ abstract class AbstractProvider implements ProviderContract
 
     protected function getUserByAccessTokenResponse($response)
     {
-        return ($this->getUserByToken(
-            $token = Arr::get($response, 'access_token')
-        ));
+        return $this->getUserByToken($token = Arr::get($response, 'access_token'));
     }
 
     /**
