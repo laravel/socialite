@@ -54,9 +54,9 @@ class AppleProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         // Refresh_token
-        // User info already in the token response, todo find method in the documentation, is this is possible?
+        // User info already in the token response, you only get the email the first time
         // No user meta data in the grant_type refresh_token, https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens
-        throw new \BadMethodCallException( "User info already in the authorization_code token response.");
+        return [];
     }
 
     /**
