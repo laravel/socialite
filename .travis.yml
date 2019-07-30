@@ -9,7 +9,6 @@ php:
 
 env:
   matrix:
-    - LARAVEL=5.7.*
     - LARAVEL=5.8.*
     - LARAVEL=dev-master
 
