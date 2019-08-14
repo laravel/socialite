@@ -4,8 +4,10 @@ namespace Laravel\Socialite\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\Contracts\Provider;
 
 /**
+ * @method static Provider driver(string $driver = null)
  * @see \Laravel\Socialite\SocialiteManager
  */
 class Socialite extends Facade
