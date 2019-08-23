@@ -12,7 +12,7 @@ use Laravel\Socialite\Two\LinkedInProvider;
 
 class LinkedInProviderTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
