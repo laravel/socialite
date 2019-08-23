@@ -3,7 +3,6 @@ language: php
 sudo: false
 
 php:
-  - 7.1
   - 7.2
   - 7.3
 
@@ -14,11 +13,6 @@ env:
 
 matrix:
   fast_finish: true
-  exclude:
-    - php: 7.1
-      env: LARAVEL=^6.0
-    - php: 7.1
-      env: LARAVEL=^7.0
   allow_failures:
     - env: LARAVEL=^7.0
 
