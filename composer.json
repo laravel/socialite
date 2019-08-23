@@ -17,10 +17,10 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/guzzle": "^6.0",
         "illuminate/http": "^6.0|^7.0",
         "illuminate/support": "^6.0|^7.0",
-        "league/oauth1-client": "~1.0"
+        "league/oauth1-client": "^1.0"
     },
     "require-dev": {
         "illuminate/contracts": "^6.0|^7.0",
