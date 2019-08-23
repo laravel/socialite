@@ -3,6 +3,12 @@
 ## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.3...master)
 
 
+## [v4.1.4 (2019-07-30)](https://github.com/laravel/socialite/compare/v4.1.3...v4.1.4)
+
+### Changed
+- Updated version constraints for Laravel 6.0 ([3fe71f1](https://github.com/laravel/socialite/commit/3fe71f1c593967e5b6046977b310e287f40ee92d))
+
+
 ## [v4.1.3 (2019-04-02)](https://github.com/laravel/socialite/compare/v4.1.2...v4.1.3)
 
 ### Fixed
