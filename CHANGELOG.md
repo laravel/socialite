@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.1.3...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.2.0...4.0)
+
+
+## [v4.2.0 (2019-09-03)](https://github.com/laravel/socialite/compare/v4.1.4...v4.2.0)
+
+### Added
+- Laravel 6.0 support ([#390](https://github.com/laravel/socialite/pull/390))
 
 
 ## [v4.1.4 (2019-07-30)](https://github.com/laravel/socialite/compare/v4.1.3...v4.1.4)
