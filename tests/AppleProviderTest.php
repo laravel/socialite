@@ -2,17 +2,17 @@
 
 namespace Laravel\Socialite\Tests;
 
-use Mockery as m;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Two\AppleProvider;
 use Laravel\Socialite\Two\User;
+use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Laravel\Socialite\Two\AppleProvider;
 
 class AppleProviderTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

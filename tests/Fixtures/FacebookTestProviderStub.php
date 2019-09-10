@@ -2,9 +2,9 @@
 
 namespace Laravel\Socialite\Tests\Fixtures;
 
-use stdClass;
-use Mockery as m;
 use Laravel\Socialite\Two\FacebookProvider;
+use Mockery as m;
+use stdClass;
 
 class FacebookTestProviderStub extends FacebookProvider
 {
