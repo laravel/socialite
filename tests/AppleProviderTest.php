@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class AppleProviderTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
