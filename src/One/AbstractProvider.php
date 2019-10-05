@@ -2,12 +2,12 @@
 
 namespace Laravel\Socialite\One;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use InvalidArgumentException;
-use Illuminate\Http\RedirectResponse;
-use League\OAuth1\Client\Server\Server;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
+use League\OAuth1\Client\Credentials\TokenCredentials;
+use League\OAuth1\Client\Server\Server;
 
 abstract class AbstractProvider implements ProviderContract
 {
