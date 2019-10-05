@@ -53,8 +53,7 @@ abstract class AbstractProvider implements ProviderContract
     public function redirect()
     {
         $this->request->session()->put(
-            'oauth.temp',
-            $temp = $this->server->getTemporaryCredentials()
+            'oauth.temp', $temp = $this->server->getTemporaryCredentials()
         );
 
         return new RedirectResponse($this->server->getAuthorizationUrl($temp));
@@ -75,8 +74,7 @@ abstract class AbstractProvider implements ProviderContract
         $token = $this->getToken();
 
         $user = $this->server->getUserDetails(
-            $token,
-            $this->shouldBypassCache($token->getIdentifier(), $token->getSecret())
+            $token, $this->shouldBypassCache($token->getIdentifier(), $token->getSecret())
         );
 
         $instance = (new User)->setRaw($user->extra)
@@ -106,8 +104,7 @@ abstract class AbstractProvider implements ProviderContract
         $tokenCredentials->setSecret($secret);
 
         $user = $this->server->getUserDetails(
-            $tokenCredentials,
-            $this->shouldBypassCache($token, $secret)
+            $tokenCredentials, $this->shouldBypassCache($token, $secret)
         );
 
         $instance = (new User)->setRaw($user->extra)
@@ -132,9 +129,7 @@ abstract class AbstractProvider implements ProviderContract
         $temp = $this->request->session()->get('oauth.temp');
 
         return $this->server->getTokenCredentials(
-            $temp,
-            $this->request->get('oauth_token'),
-            $this->request->get('oauth_verifier')
+            $temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
         );
     }
 
