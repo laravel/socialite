@@ -197,6 +197,5 @@ class SocialiteManager extends Manager implements Contracts\Factory
     public function getDefaultDriver()
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
-    }
-    
+    }   
 }
