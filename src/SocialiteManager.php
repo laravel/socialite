@@ -3,17 +3,17 @@
 namespace Laravel\Socialite;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Support\Manager;
 use Laravel\Socialite\Two\AppleProvider;
+use Laravel\Socialite\One\TwitterProvider;
+use Laravel\Socialite\Two\BitbucketProvider;
+use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
-use Laravel\Socialite\One\TwitterProvider;
-use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
-use Laravel\Socialite\Two\BitbucketProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -198,4 +198,5 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
     }
+    
 }

@@ -2,8 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
-use Illuminate\Support\Arr;
 use GuzzleHttp\ClientInterface;
+use Illuminate\Support\Arr;
 
 class FacebookProvider extends AbstractProvider implements ProviderInterface
 {
