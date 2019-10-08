@@ -7,6 +7,7 @@ use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laravel\Socialite\One\TwitterProvider;
+use Laravel\Socialite\Two\AppleProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\GithubProvider;
@@ -80,7 +81,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.linkedin'];
 
         return $this->buildProvider(
-          LinkedInProvider::class, $config
+            LinkedInProvider::class, $config
         );
     }
 
@@ -94,7 +95,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.bitbucket'];
 
         return $this->buildProvider(
-          BitbucketProvider::class, $config
+            BitbucketProvider::class, $config
         );
     }
 
@@ -109,6 +110,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             GitlabProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createAppleDriver()
+    {
+        $config = $this->app['config']['services.apple'];
+
+        return $this->buildProvider(
+            AppleProvider::class, $config
         );
     }
 
@@ -168,8 +183,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $redirect = value($config['redirect']);
 
         return Str::startsWith($redirect, '/')
-                    ? $this->app['url']->to($redirect)
-                    : $redirect;
+            ? $this->app['url']->to($redirect)
+            : $redirect;
     }
 
     /**
