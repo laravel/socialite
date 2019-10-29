@@ -5,6 +5,13 @@ namespace Laravel\Socialite\Two;
 class GitlabProvider extends AbstractProvider implements ProviderInterface
 {
     /**
+     * The scopes being requested.
+     *
+     * @var array
+     */
+    protected $scopes = ['read_user'];
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
