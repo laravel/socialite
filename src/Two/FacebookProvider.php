@@ -176,7 +176,6 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         return $this;
     }
 
-
     /**
      * Replace default graph version to use with given request.
      *
