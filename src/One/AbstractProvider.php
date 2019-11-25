@@ -126,7 +126,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
-        $temp = $this->request->session()->get('oauth.temp');
+        $temp = unserialize($this->request->session()->get('oauth.temp'));
 
         return $this->server->getTokenCredentials(
             $temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
