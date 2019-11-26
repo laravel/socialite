@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.0...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.1...4.0)
+
+
+## [v4.3.1 (2019-11-26)](https://github.com/laravel/socialite/compare/v4.3.0...v4.3.1)
+
+### Fixed
+- Override `SocialiteServiceProvider::isDeferred()` to mark as deferred ([#412](https://github.com/laravel/socialite/pull/412))
 
 
 ## [v4.3.0 (2019-11-19)](https://github.com/laravel/socialite/compare/v4.2.0...v4.3.0)
