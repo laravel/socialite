@@ -1,6 +1,21 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.2.0...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.1...master)
+
+
+## [v4.3.1 (2019-11-26)](https://github.com/laravel/socialite/compare/v4.3.0...v4.3.1)
+
+### Fixed
+- Override `SocialiteServiceProvider::isDeferred()` to mark as deferred ([#412](https://github.com/laravel/socialite/pull/412))
+
+
+## [v4.3.0 (2019-11-19)](https://github.com/laravel/socialite/compare/v4.2.0...v4.3.0)
+
+### Added
+- Allow to manually set desired Facebook graph version ([#408](https://github.com/laravel/socialite/pull/408))
+
+### Changed
+- Change default Facebook graph version to 3.3 ([#408](https://github.com/laravel/socialite/pull/408))
 
 
 ## [v4.2.0 (2019-09-03)](https://github.com/laravel/socialite/compare/v4.1.4...v4.2.0)
