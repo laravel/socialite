@@ -3,8 +3,9 @@
 namespace Laravel\Socialite;
 
 use ArrayAccess;
+use Laravel\Socialite\Contracts\User;
 
-abstract class AbstractUser implements ArrayAccess, Contracts\User
+abstract class AbstractUser implements ArrayAccess, User
 {
     /**
      * The unique identifier for the user.
