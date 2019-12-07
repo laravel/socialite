@@ -175,9 +175,9 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Get the default driver name.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     public function getDefaultDriver()
     {
