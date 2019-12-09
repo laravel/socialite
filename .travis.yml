@@ -1,10 +1,10 @@
+dist: bionic
 language: php
-
-sudo: false
 
 php:
   - 7.2
   - 7.3
+  - 7.4
 
 env:
   matrix:
@@ -22,4 +22,5 @@ before_install:
 install:
   - travis_retry composer require "illuminate/contracts=${LARAVEL}" --dev --prefer-dist --no-interaction --no-suggest
 
-script: vendor/bin/phpunit --verbose
+script:
+  - vendor/bin/phpunit --verbose

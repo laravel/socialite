@@ -62,8 +62,9 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get the User instance for the authenticated user.
      *
-     * @throws \InvalidArgumentException
      * @return \Laravel\Socialite\One\User
+     *
+     * @throws \InvalidArgumentException
      */
     public function user()
     {
