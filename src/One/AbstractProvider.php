@@ -128,7 +128,7 @@ abstract class AbstractProvider implements ProviderContract
     {
         $temp = unserialize($this->request->session()->get('oauth_temp'));
 
-        if (!$temp) {
+        if (! $temp) {
             $temp = $this->request->session()->get('oauth.temp');
         }
 
