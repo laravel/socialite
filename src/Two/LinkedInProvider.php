@@ -88,6 +88,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     {
         $url = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))';
 
+
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
