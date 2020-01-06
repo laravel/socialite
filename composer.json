@@ -1,5 +1,5 @@
 {
-    "name": "laravel/socialite",
+    "name": "tevfikmert/socialite",
     "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
     "keywords": ["oauth", "laravel"],
     "license": "MIT",
