@@ -169,11 +169,11 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         if (is_array($redirect)) {
             if (array_key_exists('route', $redirect)) {
-                return $this->app['url']->route($redirect['route'], $redirect['parameters'] ?? []);
+                return $this->app->make('url')->route($redirect['route'], $redirect['parameters'] ?? []);
             }
 
             if (array_key_exists('action', $redirect)) {
-                return $this->app['url']->action($redirect['action'], $redirect['parameters'] ?? []);
+                return $this->app->make('url')->action($redirect['action'], $redirect['parameters'] ?? []);
             }
 
             throw new InvalidArgumentException(
