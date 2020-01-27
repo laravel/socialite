@@ -108,12 +108,12 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         $lastName = Arr::get($user, 'lastName.localized.'.$preferredLocale);
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
-        $avatar = Arr::first(Arr::where($images, function ($image) {
+        $avatar = Arr::first($images, function ($image) {
             return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 100;
-        }));
-        $originalAvatar = Arr::first(Arr::where($images, function ($image) {
+        });
+        $originalAvatar = Arr::first($images, function ($image) {
             return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 800;
-        }));
+        });
 
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
