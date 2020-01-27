@@ -56,7 +56,7 @@ class LinkedInProviderTest extends TestCase
         $user = $provider->user();
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals($userId, $user->getId());
-        $this->assertEquals(null, $user->getEmail());
+        $this->assertSame($userId, $user->getId());
+        $this->assertNull($user->getEmail());
     }
 }

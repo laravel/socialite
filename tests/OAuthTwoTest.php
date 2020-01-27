@@ -76,7 +76,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('foo', $user->id);
         $this->assertSame('access_token', $user->token);
         $this->assertNull($user->refreshToken);
-        $this->assertEquals(5183085, $user->expiresIn);
+        $this->assertSame(5183085, $user->expiresIn);
     }
 
     /**
