@@ -5,6 +5,7 @@ namespace Laravel\Socialite\Tests;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use Laravel\Socialite\One\User as SocialiteUser;
 use Laravel\Socialite\Tests\Fixtures\OAuthOneTestProviderStub;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
@@ -66,11 +67,10 @@ class OAuthOneTest extends TestCase
         $this->assertSame(['extra' => 'extra'], $user->user);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testExceptionIsThrownWhenVerifierIsMissing()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $server = m::mock(Twitter::class);
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
