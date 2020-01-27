@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Tests\Fixtures\FacebookTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
+use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\User;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
@@ -79,11 +80,10 @@ class OAuthTwoTest extends TestCase
         $this->assertEquals(5183085, $user->expiresIn);
     }
 
-    /**
-     * @expectedException \Laravel\Socialite\Two\InvalidStateException
-     */
     public function testExceptionIsThrownIfStateIsInvalid()
     {
+        $this->expectException(InvalidStateException::class);
+
         $request = Request::create('foo', 'GET', ['state' => str_repeat('B', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
@@ -91,11 +91,10 @@ class OAuthTwoTest extends TestCase
         $provider->user();
     }
 
-    /**
-     * @expectedException \Laravel\Socialite\Two\InvalidStateException
-     */
     public function testExceptionIsThrownIfStateIsNotSet()
     {
+        $this->expectException(InvalidStateException::class);
+
         $request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $session->shouldReceive('pull')->once()->with('state');
