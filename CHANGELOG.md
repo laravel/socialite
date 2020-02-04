@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.1...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.2...master)
+
+
+## [v4.3.2 (2020-02-04)](https://github.com/laravel/socialite/compare/v4.3.1...v4.3.2)
+
+### Fixed
+- Use Authorization header for Github provider ([#430](https://github.com/laravel/socialite/pull/430))
 
 
 ## [v4.3.1 (2019-11-26)](https://github.com/laravel/socialite/compare/v4.3.0...v4.3.1)
