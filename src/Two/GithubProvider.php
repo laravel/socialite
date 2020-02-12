@@ -35,10 +35,10 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://api.github.com/user?access_token='.$token;
+        $userUrl = 'https://api.github.com/user';
 
         $response = $this->getHttpClient()->get(
-            $userUrl, $this->getRequestOptions()
+            $userUrl, $this->getRequestOptions($token)
         );
 
         $user = json_decode($response->getBody(), true);
@@ -53,16 +53,16 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the email for the given access token.
      *
-     * @param  string  $token
+     * @param string $token
      * @return string|null
      */
     protected function getEmailByToken($token)
     {
-        $emailsUrl = 'https://api.github.com/user/emails?access_token='.$token;
+        $emailsUrl = 'https://api.github.com/user/emails';
 
         try {
             $response = $this->getHttpClient()->get(
-                $emailsUrl, $this->getRequestOptions()
+                $emailsUrl, $this->getRequestOptions($token)
             );
         } catch (Exception $e) {
             return;
@@ -81,21 +81,26 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['login'], 'name' => Arr::get($user, 'name'),
-            'email' => Arr::get($user, 'email'), 'avatar' => $user['avatar_url'],
+            'id' => $user['id'],
+            'nickname' => $user['login'],
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => $user['avatar_url'],
         ]);
     }
 
     /**
      * Get the default options for an HTTP request.
      *
+     * @param string $token
      * @return array
      */
-    protected function getRequestOptions()
+    protected function getRequestOptions($token)
     {
         return [
             'headers' => [
                 'Accept' => 'application/vnd.github.v3+json',
+                'Authorization' => 'token ' . $token,
             ],
         ];
     }
