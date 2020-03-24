@@ -5,6 +5,7 @@ namespace Laravel\Socialite\Tests;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Laravel\Socialite\One\MissingTemporaryCredentialsException;
 use Laravel\Socialite\One\MissingVerifierException;
 use Laravel\Socialite\One\User as SocialiteUser;
 use Laravel\Socialite\Tests\Fixtures\OAuthOneTestProviderStub;
@@ -74,6 +75,19 @@ class OAuthOneTest extends TestCase
         $server = m::mock(Twitter::class);
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
+
+        $provider = new OAuthOneTestProviderStub($request, $server);
+        $provider->user();
+    }
+
+    public function testExceptionIsThrownWhenTemporaryCredentialsAreMissing()
+    {
+        $this->expectException(MissingTemporaryCredentialsException::class);
+
+        $server = m::mock(Twitter::class);
+        $request = Request::create('foo', 'GET', ['oauth_token' => 'oauth_token', 'oauth_verifier' => 'oauth_verifier']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $session->shouldReceive('get')->once()->with('oauth.temp')->andReturn(null);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $provider->user();
