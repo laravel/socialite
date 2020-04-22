@@ -43,6 +43,7 @@ class OAuthTwoTest extends TestCase
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->shouldReceive('save');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
@@ -64,6 +65,7 @@ class OAuthTwoTest extends TestCase
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setSession($session = m::mock(SessionInterface::class));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->shouldReceive('save');
         $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
@@ -87,6 +89,7 @@ class OAuthTwoTest extends TestCase
         $request = Request::create('foo', 'GET', ['state' => str_repeat('B', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->shouldReceive('save');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }
@@ -98,6 +101,7 @@ class OAuthTwoTest extends TestCase
         $request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $session->shouldReceive('pull')->once()->with('state');
+        $session->shouldReceive('save');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }
