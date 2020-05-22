@@ -156,7 +156,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the authentication URL for the provider.
+     * Build the authentication URL for the provider from base.
      *
      * @param  string  $url
      * @param  string  $state
