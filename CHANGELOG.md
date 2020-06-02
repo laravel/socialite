@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.3.2...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.4.0...4.0)
+
+
+## [v4.4.0 (2020-06-02)](https://github.com/laravel/socialite/compare/v4.3.2...v4.4.0)
+
+### Added
+- Support Guzzle 7 ([#449](https://github.com/laravel/socialite/pull/449))
+
+### Removed
+- Remove guzzlehttp/guzzle ~5.0 workaround ([#448](https://github.com/laravel/socialite/pull/448))
 
 
 ## [v4.3.2 (2020-02-04)](https://github.com/laravel/socialite/compare/v4.3.1...v4.3.2)
