@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.4.0...4.0)
+## [Unreleased](https://github.com/laravel/socialite/compare/v4.4.1...4.0)
+
+
+## [v4.4.1 (2020-06-03)](https://github.com/laravel/socialite/compare/v4.4.1...v4.4.1)
+
+### Fixed
+- Fix containter call ([#450](https://github.com/laravel/socialite/pull/450))
 
 
 ## [v4.4.0 (2020-06-02)](https://github.com/laravel/socialite/compare/v4.3.2...v4.4.0)
