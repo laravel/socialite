@@ -29,11 +29,12 @@ class OAuthOneTest extends TestCase
     public function testRedirectGeneratesTheProperIlluminateRedirectResponse()
     {
         $server = m::mock(Twitter::class);
-        $server->shouldReceive('getTemporaryCredentials')->once()->andReturn('temp');
-        $server->shouldReceive('getAuthorizationUrl')->once()->with('temp')->andReturn('http://auth.url');
+        $temp = m::mock(TemporaryCredentials::class);
+        $server->shouldReceive('getTemporaryCredentials')->once()->andReturn($temp);
+        $server->shouldReceive('getAuthorizationUrl')->once()->with($temp)->andReturn('http://auth.url');
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('put')->once()->with('oauth.temp', 'temp');
+        $session->shouldReceive('put')->once()->with('oauth.temp', $temp);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $response = $provider->redirect();
