@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.0...master)
 
 
 ## [v5.0.0 (2020-09-08)](https://github.com/laravel/socialite/compare/v4.4.1...v5.0.0)
