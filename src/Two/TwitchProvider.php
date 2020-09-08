@@ -68,7 +68,7 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
-                'client-id' => $this->clientId
+                'client-id' => $this->clientId,
             ],
         ]);
 
@@ -85,7 +85,7 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
             'nickname' => Arr::get($user, 'data.0.login'),
             'name' => Arr::get($user, 'data.0.display_name'),
             'email' => Arr::get($user, 'data.0.email'),
-            'avatar' => Arr::get($user, 'data.0.profile_image_url')
+            'avatar' => Arr::get($user, 'data.0.profile_image_url'),
         ]);
     }
 }
