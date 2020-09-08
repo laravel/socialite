@@ -1,6 +1,17 @@
 # Upgrade Guide
 
-## Upgrading To 4.0 From 3.0
+## Upgrading To 5.0 From 4.x
+
+### Minimum PHP Version
+
+PHP 7.2 is now the minimum required version.
+
+### Minimum Laravel Version
+
+Laravel 6.0 is now the minimum required version.
+
+
+## Upgrading To 4.0 From 3.x
 
 ### PHP & Laravel Version Requirements
 
