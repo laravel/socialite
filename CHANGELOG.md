@@ -1,9 +1,24 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v4.4.1...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.0...master)
 
 
-## [v4.4.1 (2020-06-03)](https://github.com/laravel/socialite/compare/v4.4.1...v4.4.1)
+## [v5.0.0 (2020-09-08)](https://github.com/laravel/socialite/compare/v4.4.1...v5.0.0)
+
+### Added
+- Add custom exceptions for providers of One ([#440](https://github.com/laravel/socialite/pull/440))
+- Support Laravel 8 ([#465](https://github.com/laravel/socialite/pull/465), [#466](https://github.com/laravel/socialite/pull/466))
+
+### Changed
+- Only use the `read_user` scope for GitLab by default ([#403](https://github.com/laravel/socialite/pull/403))
+
+### Removed
+- Drop Laravel 5.7 support ([0bd64ae](https://github.com/laravel/socialite/commit/0bd64aefccf9b4d4dfee79ebe111003e392b1628))
+- Drop Laravel 5.8 support ([4757ec4c](https://github.com/laravel/socialite/commit/4757ec4cc689e457fb161dd0afed4845a26cedff))
+- Drop PHP 7.1 support ([6e21f1a](https://github.com/laravel/socialite/commit/6e21f1abdde6cd7a8deb4d5c1d2fb5d89dede6e7))
+
+
+## [v4.4.1 (2020-06-03)](https://github.com/laravel/socialite/compare/v4.4.0...v4.4.1)
 
 ### Fixed
 - Fix containter call ([#450](https://github.com/laravel/socialite/pull/450))
