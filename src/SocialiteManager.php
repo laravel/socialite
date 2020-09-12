@@ -91,7 +91,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createBitbucketDriver()
     {
-        $config = $this->config->get('services.linkedin');
+        $config = $this->config->get('services.bitbucket');
 
         return $this->buildProvider(
           BitbucketProvider::class, $config
