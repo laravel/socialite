@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.1...5.x)
+
+
+## [v5.0.1 (2020-09-12)](https://github.com/laravel/socialite/compare/v5.0.0...v5.0.1)
+
+### Fixed
+- Fix bitbucket provider ([#475](https://github.com/laravel/socialite/pull/475))
 
 
 ## [v5.0.0 (2020-09-08)](https://github.com/laravel/socialite/compare/v4.4.1...v5.0.0)
