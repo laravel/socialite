@@ -54,6 +54,15 @@ abstract class AbstractProvider implements ProviderContract
     protected $parameters = [];
 
     /**
+     * The custom parameters to be sent inside the callback URI parameter of the request.
+     * This way, parameters can be passed two-way from the function starting the redirection
+     * to the provider and back to the function handling the response.
+     *
+     * @var array
+     */
+    protected $callbackUriParameters = [];
+
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -183,6 +192,16 @@ abstract class AbstractProvider implements ProviderContract
 
         if ($this->usesState()) {
             $fields['state'] = $state;
+        }
+
+        if (count($this->callbackUriParameters) > 0) {
+            $query = http_build_query($this->callbackUriParameters);
+
+            // the parameters are inserted before the first #, if any,
+            // and with the proper separator (? or &)
+            $parts = explode('#', $fields['redirect_uri']);
+            $parts[0] .= (strpos($parts[0], '?') === false ? '?' : '&') . $query;
+            $fields['redirect_uri'] = implode('#', $parts);
         }
 
         return array_merge($fields, $this->parameters);
@@ -431,6 +450,19 @@ abstract class AbstractProvider implements ProviderContract
     public function with(array $parameters)
     {
         $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Add custom parameters to the callback URI.
+     *
+     * @param  array  $parameters
+     * @return $this
+     */
+    public function inCallbackUri(array $parameters)
+    {
+        $this->callbackUriParameters = $parameters;
 
         return $this;
     }
