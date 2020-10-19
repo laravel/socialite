@@ -274,6 +274,7 @@ abstract class AbstractProvider implements ProviderContract
     protected function getTokenFields($code)
     {
         return [
+            'grant_type' => 'authorization_code',
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
             'code' => $code,
