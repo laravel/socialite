@@ -37,17 +37,6 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getUserByToken($token)
