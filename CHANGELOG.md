@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.2...5.x)
+
+
+## [v5.0.2 (2020-10-20)](https://github.com/laravel/socialite/compare/v5.0.1...v5.0.2)
+
+### Fixed
+- Include `grant_type=authorization` code in token request parameters ([#488](https://github.com/laravel/socialite/pull/488))
 
 
 ## [v5.0.1 (2020-09-12)](https://github.com/laravel/socialite/compare/v5.0.0...v5.0.1)
