@@ -110,15 +110,4 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
 
         return json_decode($response->getBody(), true)['access_token'];
     }
-
-    /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-    }
 }
