@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.2...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.3...5.x)
+
+## [v5.0.3 (2020-10-21)](https://github.com/laravel/socialite/compare/v5.0.2...v5.0.3)
+
+### Fixed
+- Include access token when requesting Facebook user profile photo ([#489](https://github.com/laravel/socialite/pull/489))
 
 
 ## [v5.0.2 (2020-10-20)](https://github.com/laravel/socialite/compare/v5.0.1...v5.0.2)
