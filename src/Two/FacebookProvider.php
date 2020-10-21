@@ -49,11 +49,11 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $reRequest = false;
 
     /**
-     * User access token.
+     * The access token that was last used to retrieve a user.
      *
      * @var string|null
      */
-    private $fbAccesToken;
+    protected $lastToken;
 
     /**
      * {@inheritdoc}
@@ -90,7 +90,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $this->fbAccesToken = $token;
+        $this->lastToken = $token;
 
         $meUrl = $this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
@@ -114,7 +114,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture?access_token='.$this->fbAccesToken;
+        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture?access_token='.$this->lastToken;
 
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
