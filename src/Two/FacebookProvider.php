@@ -49,6 +49,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $reRequest = false;
 
     /**
+     * User access token.
+     *
+     * @var string|null
+     */
+    private $fbAccesToken;
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -83,6 +90,8 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
+        $this->fbAccesToken = $token;
+
         $meUrl = $this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
         if (! empty($this->clientSecret)) {
@@ -105,15 +114,15 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
+        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture?access_token=' . $this->fbAccesToken;
 
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => null,
             'name' => $user['name'] ?? null,
             'email' => $user['email'] ?? null,
-            'avatar' => $avatarUrl.'?type=normal',
-            'avatar_original' => $avatarUrl.'?width=1920',
+            'avatar' => $avatarUrl.'&type=normal',
+            'avatar_original' => $avatarUrl.'&width=1920',
             'profileUrl' => $user['link'] ?? null,
         ]);
     }
