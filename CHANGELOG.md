@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.0.3...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.0...5.x)
+
+
+## [v5.1.0 (2020-11-03)](https://github.com/laravel/socialite/compare/v5.0.3...v5.1.0)
+
+### Added
+- PHP 8 Support ([#495](https://github.com/laravel/socialite/pull/495))
+
 
 ## [v5.0.3 (2020-10-21)](https://github.com/laravel/socialite/compare/v5.0.2...v5.0.3)
 
