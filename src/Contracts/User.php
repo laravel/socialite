@@ -38,4 +38,11 @@ interface User
      * @return string
      */
     public function getAvatar();
+
+    /**
+     * Get the raw user array.
+     *
+     * @return array
+     */
+    public function getRaw();
 }
