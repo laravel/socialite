@@ -50,7 +50,9 @@ abstract class AbstractUser implements ArrayAccess, User
     public $user;
 
     /**
-     * {@inheritDoc}
+     * Get the unique identifier for the user.
+     *
+     * @return string
      */
     public function getId()
     {
@@ -58,7 +60,9 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * {@inheritDoc}
+     * Get the nickname / username for the user.
+     *
+     * @return string
      */
     public function getNickname()
     {
@@ -66,7 +70,9 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * {@inheritDoc}
+     * Get the full name of the user.
+     *
+     * @return string
      */
     public function getName()
     {
@@ -74,7 +80,9 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * {@inheritDoc}
+     * Get the e-mail address of the user.
+     *
+     * @return string
      */
     public function getEmail()
     {
@@ -82,7 +90,9 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * {@inheritDoc}
+     * Get the avatar / image URL for the user.
+     *
+     * @return string
      */
     public function getAvatar()
     {
@@ -90,7 +100,9 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * {@inheritDoc}
+     * Get the raw user array.
+     *
+     * @return array
      */
     public function getRaw()
     {
