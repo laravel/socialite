@@ -89,9 +89,9 @@ abstract class AbstractProvider implements ProviderContract
     protected $guzzle = [];
 
     /**
-     * Cached user instance for the authenticated user.
+     * The cached user instance.
      *
-     * @var User|null
+     * @var \Laravel\Socialite\Two\User|null
      */
     protected $user;
 
