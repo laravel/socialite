@@ -89,6 +89,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $guzzle = [];
 
     /**
+     * The cached user instance.
+     *
+     * @var \Laravel\Socialite\Two\User|null
+     */
+    protected $user;
+
+    /**
      * Create a new provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -205,17 +212,21 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function user()
     {
+        if ($this->user) {
+            return $this->user;
+        }
+
         if ($this->hasInvalidState()) {
             throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $user = $this->mapUserToObject($this->getUserByToken(
+        $this->user = $this->mapUserToObject($this->getUserByToken(
             $token = Arr::get($response, 'access_token')
         ));
 
-        return $user->setToken($token)
+        return $this->user->setToken($token)
                     ->setRefreshToken(Arr::get($response, 'refresh_token'))
                     ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
