@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.1...5.x)
+
+
+## [v5.1.1 (2020-11-24)](https://github.com/laravel/socialite/compare/v5.1.0...v5.1.1)
+
+### Changed
+- Cache User instance to allow `$provider->user()` to be called multiple times ([#498](https://github.com/laravel/socialite/pull/498))
 
 
 ## [v5.1.0 (2020-11-03)](https://github.com/laravel/socialite/compare/v5.0.3...v5.1.0)
