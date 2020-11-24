@@ -55,6 +55,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('access_token', $user->token);
         $this->assertSame('refresh_token', $user->refreshToken);
         $this->assertSame(3600, $user->expiresIn);
+        $this->assertSame($user->id, $provider->user()->id);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
@@ -75,6 +76,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('access_token', $user->token);
         $this->assertNull($user->refreshToken);
         $this->assertSame(5183085, $user->expiresIn);
+        $this->assertSame($user->id, $provider->user()->id);
     }
 
     public function testExceptionIsThrownIfStateIsInvalid()
