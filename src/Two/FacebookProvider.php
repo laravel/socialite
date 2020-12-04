@@ -146,6 +146,16 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * Get the last access token used.
+     *
+     * @return string|null
+     */
+    public function lastToken()
+    {
+        return $this->lastToken;
+    }
+
+    /**
      * Set the user fields to request from Facebook.
      *
      * @param  array  $fields
