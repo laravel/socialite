@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.1...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.2...master)
+
+
+## [v5.1.2 (2020-12-04)](https://github.com/laravel/socialite/compare/v5.1.1...v5.1.2)
+
+### Security
+- Revert Facebook picture access token changes ([#504](https://github.com/laravel/socialite/pull/504))
 
 
 ## [v5.1.1 (2020-11-24)](https://github.com/laravel/socialite/compare/v5.1.0...v5.1.1)
