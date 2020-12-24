@@ -12,11 +12,27 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['read_user'];
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = '+';
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://gitlab.com/oauth/authorize', $state);
+        $url = 'https://gitlab.com/oauth/authorize?';
+
+        $fields = $this->getCodeFields($state);
+        if (! empty($fields['scope'])) {
+            // Gitlab scopes should not be urlencoded
+            $url .= 'scope='.$fields['scope'].'&';
+            unset($fields['scope']);
+        }
+
+        return $url.http_build_query($fields, '', '&', $this->encodingType);
     }
 
     /**
