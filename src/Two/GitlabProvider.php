@@ -12,12 +12,16 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['read_user'];
 
     /**
+     * The Gitlab instance host.
+     *
      * @var string
      */
     protected $host = 'https://gitlab.com';
 
     /**
-     * @param string|null $host
+     * Set the Gitlab instance host.
+     *
+     * @param  string|null  $host
      * @return $this
      */
     public function setHost($host)
