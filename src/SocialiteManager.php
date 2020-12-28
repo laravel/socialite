@@ -109,7 +109,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             GitlabProvider::class, $config
-        );
+        )->setHost($config['host'] ?? null);
     }
 
     /**
