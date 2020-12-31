@@ -12,6 +12,13 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['read_user'];
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
      * The Gitlab instance host.
      *
      * @var string
