@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.2...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.3...master)
+
+
+## [v5.1.3 (2021-01-05)](https://github.com/laravel/socialite/compare/v5.1.2...v5.1.3)
+
+### Added
+- Added support for self hosted Gitlab instances ([#510](https://github.com/laravel/socialite/pull/510))
+
+### Fixed
+- Fix scope separator in Gitlab provider ([#512](https://github.com/laravel/socialite/pull/512))
 
 
 ## [v5.1.2 (2020-12-04)](https://github.com/laravel/socialite/compare/v5.1.1...v5.1.2)

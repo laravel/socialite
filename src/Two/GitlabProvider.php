@@ -12,11 +12,40 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['read_user'];
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * The Gitlab instance host.
+     *
+     * @var string
+     */
+    protected $host = 'https://gitlab.com';
+
+    /**
+     * Set the Gitlab instance host.
+     *
+     * @param  string|null  $host
+     * @return $this
+     */
+    public function setHost($host)
+    {
+        if (! empty($host)) {
+            $this->host = rtrim($host, '/');
+        }
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://gitlab.com/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->host.'/oauth/authorize', $state);
     }
 
     /**
@@ -24,7 +53,7 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://gitlab.com/oauth/token';
+        return $this->host.'/oauth/token';
     }
 
     /**
@@ -32,7 +61,7 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://gitlab.com/api/v3/user?access_token='.$token;
+        $userUrl = $this->host.'/api/v3/user?access_token='.$token;
 
         $response = $this->getHttpClient()->get($userUrl);
 
