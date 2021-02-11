@@ -58,7 +58,7 @@ class OAuthTwoTest extends TestCase
         $request->setLaravelSession($session = m::mock(Session::class));
 
         $state = null;
-        $closure = function($name, $value) use (&$state, &$codeVerifier) {
+        $sessionPutClosure = function($name, $value) use (&$state) {
             if ($name === 'state') {
                 $state = $value;
 
@@ -72,14 +72,14 @@ class OAuthTwoTest extends TestCase
             return false;
         };
 
-        $codeVerifierClosure = function($name) {
+        $sessionPullClosure = function($name) {
             if ($name === 'code_verifier') {
                 return self::$codeVerifier;
             }
         };
 
-        $session->shouldReceive('put')->twice()->withArgs($closure);
-        $session->shouldReceive('pull')->once()->with('code_verifier')->andReturnUsing($codeVerifierClosure);
+        $session->shouldReceive('put')->twice()->withArgs($sessionPutClosure);
+        $session->shouldReceive('pull')->once()->with('code_verifier')->andReturnUsing($sessionPullClosure);
 
         $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
