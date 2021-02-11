@@ -31,13 +31,14 @@ class OAuthTwoTest extends TestCase
         $request->setLaravelSession($session = m::mock(Session::class));
 
         $state = null;
-        $closure = function($name, $stateInput) use(&$state) {
-            if($name == 'state') {
+        $closure = function($name, $stateInput) use (&$state) {
+            if ($name === 'state') {
                 $state = $stateInput;
+
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         };
 
         $session->shouldReceive('put')->once()->withArgs($closure);
@@ -57,20 +58,22 @@ class OAuthTwoTest extends TestCase
         $request->setLaravelSession($session = m::mock(Session::class));
 
         $state = null;
-        $closure = function($name, $value) use(&$state, &$codeVerifier) {
-            if($name == 'state') {
+        $closure = function($name, $value) use (&$state, &$codeVerifier) {
+            if ($name === 'state') {
                 $state = $value;
+
                 return true;
-            } elseif($name == 'code_verifier') {
+            } elseif ($name === 'code_verifier') {
                 self::$codeVerifier = $value;
+
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         };
 
         $codeVerifierClosure = function($name) {
-            if($name == 'code_verifier') {
+            if ($name === 'code_verifier') {
                 return self::$codeVerifier;
             }
         };

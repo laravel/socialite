@@ -475,7 +475,8 @@ abstract class AbstractProvider implements ProviderContract
     {
         $verifier = $this->request->session()->pull('code_verifier');
         $hashed = hash('sha256', $verifier, true);
-        return rtrim(strtr(base64_encode($hashed), '+/', '-_'), '='); // base64-URL-encoding
+
+        return rtrim(strtr(base64_encode($hashed), '+/', '-_'), '=');
     }
 
     protected function getCodeChallengeMethod() 
