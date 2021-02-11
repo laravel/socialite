@@ -14,6 +14,13 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected $scopeSeparator = ' ';
 
     /**
+     * Indicates if PKCE should be used.
+     *
+     * @var bool
+     */
+    protected $usesPKCE = true;
+
+    /**
      * The scopes being requested.
      *
      * @var array

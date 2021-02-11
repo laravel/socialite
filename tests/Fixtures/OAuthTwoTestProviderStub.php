@@ -16,7 +16,7 @@ class OAuthTwoTestProviderStub extends AbstractProvider
 
     protected function getAuthUrl($state)
     {
-        return 'http://auth.url';
+        return $this->buildAuthUrlFromBase('http://auth.url', $state);
     }
 
     protected function getTokenUrl()
