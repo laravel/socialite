@@ -483,8 +483,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getCodeChallenge()
     {
-        $verifier = $this->request->session()->pull('code_verifier');
-        $hashed = hash('sha256', $verifier, true);
+        $hashed = hash('sha256', $this->request->session()->pull('code_verifier'), true);
 
         return rtrim(strtr(base64_encode($hashed), '+/', '-_'), '=');
     }
