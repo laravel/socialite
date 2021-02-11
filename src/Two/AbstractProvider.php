@@ -466,12 +466,22 @@ abstract class AbstractProvider implements ProviderContract
         return $this->usesPKCE;
     }
 
+    /**
+     * Generates a random string of the right length for the PKCE code verifier.
+     *
+     * @return string
+     */
     protected function getCodeVerifier()
     {
         return Str::random(96);
     }
 
-    protected function getCodeChallenge() 
+    /**
+     * Generates the PKCE code challenge based on the PKCE code verifier in the session.
+     *
+     * @return string
+     */
+    protected function getCodeChallenge()
     {
         $verifier = $this->request->session()->pull('code_verifier');
         $hashed = hash('sha256', $verifier, true);
@@ -479,10 +489,16 @@ abstract class AbstractProvider implements ProviderContract
         return rtrim(strtr(base64_encode($hashed), '+/', '-_'), '=');
     }
 
-    protected function getCodeChallengeMethod() 
+    /**
+     * Returns the hash method used to calculate the PKCE code challenge
+     *
+     * @return string
+     */
+    protected function getCodeChallengeMethod()
     {
         return 'S256';
     }
+
     /**
      * Set the custom parameters of the request.
      *
