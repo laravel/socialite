@@ -31,7 +31,7 @@ class OAuthTwoTest extends TestCase
         $request->setLaravelSession($session = m::mock(Session::class));
 
         $state = null;
-        $closure = function($name, $stateInput) use (&$state) {
+        $closure = function ($name, $stateInput) use (&$state) {
             if ($name === 'state') {
                 $state = $stateInput;
 
@@ -58,7 +58,7 @@ class OAuthTwoTest extends TestCase
         $request->setLaravelSession($session = m::mock(Session::class));
 
         $state = null;
-        $sessionPutClosure = function($name, $value) use (&$state) {
+        $sessionPutClosure = function ($name, $value) use (&$state) {
             if ($name === 'state') {
                 $state = $value;
 
@@ -72,7 +72,7 @@ class OAuthTwoTest extends TestCase
             return false;
         };
 
-        $sessionPullClosure = function($name) {
+        $sessionPullClosure = function ($name) {
             if ($name === 'code_verifier') {
                 return self::$codeVerifier;
             }

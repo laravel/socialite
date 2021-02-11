@@ -489,7 +489,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Returns the hash method used to calculate the PKCE code challenge
+     * Returns the hash method used to calculate the PKCE code challenge.
      *
      * @return string
      */
