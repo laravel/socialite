@@ -5,6 +5,7 @@ namespace Laravel\Socialite\Tests;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Tests\Fixtures\FacebookTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoWithPKCETestProviderStub;
@@ -15,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Illuminate\Support\Str;
 
 class OAuthTwoTest extends TestCase
 {
