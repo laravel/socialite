@@ -309,7 +309,7 @@ abstract class AbstractProvider implements ProviderContract
         ];
 
         if ($this->usesPKCE()) {
-            $field['code_verifier'] = $this->request->session()->pull('code_verifier');
+            $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
         }
 
         return $fields;
@@ -483,7 +483,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getCodeChallenge()
     {
-        $hashed = hash('sha256', $this->request->session()->pull('code_verifier'), true);
+        $hashed = hash('sha256', $this->request->session()->get('code_verifier'), true);
 
         return rtrim(strtr(base64_encode($hashed), '+/', '-_'), '=');
     }
