@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.3...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.0...5.x)
+
+
+## [v5.2.0 (2021-02-16)](https://github.com/laravel/socialite/compare/v5.1.3...v5.2.0)
+
+### Added
+- Add support for OAuth 2.0 PKCE extension ([#518](https://github.com/laravel/socialite/pull/518))
 
 
 ## [v5.1.3 (2021-01-05)](https://github.com/laravel/socialite/compare/v5.1.2...v5.1.3)
