@@ -5,8 +5,10 @@ namespace Laravel\Socialite\Tests;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Tests\Fixtures\FacebookTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
+use Laravel\Socialite\Tests\Fixtures\OAuthTwoWithPKCETestProviderStub;
 use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\User;
 use Mockery as m;
@@ -24,17 +26,93 @@ class OAuthTwoTest extends TestCase
         m::close();
     }
 
-    public function testRedirectGeneratesTheProperIlluminateRedirectResponse()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithoutPKCE()
     {
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('put')->once();
+
+        $state = null;
+        $closure = function ($name, $stateInput) use (&$state) {
+            if ($name === 'state') {
+                $state = $stateInput;
+
+                return true;
+            }
+
+            return false;
+        };
+
+        $session->shouldReceive('put')->once()->withArgs($closure);
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
 
         $this->assertInstanceOf(SymfonyRedirectResponse::class, $response);
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertSame('http://auth.url', $response->getTargetUrl());
+        $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code&state='.$state, $response->getTargetUrl());
+    }
+
+    private static $codeVerifier = null;
+
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithPKCE()
+    {
+        $request = Request::create('foo');
+        $request->setLaravelSession($session = m::mock(Session::class));
+
+        $state = null;
+        $sessionPutClosure = function ($name, $value) use (&$state) {
+            if ($name === 'state') {
+                $state = $value;
+
+                return true;
+            } elseif ($name === 'code_verifier') {
+                self::$codeVerifier = $value;
+
+                return true;
+            }
+
+            return false;
+        };
+
+        $sessionPullClosure = function ($name) {
+            if ($name === 'code_verifier') {
+                return self::$codeVerifier;
+            }
+        };
+
+        $session->shouldReceive('put')->twice()->withArgs($sessionPutClosure);
+        $session->shouldReceive('get')->once()->with('code_verifier')->andReturnUsing($sessionPullClosure);
+
+        $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+        $response = $provider->redirect();
+
+        $codeChallenge = rtrim(strtr(base64_encode(hash('sha256', self::$codeVerifier, true)), '+/', '-_'), '=');
+
+        $this->assertInstanceOf(SymfonyRedirectResponse::class, $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code&state='.$state.'&code_challenge='.$codeChallenge.'&code_challenge_method=S256', $response->getTargetUrl());
+    }
+
+    public function testTokenRequestIncludesPKCECodeVerifier()
+    {
+        $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $codeVerifier = Str::random(32);
+        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->shouldReceive('pull')->once()->with('code_verifier')->andReturn($codeVerifier);
+        $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->shouldReceive('post')->once()->with('http://token.url', [
+            'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri', 'code_verifier' => $codeVerifier],
+        ])->andReturn($response = m::mock(stdClass::class));
+        $response->shouldReceive('getBody')->once()->andReturn('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
+        $user = $provider->user();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertSame('foo', $user->id);
+        $this->assertSame('access_token', $user->token);
+        $this->assertSame('refresh_token', $user->refreshToken);
+        $this->assertSame(3600, $user->expiresIn);
+        $this->assertSame($user->id, $provider->user()->id);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
