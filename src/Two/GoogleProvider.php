@@ -25,13 +25,6 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     ];
 
     /**
-     * Indicates if PKCE should be used.
-     *
-     * @var bool
-     */
-    protected $usesPKCE = true;
-
-    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
