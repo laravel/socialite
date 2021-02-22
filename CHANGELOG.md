@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.1...5.x)
+
+
+## [v5.2.0 (2021-02-16)](https://github.com/laravel/socialite/compare/v5.2.0...v5.2.1)
+
+### Fixed
+- Make PKCE opt-in ([#523](https://github.com/laravel/socialite/pull/523))
 
 
 ## [v5.2.0 (2021-02-16)](https://github.com/laravel/socialite/compare/v5.1.3...v5.2.0)
