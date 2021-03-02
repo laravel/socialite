@@ -2,10 +2,11 @@
 
 namespace Laravel\Socialite;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory;
 
-class SocialiteServiceProvider extends ServiceProvider
+class SocialiteServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register the service provider.
@@ -27,15 +28,5 @@ class SocialiteServiceProvider extends ServiceProvider
     public function provides()
     {
         return [Factory::class];
-    }
-
-    /**
-     * Determine if the provider is deferred.
-     *
-     * @return bool
-     */
-    public function isDeferred()
-    {
-        return true;
     }
 }

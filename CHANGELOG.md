@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.1.3...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.2...master)
+
+
+## [v5.2.2 (2021-03-02)](https://github.com/laravel/socialite/compare/v5.2.1...v5.2.2)
+
+### Fixed
+- Update provider to use DeferrableProvider instead ([#529](https://github.com/laravel/socialite/pull/529))
 
 
 ## [v5.2.1 (2021-02-22)](https://github.com/laravel/socialite/compare/v5.2.0...v5.2.1)
