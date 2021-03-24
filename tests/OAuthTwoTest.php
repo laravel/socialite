@@ -178,4 +178,20 @@ class OAuthTwoTest extends TestCase
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }
+
+    public function testCanGetAuthUrl()
+    {
+        $request = Request::create('foo');
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+        $authUrl = $provider->getAuthUrl(null);
+        $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code', $authUrl);
+    }
+
+    public function testCanGetStatelessAuthUrl()
+    {
+        $request = Request::create('foo');
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+        $authUrl = $provider->stateless()->getAuthUrl(null);
+        $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code', $authUrl);
+    }
 }
