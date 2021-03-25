@@ -127,7 +127,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $state
      * @return string
      */
-    abstract protected function getAuthUrl($state);
+    abstract public function getAuthUrl($state);
 
     /**
      * Get the token URL for the provider.
