@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.2...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.3...master)
+
+
+## [v5.2.3 (2021-04-06)](https://github.com/laravel/socialite/compare/v5.2.2...v5.2.3)
+
+### Changed
+- Add reset methods for Octane ([07840c0](https://github.com/laravel/socialite/commit/07840c07e7b5cf20bb31f8bc2332776a2411695e))
 
 
 ## [v5.2.2 (2021-03-02)](https://github.com/laravel/socialite/compare/v5.2.1...v5.2.2)
