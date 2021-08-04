@@ -32,4 +32,15 @@ class TwitterProvider extends AbstractProvider
             'avatar_original' => str_replace('_normal', '', $user->imageUrl),
         ]);
     }
+
+    /**
+     * Overrides the access level an application requests to a users account.
+     *
+     * @param string $scope
+     * @return void
+     */
+    public function scope(string $scope)
+    {
+        $this->server->setApplicationScope($scope);
+    }
 }
