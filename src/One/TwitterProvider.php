@@ -34,9 +34,9 @@ class TwitterProvider extends AbstractProvider
     }
 
     /**
-     * Overrides the access level an application requests to a users account.
+     * Set the access level the application should request to the user account.
      *
-     * @param string $scope
+     * @param  string  $scope
      * @return void
      */
     public function scope(string $scope)
