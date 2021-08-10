@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.3...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.4...master)
+
+
+## [v5.2.4 (2021-08-10)](https://github.com/laravel/socialite/compare/v5.2.3...v5.2.4)
+
+### Changed
+- Handle 'scope' for Twitter Oauth1 ([#548](https://github.com/laravel/socialite/pull/548))
 
 
 ## [v5.2.3 (2021-04-06)](https://github.com/laravel/socialite/compare/v5.2.2...v5.2.3)
