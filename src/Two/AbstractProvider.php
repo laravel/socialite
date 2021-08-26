@@ -471,7 +471,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return $this
      */
-    protected function enablePKCE()
+    public function enablePKCE()
     {
         $this->usesPKCE = true;
 
