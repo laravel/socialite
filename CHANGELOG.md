@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.4...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.5...master)
+
+
+## [v5.2.5 (2021-08-31)](https://github.com/laravel/socialite/compare/v5.2.4...v5.2.5)
+
+### Changed
+- Make `enablePKCE` public ([#550](https://github.com/laravel/socialite/pull/550))
 
 
 ## [v5.2.4 (2021-08-10)](https://github.com/laravel/socialite/compare/v5.2.3...v5.2.4)
