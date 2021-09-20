@@ -7,6 +7,7 @@ use Laravel\Socialite\Contracts\Factory;
 
 /**
  * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
+ *
  * @see \Laravel\Socialite\SocialiteManager
  */
 class Socialite extends Facade
