@@ -13,6 +13,13 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['user:email'];
+    
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
