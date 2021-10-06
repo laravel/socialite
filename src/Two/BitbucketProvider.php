@@ -42,9 +42,9 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://api.bitbucket.org/2.0/user?access_token='.$token;
-
-        $response = $this->getHttpClient()->get($userUrl);
+        $response = $this->getHttpClient()->get('https://api.bitbucket.org/2.0/user', [
+            'query' => ['access_token' => $token],
+        ]);
 
         $user = json_decode($response->getBody(), true);
 

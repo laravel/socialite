@@ -36,16 +36,23 @@ class LinkedInProviderTest extends TestCase
 
         $guzzle = m::mock(Client::class);
         $guzzle->expects('post')->andReturns($accessTokenResponse);
-        $guzzle->allows('get')->with('https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))', [
+        $guzzle->allows('get')->with('https://api.linkedin.com/v2/me', [
             'headers' => [
                 'Authorization' => 'Bearer fake-token',
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
+            'query' => [
+                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
+            ],
         ])->andReturns($basicProfileResponse);
-        $guzzle->allows('get')->with('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', [
+        $guzzle->allows('get')->with('https://api.linkedin.com/v2/emailAddress', [
             'headers' => [
                 'Authorization' => 'Bearer fake-token',
                 'X-RestLi-Protocol-Version' => '2.0.0',
+            ],
+            'query' => [
+                'q' => 'members',
+                'projection' => '(elements*(handle~))',
             ],
         ])->andReturns($emailAddressResponse);
 
