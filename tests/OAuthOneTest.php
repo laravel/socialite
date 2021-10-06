@@ -30,11 +30,11 @@ class OAuthOneTest extends TestCase
     {
         $server = m::mock(Twitter::class);
         $temp = m::mock(TemporaryCredentials::class);
-        $server->shouldReceive('getTemporaryCredentials')->once()->andReturn($temp);
-        $server->shouldReceive('getAuthorizationUrl')->once()->with($temp)->andReturn('http://auth.url');
+        $server->expects('getTemporaryCredentials')->andReturns($temp);
+        $server->expects('getAuthorizationUrl')->with($temp)->andReturns('http://auth.url');
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('put')->once()->with('oauth.temp', $temp);
+        $session->expects('put')->with('oauth.temp', $temp);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $response = $provider->redirect();
@@ -47,18 +47,18 @@ class OAuthOneTest extends TestCase
     {
         $server = m::mock(Twitter::class);
         $temp = m::mock(TemporaryCredentials::class);
-        $server->shouldReceive('getTokenCredentials')->once()->with($temp, 'oauth_token', 'oauth_verifier')->andReturn(
+        $server->expects('getTokenCredentials')->with($temp, 'oauth_token', 'oauth_verifier')->andReturns(
             $token = m::mock(TokenCredentials::class)
         );
-        $server->shouldReceive('getUserDetails')->once()->with($token, false)->andReturn($user = m::mock(User::class));
-        $token->shouldReceive('getIdentifier')->twice()->andReturn('identifier');
-        $token->shouldReceive('getSecret')->twice()->andReturn('secret');
+        $server->expects('getUserDetails')->with($token, false)->andReturns($user = m::mock(User::class));
+        $token->expects('getIdentifier')->twice()->andReturns('identifier');
+        $token->expects('getSecret')->twice()->andReturns('secret');
         $user->uid = 'uid';
         $user->email = 'foo@bar.com';
         $user->extra = ['extra' => 'extra'];
         $request = Request::create('foo', 'GET', ['oauth_token' => 'oauth_token', 'oauth_verifier' => 'oauth_verifier']);
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('get')->once()->with('oauth.temp')->andReturn($temp);
+        $session->expects('get')->with('oauth.temp')->andReturns($temp);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $user = $provider->user();
@@ -88,7 +88,7 @@ class OAuthOneTest extends TestCase
         $server = m::mock(Twitter::class);
         $request = Request::create('foo', 'GET', ['oauth_token' => 'oauth_token', 'oauth_verifier' => 'oauth_verifier']);
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('get')->once()->with('oauth.temp')->andReturn(null);
+        $session->expects('get')->with('oauth.temp')->andReturns(null);
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $provider->user();
