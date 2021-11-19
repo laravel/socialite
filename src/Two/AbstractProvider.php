@@ -166,7 +166,7 @@ abstract class AbstractProvider implements ProviderContract
         }
 
         if ($this->usesPKCE()) {
-            $this->request->session()->put('code_verifier', $codeVerifier = $this->getCodeVerifier());
+            $this->request->session()->put('code_verifier', $this->getCodeVerifier());
         }
 
         return new RedirectResponse($this->getAuthUrl($state));
