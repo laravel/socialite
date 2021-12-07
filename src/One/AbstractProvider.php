@@ -144,7 +144,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function hasNecessaryVerifier()
     {
-        return $this->request->has('oauth_token') && $this->request->has('oauth_verifier');
+        return $this->request->has(['oauth_token', 'oauth_verifier']);
     }
 
     /**

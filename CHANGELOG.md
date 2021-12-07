@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.5...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.6...master)
+
+
+## [v5.2.6 (2021-12-07)](https://github.com/laravel/socialite/compare/v5.2.5...v5.2.6)
+
+### Fixed
+- Fix PHP 8.1 issues ([#567](https://github.com/laravel/socialite/pull/567))
 
 
 ## [v5.2.5 (2021-08-31)](https://github.com/laravel/socialite/compare/v5.2.4...v5.2.5)

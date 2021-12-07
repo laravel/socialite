@@ -42,7 +42,7 @@ class OAuthTwoTest extends TestCase
             return false;
         };
 
-        $session->shouldReceive('put')->once()->withArgs($closure);
+        $session->expects('put')->withArgs($closure);
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
 
@@ -79,8 +79,8 @@ class OAuthTwoTest extends TestCase
             }
         };
 
-        $session->shouldReceive('put')->twice()->withArgs($sessionPutClosure);
-        $session->shouldReceive('get')->once()->with('code_verifier')->andReturnUsing($sessionPullClosure);
+        $session->expects('put')->twice()->withArgs($sessionPutClosure);
+        $session->expects('get')->with('code_verifier')->andReturnUsing($sessionPullClosure);
 
         $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
@@ -97,14 +97,14 @@ class OAuthTwoTest extends TestCase
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
         $codeVerifier = Str::random(32);
-        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
-        $session->shouldReceive('pull')->once()->with('code_verifier')->andReturn($codeVerifier);
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
+        $session->expects('pull')->with('code_verifier')->andReturns($codeVerifier);
         $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
-        $provider->http->shouldReceive('post')->once()->with('http://token.url', [
+        $provider->http->expects('post')->with('http://token.url', [
             'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri', 'code_verifier' => $codeVerifier],
-        ])->andReturn($response = m::mock(stdClass::class));
-        $response->shouldReceive('getBody')->once()->andReturn('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
         $user = $provider->user();
 
         $this->assertInstanceOf(User::class, $user);
@@ -119,13 +119,13 @@ class OAuthTwoTest extends TestCase
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
-        $provider->http->shouldReceive('post')->once()->with('http://token.url', [
+        $provider->http->expects('post')->with('http://token.url', [
             'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
-        ])->andReturn($response = m::mock(stdClass::class));
-        $response->shouldReceive('getBody')->once()->andReturn('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
         $user = $provider->user();
 
         $this->assertInstanceOf(User::class, $user);
@@ -140,13 +140,13 @@ class OAuthTwoTest extends TestCase
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setSession($session = m::mock(SessionInterface::class));
-        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
-        $provider->http->shouldReceive('post')->once()->with('https://graph.facebook.com/v3.3/oauth/access_token', [
+        $provider->http->expects('post')->with('https://graph.facebook.com/v3.3/oauth/access_token', [
             'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
-        ])->andReturn($response = m::mock(stdClass::class));
-        $response->shouldReceive('getBody')->once()->andReturn(json_encode(['access_token' => 'access_token', 'expires' => 5183085]));
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns(json_encode(['access_token' => 'access_token', 'expires' => 5183085]));
         $user = $provider->user();
 
         $this->assertInstanceOf(User::class, $user);
@@ -163,7 +163,7 @@ class OAuthTwoTest extends TestCase
 
         $request = Request::create('foo', 'GET', ['state' => str_repeat('B', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }
@@ -174,7 +174,7 @@ class OAuthTwoTest extends TestCase
 
         $request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
-        $session->shouldReceive('pull')->once()->with('state');
+        $session->expects('pull')->with('state');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
     }

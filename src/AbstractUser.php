@@ -143,6 +143,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  string  $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->user);
@@ -154,6 +155,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  string  $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->user[$offset];
@@ -166,6 +168,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  mixed  $value
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->user[$offset] = $value;
@@ -177,6 +180,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  string  $offset
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->user[$offset]);

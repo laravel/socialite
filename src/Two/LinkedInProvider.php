@@ -55,12 +55,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getBasicProfile($token)
     {
-        $url = 'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))';
-
-        $response = $this->getHttpClient()->get($url, [
+        $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
+            ],
+            'query' => [
+                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
             ],
         ]);
 
@@ -75,12 +76,14 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getEmailAddress($token)
     {
-        $url = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))';
-
-        $response = $this->getHttpClient()->get($url, [
+        $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/emailAddress', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
+            ],
+            'query' => [
+                'q' => 'members',
+                'projection' => '(elements*(handle~))',
             ],
         ]);
 
