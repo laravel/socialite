@@ -13,6 +13,7 @@ use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
+use Laravel\Socialite\Two\SpotifyProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -110,6 +111,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
         return $this->buildProvider(
             GitlabProvider::class, $config
         )->setHost($config['host'] ?? null);
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createSpotifyDriver()
+    {
+        $config = $this->config->get('services.spotify');
+
+        return $this->buildProvider(
+          SpotifyProvider::class, $config
+        );
     }
 
     /**
