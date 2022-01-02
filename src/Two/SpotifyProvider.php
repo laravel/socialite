@@ -44,7 +44,7 @@ class SpotifyProvider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->get('https://api.spotify.com/v1/me', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer '.$token
             ]
         ]);
 
