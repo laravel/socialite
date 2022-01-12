@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.2.6...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.3.0...5.x)
+
+
+## [v5.3.0 (2022-01-12)](https://github.com/laravel/socialite/compare/v5.2.6...v5.3.0)
+
+### Changed
+- Laravel 9 Support ([#571](https://github.com/laravel/socialite/pull/571))
 
 
 ## [v5.2.6 (2021-12-07)](https://github.com/laravel/socialite/compare/v5.2.5...v5.2.6)
