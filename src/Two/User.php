@@ -29,7 +29,8 @@ class User extends AbstractUser
 
     /**
      * The scopes the users authorized.  These may be a subset of the requested scopes
-     * @var
+     *
+     * @var string
      */
     public $approvedScopes;
 
