@@ -30,7 +30,7 @@ class User extends AbstractUser
     /**
      * The scopes the users authorized.  These may be a subset of the requested scopes.
      *
-     * @var string
+     * @var array
      */
     public $approvedScopes;
 
@@ -74,7 +74,7 @@ class User extends AbstractUser
     }
 
     /**
-     * @param  string  $approvedScopes
+     * @param  array  $approvedScopes
      * @return $this
      */
     public function setApprovedScopes($approvedScopes)
