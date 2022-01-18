@@ -28,6 +28,12 @@ class User extends AbstractUser
     public $expiresIn;
 
     /**
+     * The scopes the users authorized.  These may be a subset of the requested scopes
+     * @var
+     */
+    public $approvedScopes;
+
+    /**
      * Set the token on the user.
      *
      * @param  string  $token
@@ -62,6 +68,17 @@ class User extends AbstractUser
     public function setExpiresIn($expiresIn)
     {
         $this->expiresIn = $expiresIn;
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $approvedScopes
+     * @return $this
+     */
+    public function setApprovedScopes($approvedScopes)
+    {
+        $this->approvedScopes = $approvedScopes;
 
         return $this;
     }
