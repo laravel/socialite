@@ -28,7 +28,7 @@ class User extends AbstractUser
     public $expiresIn;
 
     /**
-     * The scopes the users authorized.  These may be a subset of the requested scopes
+     * The scopes the users authorized.  These may be a subset of the requested scopes.
      *
      * @var string
      */
