@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.3.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.4.0...5.x)
+
+
+## [v5.4.0 (2022-01-25)](https://github.com/laravel/socialite/compare/v5.3.0...v5.4.0)
+
+### Added
+- Add Twitter OAuth2 provider ([#574](https://github.com/laravel/socialite/pull/574))
 
 
 ## [v5.3.0 (2022-01-12)](https://github.com/laravel/socialite/compare/v5.2.6...v5.3.0)
