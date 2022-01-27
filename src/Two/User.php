@@ -28,7 +28,7 @@ class User extends AbstractUser
     public $expiresIn;
 
     /**
-     * The scopes the users authorized.  These may be a subset of the requested scopes.
+     * The scopes the user authorized. The approved scopes may be a subset of the requested scopes.
      *
      * @var array
      */
@@ -74,6 +74,8 @@ class User extends AbstractUser
     }
 
     /**
+     * Set the scopes that were approved by the user during authentication.
+     *
      * @param  array  $approvedScopes
      * @return $this
      */
