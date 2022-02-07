@@ -68,4 +68,18 @@ class TwitterProvider extends AbstractProvider
             'avatar' => $user['profile_image_url'],
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => ['Accept' => 'application/json'],
+            'auth' => [$this->clientId, $this->clientSecret],
+            'form_params' => $this->getTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
 }
