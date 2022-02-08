@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.0...HEAD)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.1...5.x)
+
+## [v5.5.1](https://github.com/laravel/socialite/compare/v5.5.0...v5.5.1) - 2022-02-08
+
+### Fixed
+
+- Override abstract provider for Twitter's OAuth 2.0 provider ([#576](https://github.com/laravel/socialite/pull/576))
 
 ## [v5.5.0](https://github.com/laravel/socialite/compare/v5.4.0...v5.5.0) - 2022-02-01
 
