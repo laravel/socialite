@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.2...5.x)
+
+## [v5.5.2](https://github.com/laravel/socialite/compare/v5.5.1...v5.5.2) - 2022-03-15
+
+### Changed
+
+- Allow OAuth version in the Twitter config by @taylorotwell ([68afb03](https://github.com/laravel/socialite/commit/68afb03259b82d898c68196cbcacd48596a9dd72))
 
 ## [v5.5.1](https://github.com/laravel/socialite/compare/v5.5.0...v5.5.1) - 2022-02-08
 
