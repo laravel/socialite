@@ -1,5 +1,4 @@
 php:
   preset: laravel
-  version: 8.1
 js: true
 css: true
