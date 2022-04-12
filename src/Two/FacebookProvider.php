@@ -56,7 +56,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $lastToken;
 
     /**
-     * Facebook's special grant type for refresh token
+     * Facebook's special grant type for refresh token.
      *
      * @var string
      */

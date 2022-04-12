@@ -103,7 +103,7 @@ abstract class AbstractProvider implements ProviderContract
     protected $user;
 
     /**
-     * Grant type for refresh token
+     * Grant type for refresh token.
      *
      * @var string
      */
@@ -269,7 +269,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Refresh User's token
+     * Refresh User's token.
      *
      * @param  string  $token
      * @param  bool  $useScopes
@@ -356,7 +356,7 @@ abstract class AbstractProvider implements ProviderContract
             $this->refreshTokenGrantType => $token,
         ];
 
-        if ($useScopes && !empty($this->getScopes())) {
+        if ($useScopes && ! empty($this->getScopes())) {
             $fields['scope'] = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
         }
 
