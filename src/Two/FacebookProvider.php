@@ -56,6 +56,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $lastToken;
 
     /**
+     * Facebook's special grant type for refresh token
+     *
+     * @var string
+     */
+    protected $refreshTokenGrantType = 'fb_exchange_token';
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)

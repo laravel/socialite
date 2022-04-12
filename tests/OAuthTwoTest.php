@@ -136,6 +136,44 @@ class OAuthTwoTest extends TestCase
         $this->assertSame($user->id, $provider->user()->id);
     }
 
+    public function testUserRefreshesTokenWithScopes()
+    {
+        $request = Request::create('/');
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->expects('post')->with('http://token.url', [
+            'headers' => ['Content-type' => 'application/x-www-form-urlencoded'], 'form_params' => ['grant_type' => 'refresh_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'refresh_token' => 'refresh_token', 'scope' => 'read,write'],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "scope" : "read,write", "expires_in" : 3600 }');
+        $provider->setScopes(['read', 'write']);
+        $tokenResponse = $provider->refreshToken('refresh_token', true);
+
+        $this->assertIsArray($tokenResponse);
+        $this->assertSame('access_token', $tokenResponse['access_token']);
+        $this->assertSame('refresh_token', $tokenResponse['refresh_token']);
+        $this->assertSame('read,write', $tokenResponse['scope']);
+        $this->assertSame(3600, $tokenResponse['expires_in']);
+    }
+
+    public function testUserRefreshesTokenWithoutScopes()
+    {
+        $request = Request::create('/');
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->expects('post')->with('http://token.url', [
+            'headers' => ['Content-type' => 'application/x-www-form-urlencoded'], 'form_params' => ['grant_type' => 'refresh_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'refresh_token' => 'refresh_token'],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
+        $provider->setScopes(['read', 'write']);
+        $tokenResponse = $provider->refreshToken('refresh_token');
+
+        $this->assertIsArray($tokenResponse);
+        $this->assertSame('access_token', $tokenResponse['access_token']);
+        $this->assertSame('refresh_token', $tokenResponse['refresh_token']);
+        $this->assertFalse(isset($tokenResponse['scope']));
+        $this->assertSame(3600, $tokenResponse['expires_in']);
+    }
+
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
@@ -155,6 +193,25 @@ class OAuthTwoTest extends TestCase
         $this->assertNull($user->refreshToken);
         $this->assertSame(5183085, $user->expiresIn);
         $this->assertSame($user->id, $provider->user()->id);
+    }
+
+    public function testFacebookUserRefreshesTokenWithScopes()
+    {
+        $request = Request::create('/');
+        $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->expects('post')->with('https://graph.facebook.com/v3.3/oauth/access_token', [
+            'headers' => ['Content-type' => 'application/x-www-form-urlencoded'], 'form_params' => ['grant_type' => 'fb_exchange_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'fb_exchange_token' => 'refresh_token', 'scope' => 'read,write'],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "fb_exchange_token" : "refresh_token", "scope" : "read,write", "expires_in" : 3600 }');
+        $provider->setScopes(['read', 'write']);
+        $tokenResponse = $provider->refreshToken('refresh_token', true);
+
+        $this->assertIsArray($tokenResponse);
+        $this->assertSame('access_token', $tokenResponse['access_token']);
+        $this->assertSame('refresh_token', $tokenResponse['fb_exchange_token']);
+        $this->assertSame('read,write', $tokenResponse['scope']);
+        $this->assertSame(3600, $tokenResponse['expires_in']);
     }
 
     public function testExceptionIsThrownIfStateIsInvalid()

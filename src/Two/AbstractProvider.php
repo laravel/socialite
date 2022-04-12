@@ -103,6 +103,13 @@ abstract class AbstractProvider implements ProviderContract
     protected $user;
 
     /**
+     * Grant type for refresh token
+     *
+     * @var string
+     */
+    protected $refreshTokenGrantType = 'refresh_token';
+
+    /**
      * Create a new provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -262,6 +269,23 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Refresh User's token
+     *
+     * @param  string  $token
+     * @param  bool  $useScopes
+     * @return array
+     */
+    public function refreshToken($token, $useScopes = false)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => ['Content-type' => 'application/x-www-form-urlencoded'],
+            'form_params' => $this->getRefreshTokenFields($token, $useScopes),
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
      * Determine if the current request / session has a mismatching "state".
      *
      * @return bool
@@ -311,6 +335,29 @@ abstract class AbstractProvider implements ProviderContract
 
         if ($this->usesPKCE()) {
             $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Get the fields for the refresh token request.
+     *
+     * @param  string  $token
+     * @param  bool  $useScopes
+     * @return array
+     */
+    protected function getRefreshTokenFields($token, $useScopes)
+    {
+        $fields = [
+            'grant_type' => $this->refreshTokenGrantType,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            $this->refreshTokenGrantType => $token,
+        ];
+
+        if ($useScopes && !empty($this->getScopes())) {
+            $fields['scope'] = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
         }
 
         return $fields;
