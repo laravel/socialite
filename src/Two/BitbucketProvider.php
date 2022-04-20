@@ -48,7 +48,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
 
         $user = json_decode($response->getBody(), true);
 
-        if (in_array('email', $this->scopes)) {
+        if (in_array('email', $this->scopes, true)) {
             $user['email'] = $this->getEmailByToken($token);
         }
 
@@ -74,7 +74,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
         $emails = json_decode($response->getBody(), true);
 
         foreach ($emails['values'] as $email) {
-            if ($email['type'] == 'email' && $email['is_primary'] && $email['is_confirmed']) {
+            if ($email['type'] === 'email' && $email['is_primary'] && $email['is_confirmed']) {
                 return $email['email'];
             }
         }
