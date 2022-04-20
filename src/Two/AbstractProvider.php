@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -286,8 +287,8 @@ abstract class AbstractProvider implements ProviderContract
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);

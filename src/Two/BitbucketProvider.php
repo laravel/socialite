@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use Exception;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
 class BitbucketProvider extends AbstractProvider implements ProviderInterface
@@ -43,7 +44,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.bitbucket.org/2.0/user', [
-            'query' => ['access_token' => $token],
+            RequestOptions::QUERY => ['access_token' => $token],
         ]);
 
         $user = json_decode($response->getBody(), true);
@@ -103,9 +104,9 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'auth' => [$this->clientId, $this->clientSecret],
-            'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::AUTH => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true)['access_token'];
