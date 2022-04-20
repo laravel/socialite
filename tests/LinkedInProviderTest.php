@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Tests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Two\LinkedInProvider;
 use Laravel\Socialite\Two\User;
@@ -37,20 +38,20 @@ class LinkedInProviderTest extends TestCase
         $guzzle = m::mock(Client::class);
         $guzzle->expects('post')->andReturns($accessTokenResponse);
         $guzzle->allows('get')->with('https://api.linkedin.com/v2/me', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer fake-token',
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
-            'query' => [
+            RequestOptions::QUERY => [
                 'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
             ],
         ])->andReturns($basicProfileResponse);
         $guzzle->allows('get')->with('https://api.linkedin.com/v2/emailAddress', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer fake-token',
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
-            'query' => [
+            RequestOptions::QUERY => [
                 'q' => 'members',
                 'projection' => '(elements*(handle~))',
             ],

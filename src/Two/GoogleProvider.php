@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
 class GoogleProvider extends AbstractProvider implements ProviderInterface
@@ -46,10 +47,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v3/userinfo', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
             ],
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],

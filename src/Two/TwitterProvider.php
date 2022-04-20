@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
 class TwitterProvider extends AbstractProvider
@@ -49,8 +50,8 @@ class TwitterProvider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.twitter.com/2/users/me', [
-            'headers' => ['Authorization' => 'Bearer '.$token],
-            'query' => ['user.fields' => 'profile_image_url'],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
+            RequestOptions::QUERY => ['user.fields' => 'profile_image_url'],
         ]);
 
         return Arr::get(json_decode($response->getBody(), true), 'data');
@@ -75,9 +76,9 @@ class TwitterProvider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'auth' => [$this->clientId, $this->clientSecret],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::AUTH => [$this->clientId, $this->clientSecret],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);

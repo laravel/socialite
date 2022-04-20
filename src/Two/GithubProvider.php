@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Two;
 
 use Exception;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
 class GithubProvider extends AbstractProvider implements ProviderInterface
@@ -98,7 +99,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     protected function getRequestOptions($token)
     {
         return [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept' => 'application/vnd.github.v3+json',
                 'Authorization' => 'token '.$token,
             ],
