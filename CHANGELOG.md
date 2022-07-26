@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.2...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.3...5.x)
+
+## [v5.5.3](https://github.com/laravel/socialite/compare/v5.5.2...v5.5.3) - 2022-07-18
+
+### Fixed
+
+- Add Twitter OAuth 2 fallback call by @driesvints in https://github.com/laravel/socialite/pull/596
 
 ## [v5.5.2](https://github.com/laravel/socialite/compare/v5.5.1...v5.5.2) - 2022-03-15
 
