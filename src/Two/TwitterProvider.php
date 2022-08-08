@@ -29,7 +29,7 @@ class TwitterProvider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * The type of the encoding in the query.
+     * The query encoding format.
      *
      * @var int
      */
