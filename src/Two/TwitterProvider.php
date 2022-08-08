@@ -29,6 +29,13 @@ class TwitterProvider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * The query encoding format.
+     *
+     * @var int
+     */
+    protected $encodingType = PHP_QUERY_RFC3986;
+
+    /**
      * {@inheritdoc}
      */
     public function getAuthUrl($state)
@@ -82,5 +89,19 @@ class TwitterProvider extends AbstractProvider
         ]);
 
         return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if ($this->isStateless()) {
+            $fields['state'] = 'state';
+        }
+
+        return $fields;
     }
 }
