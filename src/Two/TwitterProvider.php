@@ -98,7 +98,7 @@ class TwitterProvider extends AbstractProvider
     {
         $fields = parent::getCodeFields($state);
 
-        if (! isset($fields['state']) {
+        if ($this->isStateless()) {
             $fields['state'] = 'state';
         }
 
