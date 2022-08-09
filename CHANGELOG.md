@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.3...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.4...5.x)
+
+## [v5.5.4](https://github.com/laravel/socialite/compare/v5.5.3...v5.5.4) - 2022-08-08
+
+### Fixed
+
+- Add correct encoding and the required state param by @xhezairbey in https://github.com/laravel/socialite/pull/599
 
 ## [v5.5.3](https://github.com/laravel/socialite/compare/v5.5.2...v5.5.3) - 2022-07-18
 
