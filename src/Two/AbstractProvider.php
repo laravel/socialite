@@ -287,11 +287,22 @@ abstract class AbstractProvider implements ProviderContract
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * Get the headers for the token request.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    protected function getTokenHeaders($code)
+    {
+        return ['Accept' => 'application/json'];
     }
 
     /**
