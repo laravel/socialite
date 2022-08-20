@@ -295,7 +295,7 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the headers for the token request.
+     * Get the headers for the access token request.
      *
      * @param  string  $code
      * @return array
