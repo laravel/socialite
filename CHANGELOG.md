@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.4...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.5...5.x)
+
+## [v5.5.5](https://github.com/laravel/socialite/compare/v5.5.4...v5.5.5) - 2022-08-20
+
+### Changed
+
+- Add ability to override access token request headers by @JasonTolliver in https://github.com/laravel/socialite/pull/603
 
 ## [v5.5.4](https://github.com/laravel/socialite/compare/v5.5.3...v5.5.4) - 2022-08-08
 
