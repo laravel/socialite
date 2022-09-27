@@ -74,6 +74,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      *
      * @param  string  $token
      * @return array
+     *
      * @throws GuzzleException
      */
     protected function getEmailAddress(string $token): array

@@ -28,7 +28,7 @@ class LinkedInProviderTest extends TestCase
         $accessTokenResponse->allows('getBody')->andReturns(json_encode([
             'access_token' => 'fake-token',
             'refresh_token' => 'fake-refresh-token',
-            'expires_in' => 3600
+            'expires_in' => 3600,
         ]));
 
         $basicProfileResponse = m::mock(ResponseInterface::class);
