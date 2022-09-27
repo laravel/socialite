@@ -11,9 +11,9 @@ class FacebookTestProviderStub extends FacebookProvider
     /**
      * @var \GuzzleHttp\Client|\Mockery\MockInterface
      */
-    public $http;
+    public \GuzzleHttp\Client|\Mockery\MockInterface $http;
 
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         return ['id' => 'foo'];
     }
@@ -23,7 +23,7 @@ class FacebookTestProviderStub extends FacebookProvider
      *
      * @return \GuzzleHttp\Client|\Mockery\MockInterface
      */
-    protected function getHttpClient()
+    protected function getHttpClient(): \GuzzleHttp\Client|\Mockery\MockInterface
     {
         if ($this->http) {
             return $this->http;

@@ -11,25 +11,11 @@ use League\OAuth1\Client\Server\Server;
 abstract class AbstractProvider implements ProviderContract
 {
     /**
-     * The HTTP request instance.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
-     * The OAuth server implementation.
-     *
-     * @var \League\OAuth1\Client\Server\Server
-     */
-    protected $server;
-
-    /**
      * A hash representing the last requested user.
      *
      * @var string
      */
-    protected $userHash;
+    protected string $userHash;
 
     /**
      * Create a new provider instance.
@@ -38,10 +24,8 @@ abstract class AbstractProvider implements ProviderContract
      * @param  \League\OAuth1\Client\Server\Server  $server
      * @return void
      */
-    public function __construct(Request $request, Server $server)
+    public function __construct(protected Request $request, protected Server $server)
     {
-        $this->server = $server;
-        $this->request = $request;
     }
 
     /**
@@ -49,7 +33,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function redirect()
+    public function redirect(): \Illuminate\Http\RedirectResponse
     {
         $this->request->session()->put(
             'oauth.temp', $temp = $this->server->getTemporaryCredentials()
@@ -65,7 +49,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @throws \Laravel\Socialite\One\MissingVerifierException
      */
-    public function user()
+    public function user(): \Laravel\Socialite\One\User
     {
         if (! $this->hasNecessaryVerifier()) {
             throw new MissingVerifierException('Invalid request. Missing OAuth verifier.');
@@ -96,7 +80,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $secret
      * @return \Laravel\Socialite\One\User
      */
-    public function userFromTokenAndSecret($token, $secret)
+    public function userFromTokenAndSecret(string $token, string $secret): \Laravel\Socialite\One\User
     {
         $tokenCredentials = new TokenCredentials();
 
@@ -124,7 +108,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return \League\OAuth1\Client\Credentials\TokenCredentials
      */
-    protected function getToken()
+    protected function getToken(): \League\OAuth1\Client\Credentials\TokenCredentials
     {
         $temp = $this->request->session()->get('oauth.temp');
 
@@ -142,7 +126,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return bool
      */
-    protected function hasNecessaryVerifier()
+    protected function hasNecessaryVerifier(): bool
     {
         return $this->request->has(['oauth_token', 'oauth_verifier']);
     }
@@ -154,7 +138,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $secret
      * @return bool
      */
-    protected function shouldBypassCache($token, $secret)
+    protected function shouldBypassCache(string $token, string $secret): bool
     {
         $newHash = sha1($token.'_'.$secret);
 
@@ -175,7 +159,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  \Illuminate\Http\Request  $request
      * @return $this
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
 

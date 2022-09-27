@@ -19,7 +19,7 @@ class LinkedInProviderTest extends TestCase
         m::close();
     }
 
-    public function test_it_can_map_a_user_without_an_email_address()
+    public function testItCanMapAUserWithoutAnEmailAddress(): void
     {
         $request = m::mock(Request::class);
         $request->allows('input')->with('code')->andReturns('fake-code');

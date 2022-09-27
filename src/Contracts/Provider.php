@@ -9,12 +9,12 @@ interface Provider
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
      */
-    public function redirect();
+    public function redirect(): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse;
 
     /**
      * Get the User instance for the authenticated user.
      *
      * @return \Laravel\Socialite\Contracts\User
      */
-    public function user();
+    public function user(): \Laravel\Socialite\Contracts\User;
 }

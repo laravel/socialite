@@ -12,113 +12,78 @@ use Laravel\Socialite\Contracts\Provider as ProviderContract;
 abstract class AbstractProvider implements ProviderContract
 {
     /**
-     * The HTTP request instance.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
      * The HTTP Client instance.
      *
      * @var \GuzzleHttp\Client
      */
-    protected $httpClient;
-
-    /**
-     * The client ID.
-     *
-     * @var string
-     */
-    protected $clientId;
-
-    /**
-     * The client secret.
-     *
-     * @var string
-     */
-    protected $clientSecret;
-
-    /**
-     * The redirect URL.
-     *
-     * @var string
-     */
-    protected $redirectUrl;
+    protected \GuzzleHttp\Client $httpClient;
 
     /**
      * The custom parameters to be sent with the request.
      *
      * @var array
      */
-    protected $parameters = [];
+    protected array $parameters = [];
 
     /**
      * The scopes being requested.
      *
      * @var array
      */
-    protected $scopes = [];
+    protected array $scopes = [];
 
     /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
-    protected $scopeSeparator = ',';
+    protected string $scopeSeparator = ',';
 
     /**
      * The type of the encoding in the query.
      *
      * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
      */
-    protected $encodingType = PHP_QUERY_RFC1738;
+    protected int $encodingType = PHP_QUERY_RFC1738;
 
     /**
      * Indicates if the session state should be utilized.
      *
      * @var bool
      */
-    protected $stateless = false;
+    protected bool $stateless = false;
 
     /**
      * Indicates if PKCE should be used.
      *
      * @var bool
      */
-    protected $usesPKCE = false;
-
-    /**
-     * The custom Guzzle configuration options.
-     *
-     * @var array
-     */
-    protected $guzzle = [];
+    protected bool $usesPKCE = false;
 
     /**
      * The cached user instance.
      *
      * @var \Laravel\Socialite\Two\User|null
      */
-    protected $user;
+    protected \Laravel\Socialite\Two\User|null$user;
 
     /**
      * Create a new provider instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $clientId
-     * @param  string  $clientSecret
-     * @param  string  $redirectUrl
-     * @param  array  $guzzle
+     * @param  \Illuminate\Http\Request  $request The HTTP request instance.
+     * @param  string  $clientId The client ID.
+     * @param  string  $clientSecret The client secret.
+     * @param  string  $redirectUrl The redirect URL.
+     * @param  array  $guzzle The custom Guzzle configuration options.
      * @return void
      */
-    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl, $guzzle = [])
+    public function __construct(
+        protected Request $request,
+        protected string $clientId,
+        protected string $clientSecret,
+        protected string $redirectUrl,
+        protected array $guzzle = [])
     {
-        $this->guzzle = $guzzle;
-        $this->request = $request;
-        $this->clientId = $clientId;
-        $this->redirectUrl = $redirectUrl;
-        $this->clientSecret = $clientSecret;
     }
 
     /**
@@ -127,14 +92,14 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $state
      * @return string
      */
-    abstract public function getAuthUrl($state);
+    abstract public function getAuthUrl(string $state): string;
 
     /**
      * Get the token URL for the provider.
      *
      * @return string
      */
-    abstract protected function getTokenUrl();
+    abstract protected function getTokenUrl(): string;
 
     /**
      * Get the raw user for the given access token.
@@ -142,7 +107,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $token
      * @return array
      */
-    abstract protected function getUserByToken($token);
+    abstract protected function getUserByToken(string $token): array;
 
     /**
      * Map the raw user array to a Socialite User instance.
@@ -150,14 +115,14 @@ abstract class AbstractProvider implements ProviderContract
      * @param  array  $user
      * @return \Laravel\Socialite\Two\User
      */
-    abstract protected function mapUserToObject(array $user);
+    abstract protected function mapUserToObject(array $user): \Laravel\Socialite\Two\User;
 
     /**
      * Redirect the user of the application to the provider's authentication screen.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function redirect()
+    public function redirect(): \Illuminate\Http\RedirectResponse
     {
         $state = null;
 
@@ -179,7 +144,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $state
      * @return string
      */
-    protected function buildAuthUrlFromBase($url, $state)
+    protected function buildAuthUrlFromBase(string $url, string $state): string
     {
         return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
     }
@@ -190,7 +155,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string|null  $state
      * @return array
      */
-    protected function getCodeFields($state = null)
+    protected function getCodeFields(string|null $state = null): array
     {
         $fields = [
             'client_id' => $this->clientId,
@@ -218,7 +183,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $scopeSeparator
      * @return string
      */
-    protected function formatScopes(array $scopes, $scopeSeparator)
+    protected function formatScopes(array $scopes, string $scopeSeparator): string
     {
         return implode($scopeSeparator, $scopes);
     }
@@ -226,7 +191,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * {@inheritdoc}
      */
-    public function user()
+    public function user(): \Laravel\Socialite\Two\User
     {
         if ($this->user) {
             return $this->user;
@@ -253,7 +218,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $token
      * @return \Laravel\Socialite\Two\User
      */
-    public function userFromToken($token)
+    public function userFromToken(string $token): \Laravel\Socialite\Two\User
     {
         $user = $this->mapUserToObject($this->getUserByToken($token));
 
@@ -265,7 +230,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return bool
      */
-    protected function hasInvalidState()
+    protected function hasInvalidState(): bool
     {
         if ($this->isStateless()) {
             return false;
@@ -282,7 +247,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $code
      * @return array
      */
-    public function getAccessTokenResponse($code)
+    public function getAccessTokenResponse(string $code): array
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
@@ -298,7 +263,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $code
      * @return array
      */
-    protected function getTokenFields($code)
+    protected function getTokenFields(string $code): array
     {
         $fields = [
             'grant_type' => 'authorization_code',
@@ -320,7 +285,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    protected function getCode()
+    protected function getCode(): string
     {
         return $this->request->input('code');
     }
@@ -331,7 +296,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  array|string  $scopes
      * @return $this
      */
-    public function scopes($scopes)
+    public function scopes(array|string $scopes): self
     {
         $this->scopes = array_unique(array_merge($this->scopes, (array) $scopes));
 
@@ -344,7 +309,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  array|string  $scopes
      * @return $this
      */
-    public function setScopes($scopes)
+    public function setScopes(array|string $scopes): self
     {
         $this->scopes = array_unique((array) $scopes);
 
@@ -356,7 +321,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return array
      */
-    public function getScopes()
+    public function getScopes(): array
     {
         return $this->scopes;
     }
@@ -367,7 +332,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $url
      * @return $this
      */
-    public function redirectUrl($url)
+    public function redirectUrl(string $url): self
     {
         $this->redirectUrl = $url;
 
@@ -379,7 +344,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return \GuzzleHttp\Client
      */
-    protected function getHttpClient()
+    protected function getHttpClient(): \GuzzleHttp\Client
     {
         if (is_null($this->httpClient)) {
             $this->httpClient = new Client($this->guzzle);
@@ -394,7 +359,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  \GuzzleHttp\Client  $client
      * @return $this
      */
-    public function setHttpClient(Client $client)
+    public function setHttpClient(Client $client): self
     {
         $this->httpClient = $client;
 
@@ -407,7 +372,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  \Illuminate\Http\Request  $request
      * @return $this
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
 
@@ -419,7 +384,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return bool
      */
-    protected function usesState()
+    protected function usesState(): bool
     {
         return ! $this->stateless;
     }
@@ -429,7 +394,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return bool
      */
-    protected function isStateless()
+    protected function isStateless(): bool
     {
         return $this->stateless;
     }
@@ -439,7 +404,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return $this
      */
-    public function stateless()
+    public function stateless(): self
     {
         $this->stateless = true;
 
@@ -451,7 +416,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    protected function getState()
+    protected function getState(): string
     {
         return Str::random(40);
     }
@@ -461,7 +426,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return bool
      */
-    protected function usesPKCE()
+    protected function usesPKCE(): bool
     {
         return $this->usesPKCE;
     }
@@ -471,7 +436,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return $this
      */
-    public function enablePKCE()
+    public function enablePKCE(): self
     {
         $this->usesPKCE = true;
 
@@ -483,7 +448,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    protected function getCodeVerifier()
+    protected function getCodeVerifier(): string
     {
         return Str::random(96);
     }
@@ -493,7 +458,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    protected function getCodeChallenge()
+    protected function getCodeChallenge(): string
     {
         $hashed = hash('sha256', $this->request->session()->get('code_verifier'), true);
 
@@ -505,7 +470,7 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @return string
      */
-    protected function getCodeChallengeMethod()
+    protected function getCodeChallengeMethod(): string
     {
         return 'S256';
     }
@@ -516,7 +481,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param  array  $parameters
      * @return $this
      */
-    public function with(array $parameters)
+    public function with(array $parameters): self
     {
         $this->parameters = $parameters;
 

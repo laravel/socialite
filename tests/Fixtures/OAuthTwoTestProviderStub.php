@@ -12,24 +12,24 @@ class OAuthTwoTestProviderStub extends AbstractProvider
     /**
      * @var \GuzzleHttp\Client|\Mockery\MockInterface
      */
-    public $http;
+    public \GuzzleHttp\Client|\Mockery\MockInterface $http;
 
-    public function getAuthUrl($state)
+    public function getAuthUrl(string $state): string
     {
         return $this->buildAuthUrlFromBase('http://auth.url', $state);
     }
 
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'http://token.url';
     }
 
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         return ['id' => 'foo'];
     }
 
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         return (new User)->map(['id' => $user['id']]);
     }
@@ -39,7 +39,7 @@ class OAuthTwoTestProviderStub extends AbstractProvider
      *
      * @return \GuzzleHttp\Client|\Mockery\MockInterface
      */
-    protected function getHttpClient()
+    protected function getHttpClient(): \GuzzleHttp\Client|\Mockery\MockInterface
     {
         if ($this->http) {
             return $this->http;

@@ -7,8 +7,8 @@ interface Factory
     /**
      * Get an OAuth provider implementation.
      *
-     * @param  string  $driver
-     * @return \Laravel\Socialite\Contracts\Provider
+     * @param  string|null $driver
+     * @return Provider
      */
-    public function driver($driver = null);
+    public function driver(string|null $driver = null): Provider;
 }

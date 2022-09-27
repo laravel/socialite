@@ -26,7 +26,7 @@ class OAuthTwoTest extends TestCase
         m::close();
     }
 
-    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithoutPKCE()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithoutPKCE(): void
     {
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
@@ -53,7 +53,7 @@ class OAuthTwoTest extends TestCase
 
     private static $codeVerifier = null;
 
-    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithPKCE()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithPKCE(): void
     {
         $request = Request::create('foo');
         $request->setLaravelSession($session = m::mock(Session::class));
@@ -92,7 +92,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code&state='.$state.'&code_challenge='.$codeChallenge.'&code_challenge_method=S256', $response->getTargetUrl());
     }
 
-    public function testTokenRequestIncludesPKCECodeVerifier()
+    public function testTokenRequestIncludesPKCECodeVerifier(): void
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
@@ -115,7 +115,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame($user->id, $provider->user()->id);
     }
 
-    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
+    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest(): void
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setLaravelSession($session = m::mock(Session::class));
@@ -136,7 +136,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame($user->id, $provider->user()->id);
     }
 
-    public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
+    public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest(): void
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
         $request->setSession($session = m::mock(SessionInterface::class));
@@ -157,7 +157,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame($user->id, $provider->user()->id);
     }
 
-    public function testExceptionIsThrownIfStateIsInvalid()
+    public function testExceptionIsThrownIfStateIsInvalid(): void
     {
         $this->expectException(InvalidStateException::class);
 
@@ -168,7 +168,7 @@ class OAuthTwoTest extends TestCase
         $provider->user();
     }
 
-    public function testExceptionIsThrownIfStateIsNotSet()
+    public function testExceptionIsThrownIfStateIsNotSet(): void
     {
         $this->expectException(InvalidStateException::class);
 
@@ -179,7 +179,7 @@ class OAuthTwoTest extends TestCase
         $provider->user();
     }
 
-    public function testCanGetAuthUrl()
+    public function testCanGetAuthUrl(): void
     {
         $request = Request::create('foo');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
@@ -187,7 +187,7 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code', $authUrl);
     }
 
-    public function testCanGetStatelessAuthUrl()
+    public function testCanGetStatelessAuthUrl(): void
     {
         $request = Request::create('foo');
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');

@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Arr;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
@@ -11,19 +12,19 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['r_liteprofile', 'r_emailaddress'];
+    protected array $scopes = ['r_liteprofile', 'r_emailaddress'];
 
     /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
+    protected string $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrl($state)
+    public function getAuthUrl(string $state): string
     {
         return $this->buildAuthUrlFromBase('https://www.linkedin.com/oauth/v2/authorization', $state);
     }
@@ -31,7 +32,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
@@ -39,7 +40,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         $basicProfile = $this->getBasicProfile($token);
         $emailAddress = $this->getEmailAddress($token);
@@ -53,7 +54,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @param  string  $token
      * @return array
      */
-    protected function getBasicProfile($token)
+    protected function getBasicProfile(string $token): array
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
             'headers' => [
@@ -71,10 +72,11 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the email address for the user.
      *
-     * @param  string  $token
+     * @param string $token
      * @return array
+     * @throws GuzzleException
      */
-    protected function getEmailAddress($token)
+    protected function getEmailAddress(string $token): array
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/emailAddress', [
             'headers' => [
@@ -93,17 +95,17 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         $preferredLocale = Arr::get($user, 'firstName.preferredLocale.language').'_'.Arr::get($user, 'firstName.preferredLocale.country');
         $firstName = Arr::get($user, 'firstName.localized.'.$preferredLocale);
         $lastName = Arr::get($user, 'lastName.localized.'.$preferredLocale);
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
-        $avatar = Arr::first($images, function ($image) {
+        $avatar = Arr::first($images, static function ($image) {
             return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 100;
         });
-        $originalAvatar = Arr::first($images, function ($image) {
+        $originalAvatar = Arr::first($images, static function ($image) {
             return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 800;
         });
 

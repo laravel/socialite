@@ -7,7 +7,7 @@ class TwitterProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function user()
+    public function user(): User
     {
         if (! $this->hasNecessaryVerifier()) {
             throw new MissingVerifierException('Invalid request. Missing OAuth verifier.');
@@ -39,7 +39,7 @@ class TwitterProvider extends AbstractProvider
      * @param  string  $scope
      * @return void
      */
-    public function scope(string $scope)
+    public function scope(string $scope): void
     {
         $this->server->setApplicationScope($scope);
     }

@@ -9,7 +9,7 @@ use Orchestra\Testbench\TestCase;
 
 class SocialiteManagerTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('services.github', [
             'client_id' => 'github-client-id',
@@ -18,12 +18,12 @@ class SocialiteManagerTest extends TestCase
         ]);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [SocialiteServiceProvider::class];
     }
 
-    public function test_it_can_instantiate_the_github_driver()
+    public function testItCanInstantiateTheGithubDriver(): void
     {
         $factory = $this->app->make(Factory::class);
 

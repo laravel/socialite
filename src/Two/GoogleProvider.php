@@ -11,14 +11,14 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
+    protected string $scopeSeparator = ' ';
 
     /**
      * The scopes being requested.
      *
      * @var array
      */
-    protected $scopes = [
+    protected array $scopes = [
         'openid',
         'profile',
         'email',
@@ -27,7 +27,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrl($state)
+    public function getAuthUrl(string $state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/auth', $state);
     }
@@ -35,7 +35,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.googleapis.com/oauth2/v4/token';
     }
@@ -43,7 +43,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v3/userinfo', [
             'query' => [
@@ -61,7 +61,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         // Deprecated: Fields added to keep backwards compatibility in 4.0. These will be removed in 5.0
         $user['id'] = Arr::get($user, 'sub');

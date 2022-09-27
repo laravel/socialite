@@ -12,49 +12,49 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @var mixed
      */
-    public $id;
+    public mixed $id;
 
     /**
      * The user's nickname / username.
      *
      * @var string
      */
-    public $nickname;
+    public string $nickname;
 
     /**
      * The user's full name.
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The user's e-mail address.
      *
      * @var string
      */
-    public $email;
+    public string $email;
 
     /**
      * The user's avatar image URL.
      *
      * @var string
      */
-    public $avatar;
+    public string $avatar;
 
     /**
      * The user's raw attributes.
      *
      * @var array
      */
-    public $user;
+    public array $user;
 
     /**
      * Get the unique identifier for the user.
      *
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -64,7 +64,7 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @return string
      */
-    public function getNickname()
+    public function getNickname(): string
     {
         return $this->nickname;
     }
@@ -74,7 +74,7 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -84,7 +84,7 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -94,7 +94,7 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @return string
      */
-    public function getAvatar()
+    public function getAvatar(): string
     {
         return $this->avatar;
     }
@@ -104,7 +104,7 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @return array
      */
-    public function getRaw()
+    public function getRaw(): array
     {
         return $this->user;
     }
@@ -115,7 +115,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  array  $user
      * @return $this
      */
-    public function setRaw(array $user)
+    public function setRaw(array $user): self
     {
         $this->user = $user;
 
@@ -128,7 +128,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @param  array  $attributes
      * @return $this
      */
-    public function map(array $attributes)
+    public function map(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
             $this->{$key} = $value;
@@ -144,7 +144,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->user);
     }
@@ -156,7 +156,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @return mixed
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->user[$offset];
     }
@@ -169,7 +169,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->user[$offset] = $value;
     }
@@ -181,7 +181,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->user[$offset]);
     }

@@ -13,7 +13,7 @@ class SocialiteServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(Factory::class, function ($app) {
             return new SocialiteManager($app);
@@ -25,7 +25,7 @@ class SocialiteServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [Factory::class];
     }

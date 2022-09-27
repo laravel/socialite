@@ -12,19 +12,19 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['user:email'];
+    protected array $scopes = ['user:email'];
 
     /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
+    protected string $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrl($state)
+    public function getAuthUrl(string $state): string
     {
         return $this->buildAuthUrlFromBase('https://github.com/login/oauth/authorize', $state);
     }
@@ -32,7 +32,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://github.com/login/oauth/access_token';
     }
@@ -40,7 +40,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         $userUrl = 'https://api.github.com/user';
 
@@ -63,7 +63,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      * @param  string  $token
      * @return string|null
      */
-    protected function getEmailByToken($token)
+    protected function getEmailByToken(string $token): string|null
     {
         $emailsUrl = 'https://api.github.com/user/emails';
 
@@ -85,7 +85,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
@@ -102,7 +102,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      * @param  string  $token
      * @return array
      */
-    protected function getRequestOptions($token)
+    protected function getRequestOptions(string $token): array
     {
         return [
             'headers' => [

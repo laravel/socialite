@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
@@ -24,7 +25,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * @param  string  $driver
      * @return mixed
      */
-    public function with($driver)
+    public function with(string $driver): mixed
     {
         return $this->driver($driver);
     }
@@ -34,7 +35,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGithubDriver()
+    protected function createGithubDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.github');
 
@@ -48,7 +49,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createFacebookDriver()
+    protected function createFacebookDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.facebook');
 
@@ -62,7 +63,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGoogleDriver()
+    protected function createGoogleDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.google');
 
@@ -76,7 +77,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createLinkedinDriver()
+    protected function createLinkedinDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.linkedin');
 
@@ -90,7 +91,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createBitbucketDriver()
+    protected function createBitbucketDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.bitbucket');
 
@@ -104,7 +105,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGitlabDriver()
+    protected function createGitlabDriver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.gitlab');
 
@@ -118,7 +119,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createTwitterOAuth2Driver()
+    protected function createTwitterOAuth2Driver(): \Laravel\Socialite\Two\AbstractProvider
     {
         $config = $this->config->get('services.twitter');
 
@@ -130,11 +131,11 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Build an OAuth 2 provider instance.
      *
-     * @param  string  $provider
-     * @param  array  $config
+     * @param string $provider
+     * @param array $config
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    public function buildProvider($provider, $config)
+    public function buildProvider(string $provider, array $config): \Laravel\Socialite\Two\AbstractProvider
     {
         return new $provider(
             $this->container->make('request'), $config['client_id'],
@@ -148,7 +149,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\One\AbstractProvider
      */
-    protected function createTwitterDriver()
+    protected function createTwitterDriver(): \Laravel\Socialite\One\AbstractProvider
     {
         $config = $this->config->get('services.twitter');
 
@@ -160,10 +161,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the server configuration.
      *
-     * @param  array  $config
+     * @param array $config
      * @return array
      */
-    public function formatConfig(array $config)
+    public function formatConfig(array $config): array
     {
         return array_merge([
             'identifier' => $config['client_id'],
@@ -175,10 +176,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the callback URL, resolving a relative URI if needed.
      *
-     * @param  array  $config
+     * @param array $config
      * @return string
      */
-    protected function formatRedirectUrl(array $config)
+    protected function formatRedirectUrl(array $config): string
     {
         $redirect = value($config['redirect']);
 
@@ -192,7 +193,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return $this
      */
-    public function forgetDrivers()
+    public function forgetDrivers(): self
     {
         $this->drivers = [];
 
@@ -205,7 +206,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * @param  \Illuminate\Contracts\Container\Container  $container
      * @return $this
      */
-    public function setContainer($container)
+    public function setContainer(\Illuminate\Contracts\Container\Container $container): self
     {
         $this->app = $container;
         $this->container = $container;
@@ -220,7 +221,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @throws \InvalidArgumentException
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
     }

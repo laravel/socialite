@@ -11,26 +11,26 @@ class TwitterProvider extends AbstractProvider
      *
      * @var array
      */
-    protected $scopes = ['users.read', 'tweet.read'];
+    protected array $scopes = ['users.read', 'tweet.read'];
 
     /**
      * Indicates if PKCE should be used.
      *
      * @var bool
      */
-    protected $usesPKCE = true;
+    protected bool $usesPKCE = true;
 
     /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
+    protected string $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrl($state)
+    public function getAuthUrl(string $state): string
     {
         return $this->buildAuthUrlFromBase('https://twitter.com/i/oauth2/authorize', $state);
     }
@@ -38,7 +38,7 @@ class TwitterProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.twitter.com/2/oauth2/token';
     }
@@ -46,7 +46,7 @@ class TwitterProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken(string $token): array
     {
         $response = $this->getHttpClient()->get('https://api.twitter.com/2/users/me', [
             'headers' => ['Authorization' => 'Bearer '.$token],
@@ -59,7 +59,7 @@ class TwitterProvider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],

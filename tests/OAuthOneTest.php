@@ -26,7 +26,7 @@ class OAuthOneTest extends TestCase
         m::close();
     }
 
-    public function testRedirectGeneratesTheProperIlluminateRedirectResponse()
+    public function testRedirectGeneratesTheProperIlluminateRedirectResponse(): void
     {
         $server = m::mock(Twitter::class);
         $temp = m::mock(TemporaryCredentials::class);
@@ -43,7 +43,7 @@ class OAuthOneTest extends TestCase
         $this->assertInstanceOf(RedirectResponse::class, $response);
     }
 
-    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
+    public function testUserReturnsAUserInstanceForTheAuthenticatedRequest(): void
     {
         $server = m::mock(Twitter::class);
         $temp = m::mock(TemporaryCredentials::class);
@@ -69,7 +69,7 @@ class OAuthOneTest extends TestCase
         $this->assertSame(['extra' => 'extra'], $user->user);
     }
 
-    public function testExceptionIsThrownWhenVerifierIsMissing()
+    public function testExceptionIsThrownWhenVerifierIsMissing(): void
     {
         $this->expectException(MissingVerifierException::class);
 
@@ -81,7 +81,7 @@ class OAuthOneTest extends TestCase
         $provider->user();
     }
 
-    public function testExceptionIsThrownWhenTemporaryCredentialsAreMissing()
+    public function testExceptionIsThrownWhenTemporaryCredentialsAreMissing(): void
     {
         $this->expectException(MissingTemporaryCredentialsException::class);
 

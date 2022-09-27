@@ -4,5 +4,5 @@ namespace Laravel\Socialite\Tests\Fixtures;
 
 class OAuthTwoWithPKCETestProviderStub extends OAuthTwoTestProviderStub
 {
-    protected $usesPKCE = true;
+    protected bool $usesPKCE = true;
 }
