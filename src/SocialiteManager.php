@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
@@ -131,8 +130,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Build an OAuth 2 provider instance.
      *
-     * @param string $provider
-     * @param array $config
+     * @param  string  $provider
+     * @param  array  $config
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
     public function buildProvider(string $provider, array $config): \Laravel\Socialite\Two\AbstractProvider
@@ -161,7 +160,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the server configuration.
      *
-     * @param array $config
+     * @param  array  $config
      * @return array
      */
     public function formatConfig(array $config): array
@@ -176,7 +175,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the callback URL, resolving a relative URI if needed.
      *
-     * @param array $config
+     * @param  array  $config
      * @return string
      */
     protected function formatRedirectUrl(array $config): string

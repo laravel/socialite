@@ -17,30 +17,30 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * The user's nickname / username.
      *
-     * @var string
+     * @var string|null
      */
-    public string $nickname;
+    public string|null $nickname = null;
 
     /**
      * The user's full name.
      *
-     * @var string
+     * @var string|null
      */
-    public string $name;
+    public string|null $name = null;
 
     /**
      * The user's e-mail address.
      *
-     * @var string
+     * @var string|null
      */
-    public string $email;
+    public string|null $email = null;
 
     /**
      * The user's avatar image URL.
      *
-     * @var string
+     * @var string|null
      */
-    public string $avatar;
+    public string|null $avatar = null;
 
     /**
      * The user's raw attributes.
@@ -62,9 +62,9 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the nickname / username for the user.
      *
-     * @return string
+     * @return string|null
      */
-    public function getNickname(): string
+    public function getNickname(): string|null
     {
         return $this->nickname;
     }
@@ -72,9 +72,9 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the full name of the user.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): string|null
     {
         return $this->name;
     }
@@ -82,9 +82,9 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the e-mail address of the user.
      *
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): string|null
     {
         return $this->email;
     }
@@ -92,9 +92,9 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the avatar / image URL for the user.
      *
-     * @return string
+     * @return string|null
      */
-    public function getAvatar(): string
+    public function getAvatar(): string|null
     {
         return $this->avatar;
     }

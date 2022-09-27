@@ -13,9 +13,9 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * A hash representing the last requested user.
      *
-     * @var string
+     * @var string|null
      */
-    protected string $userHash;
+    protected string|null $userHash = null;
 
     /**
      * Create a new provider instance.

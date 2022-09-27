@@ -65,16 +65,16 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @var \Laravel\Socialite\Two\User|null
      */
-    protected \Laravel\Socialite\Two\User|null$user;
+    protected \Laravel\Socialite\Two\User|null $user = null;
 
     /**
      * Create a new provider instance.
      *
-     * @param  \Illuminate\Http\Request  $request The HTTP request instance.
-     * @param  string  $clientId The client ID.
-     * @param  string  $clientSecret The client secret.
-     * @param  string  $redirectUrl The redirect URL.
-     * @param  array  $guzzle The custom Guzzle configuration options.
+     * @param  \Illuminate\Http\Request  $request  The HTTP request instance.
+     * @param  string  $clientId  The client ID.
+     * @param  string  $clientSecret  The client secret.
+     * @param  string  $redirectUrl  The redirect URL.
+     * @param  array  $guzzle  The custom Guzzle configuration options.
      * @return void
      */
     public function __construct(

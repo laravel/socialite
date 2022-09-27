@@ -25,7 +25,11 @@ class LinkedInProviderTest extends TestCase
         $request->allows('input')->with('code')->andReturns('fake-code');
 
         $accessTokenResponse = m::mock(ResponseInterface::class);
-        $accessTokenResponse->allows('getBody')->andReturns(json_encode(['access_token' => 'fake-token']));
+        $accessTokenResponse->allows('getBody')->andReturns(json_encode([
+            'access_token' => 'fake-token',
+            'refresh_token' => 'fake-refresh-token',
+            'expires_in' => 3600
+        ]));
 
         $basicProfileResponse = m::mock(ResponseInterface::class);
         $basicProfileResponse->allows('getBody')->andReturns(json_encode(['id' => $userId = 1]));
@@ -63,7 +67,7 @@ class LinkedInProviderTest extends TestCase
         $user = $provider->user();
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertSame($userId, $user->getId());
+        $this->assertEquals($userId, $user->getId());
         $this->assertNull($user->getEmail());
     }
 }
