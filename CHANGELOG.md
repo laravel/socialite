@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.5...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.6...5.x)
+
+## [v5.5.6](https://github.com/laravel/socialite/compare/v5.5.5...v5.5.6) - 2022-11-08
+
+### Changed
+
+- PHP 8.2 support by @driesvints in https://github.com/laravel/socialite/pull/607
 
 ## [v5.5.5](https://github.com/laravel/socialite/compare/v5.5.4...v5.5.5) - 2022-08-20
 
