@@ -198,7 +198,7 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
-     * Get the dynamic property value.
+     * Get a user attribute value dynamically.
      *
      * @param  string  $key
      * @return void
