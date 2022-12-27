@@ -186,7 +186,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $redirect = value($config['redirect']);
 
-        return Str::startsWith($redirect, '/')
+        return Str::startsWith($redirect ?? '', '/')
                     ? $this->container->make('url')->to($redirect)
                     : $redirect;
     }
