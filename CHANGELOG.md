@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.6...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.7...5.x)
+
+## [v5.5.7](https://github.com/laravel/socialite/compare/v5.5.6...v5.5.7) - 2022-12-28
+
+### Fixed
+
+- Fixed string type issue by @driesvints in https://github.com/laravel/socialite/commit/295a36648828f0419c1e9cbedd97609d2a4cb211
 
 ## [v5.5.6](https://github.com/laravel/socialite/compare/v5.5.5...v5.5.6) - 2022-11-08
 
