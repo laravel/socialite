@@ -69,7 +69,7 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the nickname / username for the user.
      *
-     * @return ?string
+     * @return string|null
      */
     public function getNickname()
     {
@@ -79,7 +79,7 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the full name of the user.
      *
-     * @return ?string
+     * @return string|null
      */
     public function getName()
     {
@@ -89,7 +89,7 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the e-mail address of the user.
      *
-     * @return ?string
+     * @return string|null
      */
     public function getEmail()
     {
@@ -99,7 +99,7 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get the avatar / image URL for the user.
      *
-     * @return ?string
+     * @return string|null
      */
     public function getAvatar()
     {
