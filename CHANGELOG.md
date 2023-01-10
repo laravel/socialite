@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.7...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.8...5.x)
+
+## [v5.5.8](https://github.com/laravel/socialite/compare/v5.5.7...v5.5.8) - 2023-01-05
+
+### Fixed
+
+- Fix User return types by @antoinelame in https://github.com/laravel/socialite/pull/614
 
 ## [v5.5.7](https://github.com/laravel/socialite/compare/v5.5.6...v5.5.7) - 2022-12-28
 
