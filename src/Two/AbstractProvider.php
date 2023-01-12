@@ -164,12 +164,12 @@ abstract class AbstractProvider implements ProviderContract
 
         if ($this->usesState()) {
             $this->request->session()->put('state', $state = $this->getState());
+            
+            if ($this->usesPKCE()) {
+                $this->request->session()->put('code_verifier', $this->getCodeVerifier());
+            }
         }
-
-        if ($this->usesPKCE()) {
-            $this->request->session()->put('code_verifier', $this->getCodeVerifier());
-        }
-
+        
         return new RedirectResponse($this->getAuthUrl($state));
     }
 
@@ -202,13 +202,13 @@ abstract class AbstractProvider implements ProviderContract
 
         if ($this->usesState()) {
             $fields['state'] = $state;
+            
+            if ($this->usesPKCE()) {
+                $fields['code_challenge'] = $this->getCodeChallenge();
+                $fields['code_challenge_method'] = $this->getCodeChallengeMethod();
+            }
         }
-
-        if ($this->usesPKCE()) {
-            $fields['code_challenge'] = $this->getCodeChallenge();
-            $fields['code_challenge_method'] = $this->getCodeChallengeMethod();
-        }
-
+        
         return array_merge($fields, $this->parameters);
     }
 
@@ -321,7 +321,7 @@ abstract class AbstractProvider implements ProviderContract
             'redirect_uri' => $this->redirectUrl,
         ];
 
-        if ($this->usesPKCE()) {
+        if ($this->usesState() && $this->usesPKCE()) {
             $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
         }
 
