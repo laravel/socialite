@@ -19,7 +19,7 @@ class TwitterProvider extends AbstractProvider
      *
      * @var bool
      */
-    protected $usesPKCE = true;
+    protected $usesPKCE = $this->isStateless();
 
     /**
      * The separating character for the requested scopes.
