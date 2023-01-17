@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.5.8...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.0...5.x)
+
+## [v5.6.0](https://github.com/laravel/socialite/compare/v5.5.8...v5.6.0) - 2023-01-13
+
+### Added
+
+- Laravel v10 Support by @driesvints in https://github.com/laravel/socialite/pull/618
 
 ## [v5.5.8](https://github.com/laravel/socialite/compare/v5.5.7...v5.5.8) - 2023-01-05
 
