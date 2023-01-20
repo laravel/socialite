@@ -22,6 +22,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * The application instance.
      *
      * @var \Illuminate\Contracts\Foundation\Application
+     *
+     * @deprecated Will be removed in a future Socialite release.
      */
     protected $app;
 
