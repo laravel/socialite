@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.1...5.x)
+
+## [v5.6.1](https://github.com/laravel/socialite/compare/v5.6.0...v5.6.1) - 2023-01-20
+
+### Fixed
+
+- Add app property by @driesvints in https://github.com/laravel/socialite/pull/621
 
 ## [v5.6.0](https://github.com/laravel/socialite/compare/v5.5.8...v5.6.0) - 2023-01-13
 
