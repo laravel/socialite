@@ -90,7 +90,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.linkedin');
 
         return $this->buildProvider(
-          LinkedInProvider::class, $config
+            LinkedInProvider::class, $config
         );
     }
 
@@ -104,7 +104,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.bitbucket');
 
         return $this->buildProvider(
-          BitbucketProvider::class, $config
+            BitbucketProvider::class, $config
         );
     }
 
