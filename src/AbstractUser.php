@@ -98,7 +98,27 @@ abstract class AbstractUser implements ArrayAccess, User
     {
         return $this->avatar;
     }
-
+    
+    /**
+    * Get the last name of the user.
+    *
+    * @return string
+    */
+    public function getLastName()
+    {
+        return substr($this->getName(), strpos($this->getName(), " ") + 1),
+    }
+    
+    /**
+    * Get the first name of the user.
+    *
+    * @return string
+    */
+    public function getFirstName()
+    {        
+        return substr($this->getName(), 0, strpos($this->getName(), " "););
+    }
+    
     /**
      * Get the raw user array.
      *
