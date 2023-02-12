@@ -38,4 +38,18 @@ interface User
      * @return string|null
      */
     public function getAvatar();
+    
+    /**
+    * Get the last name of the user.
+    *
+    * @return string
+    */
+    public function getLastName();
+
+    /**
+    * Get the first name of the user.
+    *
+    * @return string
+    */
+    public function getFirstName();
 }
