@@ -6,7 +6,7 @@ use Exception;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
-class GithubProvider extends AbstractProvider implements ProviderInterface
+class GitHubProvider extends AbstractProvider implements ProviderInterface
 {
     /**
      * The scopes being requested.

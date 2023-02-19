@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
 use Laravel\Socialite\Two\FacebookProvider;
-use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\GitHubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
@@ -43,12 +43,12 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGithubDriver()
+    protected function createGitHubDriver()
     {
         $config = $this->config->get('services.github');
 
         return $this->buildProvider(
-            GithubProvider::class, $config
+            GitHubProvider::class, $config
         );
     }
 
