@@ -1,0 +1,5 @@
+parameters:
+  paths:
+    - src
+
+  level: 0

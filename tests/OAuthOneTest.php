@@ -75,7 +75,7 @@ class OAuthOneTest extends TestCase
 
         $server = m::mock(Twitter::class);
         $request = Request::create('foo');
-        $request->setLaravelSession($session = m::mock(Session::class));
+        $request->setLaravelSession(m::mock(Session::class));
 
         $provider = new OAuthOneTestProviderStub($request, $server);
         $provider->user();

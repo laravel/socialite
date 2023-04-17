@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
@@ -56,11 +57,11 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function getBasicProfile($token)
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
-            'query' => [
+            RequestOptions::QUERY => [
                 'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
             ],
         ]);
@@ -77,11 +78,11 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     protected function getEmailAddress($token)
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/emailAddress', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
-            'query' => [
+            RequestOptions::QUERY => [
                 'q' => 'members',
                 'projection' => '(elements*(handle~))',
             ],
