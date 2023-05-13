@@ -24,7 +24,7 @@ class GoogleProvider implements Provider
      */
     public function redirect()
     {
-       throw new Exception('Redirect is deprecated for the new Google Auth, see https://developers.google.com/identity/gsi/web/guides/migration#html_and_javascript');
+       throw new \Exception('Redirect is deprecated for the new Google Auth, see https://developers.google.com/identity/gsi/web/guides/migration#html_and_javascript');
     }
 
 
