@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Laravel\Socialite\Jwt\GoogleProvider as GoogleJwtProvider;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
 use Laravel\Socialite\Two\FacebookProvider;
@@ -77,6 +78,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             GoogleProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return GoogleJwtProvider
+     */
+    protected function createGoogleJwtDriver()
+    {
+        $config = $this->config->get('services.google');
+
+        return $this->buildProvider(
+            GoogleJwtProvider::class, $config
         );
     }
 
