@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite\Jwt;
 
-use _PHPStan_a3459023a\Nette\Neon\Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Contracts\Provider;
