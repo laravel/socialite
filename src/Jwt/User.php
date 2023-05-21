@@ -6,18 +6,32 @@ use Laravel\Socialite\AbstractUser;
 
 class User extends AbstractUser
 {
-   public $email_verified;
-
-   public $organization;
-
-
-   public function isEmailVerified()
-   {
-      return $this->email_verified;
-   }
+    /**
+     * The email verification status.
+     *
+     * @var bool
+     */
+    public $email_verified;
 
     /**
-     * Set the organization for current user
+     * The organization the user belongs to.
+     *
+     * @var string
+     */
+    public $organization;
+
+    /**
+     * Checks if the user's email is verified.
+     *
+     * @return bool
+     */
+    public function isEmailVerified()
+    {
+        return $this->email_verified;
+    }
+
+    /**
+     * Sets the organization for the current user.
      *
      * @param  string $organization
      * @return $this
@@ -28,5 +42,4 @@ class User extends AbstractUser
 
         return $this;
     }
-
 }

@@ -8,11 +8,40 @@ use Laravel\Socialite\Contracts\Provider;
 
 class GoogleProvider implements Provider
 {
+    /**
+     * The authenticated user instance.
+     *
+     * @var \Laravel\Socialite\Jwt\User
+     */
     protected $user;
+
+    /**
+     * The current request instance.
+     *
+     * @var \Illuminate\Http\Request
+     */
     protected $request;
+
+    /**
+     * The client ID.
+     *
+     * @var string
+     */
     protected $clientId;
+
+    /**
+     * The decoded JWT payload.
+     *
+     * @var array
+     */
     protected $payload;
 
+   /**
+    * Create a new Google provider instance.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param string $clientId
+    */
     public function __construct(Request $request, $clientId)
     {
         $this->request = $request;
@@ -20,11 +49,13 @@ class GoogleProvider implements Provider
     }
 
     /**
-     * @throws Exception
+     * Redirect the user to the authentication page for the provider.
+     *
+     * @throws \Exception
      */
     public function redirect()
     {
-       throw new \Exception('Redirect is deprecated for the new Google Auth, see https://developers.google.com/identity/gsi/web/guides/migration#html_and_javascript');
+       throw new \RuntimeException('Redirect is deprecated for the new Google Auth, see https://developers.google.com/identity/gsi/web/guides/migration#html_and_javascript');
     }
 
 
@@ -87,32 +118,28 @@ class GoogleProvider implements Provider
      * Verifies the signature of the JWT issued, via Google Certs
      *
      * @param  string  $jwt
-     * @return boolean
+     * @return bool
      */
-    protected function verifyJwtSignature($jwt){
-        $jwt_parts = explode('.', $jwt);
+    protected function verifyJwtSignature($jwt)
+    {
+        $jwtParts = explode('.', $jwt);
 
-        $header = json_decode($this->base64UrlDecode($jwt_parts[0]), true);
-        $this->payload = json_decode($this->base64UrlDecode($jwt_parts[1]), true);
-        $signature = $this->base64UrlDecode($jwt_parts[2]);
+        $header = json_decode($this->base64UrlDecode($jwtParts[0]), true);
+        $this->payload = json_decode($this->base64UrlDecode($jwtParts[1]), true);
+        $signature = $this->base64UrlDecode($jwtParts[2]);
 
-        $key_id = Arr::get($header, 'kid');
+        $keyId = Arr::get($header, 'kid');
         $certificates = json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/certs'), true);
-        $publicKey = openssl_pkey_get_public($certificates[$key_id]);
+        $publicKey = openssl_pkey_get_public($certificates[$keyId]);
 
-        return openssl_verify($jwt_parts[0] . '.' . $jwt_parts[1], $signature, $publicKey , OPENSSL_ALGO_SHA256);
+        return openssl_verify($jwtParts[0] . '.' . $jwtParts[1], $signature, $publicKey , OPENSSL_ALGO_SHA256);
     }
 
     /**
      * Decodes a Base64 URL-encoded string.
      *
-     * This function converts a Base64 URL-encoded string to its original form by
-     * replacing the URL-safe characters '-' and '_' with their respective Base64
-     * characters '+' and '/', and then decoding the string using the standard
-     * Base64 algorithm.
-     *
-     * @param string $data The Base64 URL-encoded string to decode.
-     * @return string The decoded string.
+     * @param string $data
+     * @return string
      */
     protected function base64UrlDecode($data)
     {
