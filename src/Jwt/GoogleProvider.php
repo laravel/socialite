@@ -129,10 +129,33 @@ class GoogleProvider implements Provider
         $signature = $this->base64UrlDecode($jwtParts[2]);
 
         $keyId = Arr::get($header, 'kid');
-        $certificates = json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/certs'), true);
+        $certificates = $this->fetchCertificates();
         $publicKey = openssl_pkey_get_public($certificates[$keyId]);
 
-        return openssl_verify($jwtParts[0] . '.' . $jwtParts[1], $signature, $publicKey , OPENSSL_ALGO_SHA256);
+        return $this->verifySignature($jwtParts[0] . '.' . $jwtParts[1], $signature, $publicKey);
+    }
+
+    /**
+     * Verify the provided signature using OpenSSL.
+     *
+     * @param  string  $data
+     * @param  string  $signature
+     * @param  resource|bool  $publicKey
+     * @return bool
+     */
+    protected function verifySignature($data, $signature, $publicKey): bool
+    {
+        return openssl_verify($data, $signature, $publicKey , OPENSSL_ALGO_SHA256);
+    }
+
+    /**
+     * Fetches the Google signing certificates for JWTs.
+     *
+     * @return array
+     */
+    protected function fetchCertificates(): array
+    {
+        return json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/certs'), true);
     }
 
     /**
