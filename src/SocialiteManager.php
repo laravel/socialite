@@ -222,6 +222,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $this->app = $container;
         $this->container = $container;
+        $this->config = $container->make('config');
 
         return $this;
     }
