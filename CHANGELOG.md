@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.2...5.x)
+
+## [v5.6.2](https://github.com/laravel/socialite/compare/v5.6.1...v5.6.2) - 2023-05-29
+
+- Fix unable to use updated config object when using Laravel Octane by @aprokopenko in https://github.com/laravel/socialite/pull/639
 
 ## [v5.6.1](https://github.com/laravel/socialite/compare/v5.6.0...v5.6.1) - 2023-01-20
 
