@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.2...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.3...5.x)
+
+## [v5.6.3](https://github.com/laravel/socialite/compare/v5.6.2...v5.6.3) - 2023-06-06
+
+- Add buildProvider method on DockBlock for IDE  support by @emrancu in https://github.com/laravel/socialite/pull/643
 
 ## [v5.6.2](https://github.com/laravel/socialite/compare/v5.6.1...v5.6.2) - 2023-05-29
 
