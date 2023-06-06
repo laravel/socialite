@@ -8,7 +8,7 @@ use Laravel\Socialite\Contracts\Factory;
 /**
  * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
  * @method static \Laravel\Socialite\Two\AbstractProvider buildProvider($provider, $config)
- * 
+ *
  * @see \Laravel\Socialite\SocialiteManager
  */
 class Socialite extends Facade
