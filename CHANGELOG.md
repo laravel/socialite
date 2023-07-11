@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.3...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.7.0...5.x)
+
+## [v5.7.0](https://github.com/laravel/socialite/compare/v5.6.3...v5.7.0) - 2023-07-08
+
+- Add support for Slack driver by [@jbrooksuk](https://github.com/jbrooksuk) in https://github.com/laravel/socialite/pull/644
 
 ## [v5.6.3](https://github.com/laravel/socialite/compare/v5.6.2...v5.6.3) - 2023-06-06
 
