@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.7.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.8.0...5.x)
+
+## [v5.8.0](https://github.com/laravel/socialite/compare/v5.7.0...v5.8.0) - 2023-07-14
+
+- Update Slack provider to use v2 API and allow Bot tokens by [@jbrooksuk](https://github.com/jbrooksuk) in https://github.com/laravel/socialite/pull/645
 
 ## [v5.7.0](https://github.com/laravel/socialite/compare/v5.6.3...v5.7.0) - 2023-07-08
 
