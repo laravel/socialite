@@ -22,6 +22,18 @@ class SlackProvider extends AbstractProvider
     protected $scopeKey = 'user_scope';
 
     /**
+     * Indicate that the requested token should be for a bot user.
+     *
+     * @return $this
+     */
+    public function asBotUser()
+    {
+        $this->scopeKey = 'scope';
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getAuthUrl($state)
@@ -61,18 +73,6 @@ class SlackProvider extends AbstractProvider
             'avatar' => Arr::get($user, 'user.image_512'),
             'organization_id' => Arr::get($user, 'team.id'),
         ]);
-    }
-
-    /**
-     * Set the key used for scopes in the request.
-     *
-     * @return $this
-     */
-    public function asBotUser()
-    {
-        $this->scopeKey = 'scope';
-
-        return $this;
     }
 
     /**
