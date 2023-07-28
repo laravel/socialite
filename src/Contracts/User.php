@@ -38,4 +38,11 @@ interface User
      * @return string|null
      */
     public function getAvatar();
+
+    /**
+     * Get the token of the user.
+     *
+     * @return string|null
+     */
+    public function getToken();
 }

@@ -43,6 +43,13 @@ abstract class AbstractUser implements ArrayAccess, User
     public $avatar;
 
     /**
+     * The user's access token.
+     *
+     * @var string
+     */
+    public $token;
+
+    /**
      * The user's raw attributes.
      *
      * @var array
@@ -127,6 +134,16 @@ abstract class AbstractUser implements ArrayAccess, User
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * Get the token of the user.
+     *
+     * @return string|null
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 
     /**

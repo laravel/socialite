@@ -7,13 +7,6 @@ use Laravel\Socialite\AbstractUser;
 class User extends AbstractUser
 {
     /**
-     * The user's access token.
-     *
-     * @var string
-     */
-    public $token;
-
-    /**
      * The refresh token that can be exchanged for a new access token.
      *
      * @var string
