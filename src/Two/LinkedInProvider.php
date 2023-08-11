@@ -2,8 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Arr;
+use GuzzleHttp\RequestOptions;;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
@@ -75,12 +74,12 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
                 [
                     'id'              => $user['sub'],
                     'nickname'        => null,
-                    'name'            => Arr::get($user, 'name'),
-                    'first_name'      => Arr::get($user, 'given_name'),
-                    'last_name'       => Arr::get($user, 'family_name'),
-                    'email'           => Arr::get($user, 'email'),
-                    'avatar'          => Arr::get($user, 'picture'),
-                    'avatar_original' => Arr::get($user, 'picture'),
+                    'name'            => $user['name'],
+                    'first_name'      => $user['given_name'],
+                    'last_name'       => $user['family_name'],
+                    'email'           => $user['email'],
+                    'avatar'          => $user['picture'],
+                    'avatar_original' => $user['picture'],
                 ]
             );
     }
