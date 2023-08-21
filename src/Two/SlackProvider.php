@@ -5,7 +5,7 @@ namespace Laravel\Socialite\Two;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
-class SlackProvider extends AbstractProvider
+class SlackProvider extends AbstractProvider implements ProviderInterface
 {
     /**
      * The scopes being requested.
