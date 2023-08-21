@@ -5,7 +5,7 @@ namespace Laravel\Socialite\Two;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
-class TwitterProvider extends AbstractProvider
+class TwitterProvider extends AbstractProvider implements ProviderInterface
 {
     /**
      * The scopes being requested.
