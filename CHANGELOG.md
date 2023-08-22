@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.8.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.8.1...5.x)
+
+## [v5.8.1](https://github.com/laravel/socialite/compare/v5.8.0...v5.8.1) - 2023-08-21
+
+- Fix phpstan issues in Twitter and Slack drivers by [@alecpl](https://github.com/alecpl) in https://github.com/laravel/socialite/pull/653
 
 ## [v5.8.0](https://github.com/laravel/socialite/compare/v5.7.0...v5.8.0) - 2023-07-14
 
