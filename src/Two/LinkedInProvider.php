@@ -2,8 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Arr;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
 {
@@ -12,7 +12,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['r_liteprofile', 'r_emailaddress'];
+    protected $scopes = ['openid', 'profile', 'email'];
 
     /**
      * The separating character for the requested scopes.
@@ -24,7 +24,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.linkedin.com/oauth/v2/authorization', $state);
     }
@@ -32,7 +32,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
@@ -40,29 +40,27 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
-        $basicProfile = $this->getBasicProfile($token);
-        $emailAddress = $this->getEmailAddress($token);
-
-        return array_merge($basicProfile, $emailAddress);
+        return $this->getBasicProfile($token);
     }
 
     /**
      * Get the basic profile fields for the user.
      *
-     * @param  string  $token
+     * @param string $token
      * @return array
+     * @throws GuzzleException
      */
-    protected function getBasicProfile($token)
+    protected function getBasicProfile($token): array
     {
-        $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
+        $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
+                'projection' => '(sub,email,given_name,family_name,picture)',
             ],
         ]);
 
@@ -70,53 +68,19 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the email address for the user.
-     *
-     * @param  string  $token
-     * @return array
-     */
-    protected function getEmailAddress($token)
-    {
-        $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/emailAddress', [
-            RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer '.$token,
-                'X-RestLi-Protocol-Version' => '2.0.0',
-            ],
-            RequestOptions::QUERY => [
-                'q' => 'members',
-                'projection' => '(elements*(handle~))',
-            ],
-        ]);
-
-        return (array) Arr::get((array) json_decode($response->getBody(), true), 'elements.0.handle~');
-    }
-
-    /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
-        $preferredLocale = Arr::get($user, 'firstName.preferredLocale.language').'_'.Arr::get($user, 'firstName.preferredLocale.country');
-        $firstName = Arr::get($user, 'firstName.localized.'.$preferredLocale);
-        $lastName = Arr::get($user, 'lastName.localized.'.$preferredLocale);
-
-        $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
-        $avatar = Arr::first($images, function ($image) {
-            return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 100;
-        });
-        $originalAvatar = Arr::first($images, function ($image) {
-            return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 800;
-        });
-
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'],
+            'id' => $user['sub'],
             'nickname' => null,
-            'name' => $firstName.' '.$lastName,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => Arr::get($user, 'emailAddress'),
-            'avatar' => Arr::get($avatar, 'identifiers.0.identifier'),
-            'avatar_original' => Arr::get($originalAvatar, 'identifiers.0.identifier'),
+            'name' => $user['name'].' '.$user['family_name'],
+            'first_name' => $user['given_name'],
+            'last_name' => $user['family_name'],
+            'email' => $user['email'],
+            'avatar' => $user['picture'],
+            'avatar_original' => $user['picture'],
         ]);
     }
 }
