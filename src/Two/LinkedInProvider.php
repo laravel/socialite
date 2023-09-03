@@ -48,8 +48,9 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the basic profile fields for the user.
      *
-     * @param string $token
+     * @param  string  $token
      * @return array
+     *
      * @throws GuzzleException
      */
     protected function getBasicProfile($token): array
