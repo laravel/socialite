@@ -24,7 +24,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state): string
+    protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://www.linkedin.com/oauth/v2/authorization', $state);
     }
@@ -32,7 +32,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl(): string
+    protected function getTokenUrl()
     {
         return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
@@ -50,10 +50,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      *
      * @param  string  $token
      * @return array
-     *
-     * @throws GuzzleException
      */
-    protected function getBasicProfile($token): array
+    protected function getBasicProfile($token)
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/userinfo', [
             RequestOptions::HEADERS => [
@@ -71,7 +69,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user): User
+    protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['sub'],
