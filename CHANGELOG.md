@@ -1,6 +1,26 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.6.1...master)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.8.1...master)
+
+## [v5.8.1](https://github.com/laravel/socialite/compare/v5.8.0...v5.8.1) - 2023-08-21
+
+- Fix phpstan issues in Twitter and Slack drivers by [@alecpl](https://github.com/alecpl) in https://github.com/laravel/socialite/pull/653
+
+## [v5.8.0](https://github.com/laravel/socialite/compare/v5.7.0...v5.8.0) - 2023-07-14
+
+- Update Slack provider to use v2 API and allow Bot tokens by [@jbrooksuk](https://github.com/jbrooksuk) in https://github.com/laravel/socialite/pull/645
+
+## [v5.7.0](https://github.com/laravel/socialite/compare/v5.6.3...v5.7.0) - 2023-07-08
+
+- Add support for Slack driver by [@jbrooksuk](https://github.com/jbrooksuk) in https://github.com/laravel/socialite/pull/644
+
+## [v5.6.3](https://github.com/laravel/socialite/compare/v5.6.2...v5.6.3) - 2023-06-06
+
+- Add buildProvider method on DockBlock for IDE  support by @emrancu in https://github.com/laravel/socialite/pull/643
+
+## [v5.6.2](https://github.com/laravel/socialite/compare/v5.6.1...v5.6.2) - 2023-05-29
+
+- Fix unable to use updated config object when using Laravel Octane by @aprokopenko in https://github.com/laravel/socialite/pull/639
 
 ## [v5.6.1](https://github.com/laravel/socialite/compare/v5.6.0...v5.6.1) - 2023-01-20
 

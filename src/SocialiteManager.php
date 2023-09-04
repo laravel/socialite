@@ -13,6 +13,7 @@ use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
+use Laravel\Socialite\Two\SlackProvider;
 use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
@@ -155,6 +156,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createSlackDriver()
+    {
+        $config = $this->config->get('services.slack');
+
+        return $this->buildProvider(
+            SlackProvider::class, $config
+        );
+    }
+
+    /**
      * Build an OAuth 2 provider instance.
      *
      * @param  string  $provider
@@ -222,6 +237,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $this->app = $container;
         $this->container = $container;
+        $this->config = $container->make('config');
 
         return $this;
     }
