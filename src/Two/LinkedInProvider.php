@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 
 class LinkedInProvider extends AbstractProvider implements ProviderInterface
