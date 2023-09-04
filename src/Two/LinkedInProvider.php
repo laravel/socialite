@@ -40,7 +40,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token): array
+    protected function getUserByToken($token)
     {
         return $this->getBasicProfile($token);
     }
