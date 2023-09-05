@@ -58,7 +58,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(sub,email,given_name,family_name,picture)',
+                'projection' => '(sub,email,name,given_name,family_name,picture)',
             ],
         ]);
 
@@ -73,7 +73,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['sub'],
             'nickname' => null,
-            'name' => $user['given_name'].' '.$user['family_name'],
+            'name' => $user['name'],
             'first_name' => $user['given_name'],
             'last_name' => $user['family_name'],
             'email' => $user['email'],
