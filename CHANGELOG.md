@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.8.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.9.0...5.x)
+
+## [v5.9.0](https://github.com/laravel/socialite/compare/v5.8.1...v5.9.0) - 2023-09-05
+
+- [5.x] Include GitHub `node_id` field by [@lucasmichot](https://github.com/lucasmichot) in https://github.com/laravel/socialite/pull/657
+- [5.x] Adds `LinkedInOpenId` provider by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/socialite/pull/662
 
 ## [v5.8.1](https://github.com/laravel/socialite/compare/v5.8.0...v5.8.1) - 2023-08-21
 
