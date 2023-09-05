@@ -12,6 +12,7 @@ use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
+use Laravel\Socialite\Two\LinkedInOpenIdProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
 use Laravel\Socialite\Two\SlackProvider;
 use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
@@ -92,6 +93,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             LinkedInProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createLinkedinOpenidDriver()
+    {
+        $config = $this->config->get('services.linkedin-openid');
+
+        return $this->buildProvider(
+            LinkedInOpenIdProvider::class, $config
         );
     }
 
