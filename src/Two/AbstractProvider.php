@@ -245,13 +245,13 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Get the user instance.
+     * Create a user instance from the given data.
      *
      * @param  array  $response
      * @param  array  $user
      * @return \Laravel\Socialite\Two\User
      */
-    public function userInstance(array $response, array $user)
+    protected function userInstance(array $response, array $user)
     {
         $this->user = $this->mapUserToObject($user);
 
