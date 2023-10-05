@@ -59,7 +59,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getEmailByToken($token)
     {
-        $emailsUrl = 'https://api.github.com/user/emails';
+        $emailsUrl = 'https://api.github.com/user/public_emails';
 
         try {
             $response = $this->getHttpClient()->get(
