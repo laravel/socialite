@@ -62,7 +62,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
+                'projection' => '(id,firstName,vanityName,lastName,profilePicture(displayImage~:playableStreams))',
             ],
         ]);
 
