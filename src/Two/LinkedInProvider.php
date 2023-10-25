@@ -105,13 +105,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
             return (
                     $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
                     $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
-                ) === 100;
+            ) === 100;
         });
         $originalAvatar = Arr::first($images, function ($image) {
             return (
                     $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
                     $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
-                ) === 800;
+            ) === 800;
         });
 
         return (new User)->setRaw($user)->map([
