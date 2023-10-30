@@ -58,9 +58,10 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     {  
         $fields = ["id","firstName","lastName","profilePicture(displayImage~:playableStreams)"]; 
 
-        if(in_array('r_liteprofile', $this->getScopes())){
+        if (in_array('r_liteprofile', $this->getScopes())) {
             array_push($fields, 'vanityName');
         }
+
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
