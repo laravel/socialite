@@ -55,8 +55,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @return array
      */
     protected function getBasicProfile($token)
-    {  
-        $fields = ["id","firstName","lastName","profilePicture(displayImage~:playableStreams)"]; 
+    {
+        $fields = ['id', 'firstName', 'lastName', 'profilePicture(displayImage~:playableStreams)'];
 
         if (in_array('r_liteprofile', $this->getScopes())) {
             array_push($fields, 'vanityName');
@@ -68,7 +68,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => "(".implode(',',$fields).")",
+                'projection' => '('.implode(',', $fields).')',
             ],
         ]);
 
