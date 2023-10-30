@@ -55,14 +55,20 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      * @return array
      */
     protected function getBasicProfile($token)
-    {
+    {  
+        $fields = ["id","firstName","lastName","profilePicture(displayImage~:playableStreams)"]; 
+
+        if (in_array('r_liteprofile', $this->getScopes())) {
+            array_push($fields, 'vanityName');
+        }
+
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
+                'projection' => "(".implode(',',$fields).")",
             ],
         ]);
 

@@ -53,7 +53,7 @@ class LinkedInProviderTest extends TestCase
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
+                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams),vanityName)',
             ],
         ])->andReturns($basicProfileResponse);
         $guzzle->allows('get')->with('https://api.linkedin.com/v2/emailAddress', [
