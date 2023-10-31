@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.9.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.10.0...5.x)
+
+## [v5.10.0](https://github.com/laravel/socialite/compare/v5.9.1...v5.10.0) - 2023-10-30
+
+- Update avatar and originalAvatar display size check by [@luigitec](https://github.com/luigitec) in https://github.com/laravel/socialite/pull/671
+- Update LinkedInProvider.php by [@moha-ep](https://github.com/moha-ep) in https://github.com/laravel/socialite/pull/670
 
 ## [v5.9.1](https://github.com/laravel/socialite/compare/v5.9.0...v5.9.1) - 2023-09-07
 
