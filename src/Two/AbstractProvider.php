@@ -355,7 +355,7 @@ abstract class AbstractProvider implements ProviderContract
                 'refresh_token' => $refreshToken,
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
-            ]
+            ],
         ]);
 
         $response = json_decode($response->getBody(), true);
