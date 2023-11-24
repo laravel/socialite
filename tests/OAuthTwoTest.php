@@ -190,12 +190,12 @@ class OAuthTwoTest extends TestCase
             'form_params' => ['grant_type' => 'refresh_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'refresh_token' => 'refresh_token'],
         ])->andReturns($response = m::mock(stdClass::class));
         $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600, "scope" : "scope1,scope2" }');
-        $tokenResponse = $provider->refreshToken('refresh_token');
+        $token = $provider->refreshToken('refresh_token');
 
-        $this->assertInstanceOf(Token::class, $tokenResponse);
-        $this->assertSame('access_token', $tokenResponse->token);
-        $this->assertSame('refresh_token', $tokenResponse->refreshToken);
-        $this->assertSame(3600, $tokenResponse->expiresIn);
-        $this->assertSame(['scope1', 'scope2'], $tokenResponse->approvedScopes);
+        $this->assertInstanceOf(Token::class, $token);
+        $this->assertSame('access_token', $token->token);
+        $this->assertSame('refresh_token', $token->refreshToken);
+        $this->assertSame(3600, $token->expiresIn);
+        $this->assertSame(['scope1', 'scope2'], $token->approvedScopes);
     }
 }
