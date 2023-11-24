@@ -341,6 +341,33 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Refresh a user access token with a refresh token.
+     *
+     * @param  string  $refreshToken
+     * @return Token
+     */
+    public function refreshToken($refreshToken)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refreshToken,
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+            ]
+        ]);
+
+        $response = json_decode($response->getBody(), true);
+
+        return (new Token)
+            ->setToken(Arr::get($response, 'access_token'))
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'))
+            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'scope', '')));
+    }
+
+    /**
      * Get the code from the request.
      *
      * @return string
