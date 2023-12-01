@@ -341,6 +341,43 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
+     * Refresh a user's access token with a refresh token.
+     *
+     * @param  string  $refreshToken
+     * @return \Laravel\Socialite\Two\Token
+     */
+    public function refreshToken($refreshToken)
+    {
+        $response = $this->getRefreshTokenResponse($refreshToken);
+
+        return new Token(
+            Arr::get($response, 'access_token'),
+            Arr::get($response, 'refresh_token'),
+            Arr::get($response, 'expires_in'),
+            explode($this->scopeSeparator, Arr::get($response, 'scope', ''))
+        );
+    }
+
+    /**
+     * Get the refresh token response for the given refresh token.
+     *
+     * @param  string  $refreshToken
+     * @return array
+     */
+    protected function getRefreshTokenResponse($refreshToken)
+    {
+        return json_decode($this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refreshToken,
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+            ],
+        ])->getBody(), true);
+    }
+
+    /**
      * Get the code from the request.
      *
      * @return string
