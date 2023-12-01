@@ -348,6 +348,23 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function refreshToken($refreshToken)
     {
+        $response = $this->getRefreshTokenResponse($refreshToken);
+
+        return (new Token)
+            ->setToken(Arr::get($response, 'access_token'))
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'))
+            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'scope', '')));
+    }
+
+    /**
+     * Get the refresh token response for the given refresh token.
+     *
+     * @param  string  $refreshToken
+     * @return array
+     */
+    public function getRefreshTokenResponse($refreshToken)
+    {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
@@ -358,13 +375,7 @@ abstract class AbstractProvider implements ProviderContract
             ],
         ]);
 
-        $response = json_decode($response->getBody(), true);
-
-        return (new Token)
-            ->setToken(Arr::get($response, 'access_token'))
-            ->setRefreshToken(Arr::get($response, 'refresh_token'))
-            ->setExpiresIn(Arr::get($response, 'expires_in'))
-            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'scope', '')));
+        return json_decode($response->getBody(), true);
     }
 
     /**
