@@ -103,7 +103,6 @@ class TwitterProvider extends AbstractProvider implements ProviderInterface
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $refreshToken,
                 'client_id' => $this->clientId,
-                'client_secret' => $this->clientSecret,
             ],
         ]);
 
