@@ -33,54 +33,18 @@ class Token
     public $approvedScopes;
 
     /**
-     * Set the token on the user.
+     * Create a new token instance.
      *
      * @param  string  $token
-     * @return $this
+     * @param  string  $refreshToken
+     * @param  int  $expiresIn
+     * @param  array  $approvedScopes
      */
-    public function setToken($token)
+    public function __construct(string $token, string $refreshToken, int $expiresIn, array $approvedScopes)
     {
         $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Set the refresh token required to obtain a new access token.
-     *
-     * @param  string  $refreshToken
-     * @return $this
-     */
-    public function setRefreshToken($refreshToken)
-    {
         $this->refreshToken = $refreshToken;
-
-        return $this;
-    }
-
-    /**
-     * Set the number of seconds the access token is valid for.
-     *
-     * @param  int  $expiresIn
-     * @return $this
-     */
-    public function setExpiresIn($expiresIn)
-    {
         $this->expiresIn = $expiresIn;
-
-        return $this;
-    }
-
-    /**
-     * Set the scopes that were approved by the user during authentication.
-     *
-     * @param  array  $approvedScopes
-     * @return $this
-     */
-    public function setApprovedScopes($approvedScopes)
-    {
         $this->approvedScopes = $approvedScopes;
-
-        return $this;
     }
 }

@@ -94,7 +94,7 @@ class TwitterProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getRefreshTokenResponse($refreshToken)
+    protected function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],

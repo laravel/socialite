@@ -341,20 +341,21 @@ abstract class AbstractProvider implements ProviderContract
     }
 
     /**
-     * Refresh a user access token with a refresh token.
+     * Refresh a user's access token with a refresh token.
      *
      * @param  string  $refreshToken
-     * @return Token
+     * @return \Laravel\Socialite\Two\Token
      */
     public function refreshToken($refreshToken)
     {
         $response = $this->getRefreshTokenResponse($refreshToken);
 
-        return (new Token)
-            ->setToken(Arr::get($response, 'access_token'))
-            ->setRefreshToken(Arr::get($response, 'refresh_token'))
-            ->setExpiresIn(Arr::get($response, 'expires_in'))
-            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'scope', '')));
+        return new Token(
+            Arr::get($response, 'access_token'),
+            Arr::get($response, 'refresh_token'),
+            Arr::get($response, 'expires_in'),
+            explode($this->scopeSeparator, Arr::get($response, 'scope', '')),
+        );
     }
 
     /**
@@ -363,9 +364,9 @@ abstract class AbstractProvider implements ProviderContract
      * @param  string  $refreshToken
      * @return array
      */
-    public function getRefreshTokenResponse($refreshToken)
+    protected function getRefreshTokenResponse($refreshToken)
     {
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+        return json_decode($this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'refresh_token',
@@ -373,9 +374,7 @@ abstract class AbstractProvider implements ProviderContract
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
             ],
-        ]);
-
-        return json_decode($response->getBody(), true);
+        ])->getBody(), true);
     }
 
     /**
