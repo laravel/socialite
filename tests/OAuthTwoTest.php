@@ -140,7 +140,7 @@ class OAuthTwoTest extends TestCase
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
     {
         $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
-        $request->setSession($session = m::mock(SessionInterface::class));
+        $request->setLaravelSession($session = m::mock(Session::class));
         $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
