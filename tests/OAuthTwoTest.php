@@ -16,7 +16,6 @@ use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class OAuthTwoTest extends TestCase
 {
