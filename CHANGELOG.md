@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.10.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.11.0...5.x)
+
+## [v5.11.0](https://github.com/laravel/socialite/compare/v5.10.0...v5.11.0) - 2023-12-02
+
+* [5.x] Add `refreshToken` method by [@antoinelame](https://github.com/antoinelame) in https://github.com/laravel/socialite/pull/675
+* Adds L11 support by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/socialite/pull/676
 
 ## [v5.10.0](https://github.com/laravel/socialite/compare/v5.9.1...v5.10.0) - 2023-10-30
 
