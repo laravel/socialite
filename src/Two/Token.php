@@ -2,6 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
+use Illuminate\Support\Carbon;
+
 class Token
 {
     /**
@@ -26,6 +28,13 @@ class Token
     public $expiresIn;
 
     /**
+     * The date when the access token expires.
+     *
+     * @var Carbon
+     */
+    public $expiresAt;
+
+    /**
      * The scopes the user authorized. The approved scopes may be a subset of the requested scopes.
      *
      * @var array
@@ -45,6 +54,7 @@ class Token
         $this->token = $token;
         $this->refreshToken = $refreshToken;
         $this->expiresIn = $expiresIn;
+        $this->expiresAt = Carbon::now()->addSeconds($expiresIn);
         $this->approvedScopes = $approvedScopes;
     }
 }
