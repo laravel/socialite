@@ -314,7 +314,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getTokenHeaders($code)
     {
-        return ['Accept' => 'application/json'];
+        return [
+            'Accept' => 'application/json',
+            'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+        ];
     }
 
     /**
