@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Tests\Fixtures\FacebookTestProviderStub;
+use Laravel\Socialite\Tests\Fixtures\GoogleTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoWithPKCETestProviderStub;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -189,6 +190,25 @@ class OAuthTwoTest extends TestCase
             'form_params' => ['grant_type' => 'refresh_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'refresh_token' => 'refresh_token'],
         ])->andReturns($response = m::mock(stdClass::class));
         $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600, "scope" : "scope1,scope2" }');
+        $token = $provider->refreshToken('refresh_token');
+
+        $this->assertInstanceOf(Token::class, $token);
+        $this->assertSame('access_token', $token->token);
+        $this->assertSame('refresh_token', $token->refreshToken);
+        $this->assertSame(3600, $token->expiresIn);
+        $this->assertSame(['scope1', 'scope2'], $token->approvedScopes);
+    }
+
+    public function testUserRefreshesGoogleToken()
+    {
+        $request = Request::create('/');
+        $provider = new GoogleTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->expects('post')->with('http://token.url', [
+            'headers' => ['Accept' => 'application/json'],
+            'form_params' => ['grant_type' => 'refresh_token', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'refresh_token' => 'refresh_token'],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "expires_in" : 3600, "scope" : "scope1 scope2" }');
         $token = $provider->refreshToken('refresh_token');
 
         $this->assertInstanceOf(Token::class, $token);
