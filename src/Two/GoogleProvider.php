@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
@@ -55,6 +56,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+
+        if ($response->getBody() instanceof Stream) {
+            return json_decode($response->getBody()->getContents(), true);
+        }
 
         return json_decode($response->getBody(), true);
     }
