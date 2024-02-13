@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.11.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.12.0...5.x)
+
+## [v5.12.0](https://github.com/laravel/socialite/compare/v5.11.0...v5.12.0) - 2024-02-11
+
+* [5.x] Adding basic authentication by default on signed routes by [@moufmouf](https://github.com/moufmouf) in https://github.com/laravel/socialite/pull/684
+* Correct issue with Google refreshToken() method by [@iBotPeaches](https://github.com/iBotPeaches) in https://github.com/laravel/socialite/pull/686
+* Correct issue with GoogleProvider getUserByToken() method by [@alibori](https://github.com/alibori) in https://github.com/laravel/socialite/pull/689
 
 ## [v5.11.0](https://github.com/laravel/socialite/compare/v5.10.0...v5.11.0) - 2023-12-02
 
