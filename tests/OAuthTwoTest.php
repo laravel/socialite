@@ -103,7 +103,7 @@ class OAuthTwoTest extends TestCase
         $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
         $provider->http->expects('post')->with('http://token.url', [
-            'headers' => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode('client_id:client_secret')], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri', 'code_verifier' => $codeVerifier],
+            'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri', 'code_verifier' => $codeVerifier],
         ])->andReturns($response = m::mock(stdClass::class));
         $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
         $user = $provider->user();
@@ -124,7 +124,7 @@ class OAuthTwoTest extends TestCase
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
         $provider->http->expects('post')->with('http://token.url', [
-            'headers' => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode('client_id:client_secret')], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+            'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
         ])->andReturns($response = m::mock(stdClass::class));
         $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
         $user = $provider->user();
