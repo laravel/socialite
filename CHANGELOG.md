@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.12.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.12.1...5.x)
+
+## [v5.12.1](https://github.com/laravel/socialite/compare/v5.12.0...v5.12.1) - 2024-02-16
+
+* Revert "Adding basic authentication by default on signed routes (#684)" by [@driesvints](https://github.com/driesvints) in https://github.com/laravel/socialite/pull/694
 
 ## [v5.12.0](https://github.com/laravel/socialite/compare/v5.11.0...v5.12.0) - 2024-02-11
 
