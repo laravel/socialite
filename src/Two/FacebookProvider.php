@@ -102,6 +102,12 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             ?? $this->getUserFromAccessToken($token);
     }
 
+    /**
+     * Get user based on the OIDC token.
+     *
+     * @param  string  $token
+     * @return array
+     */
     protected function getUserByOIDCToken($token)
     {
         $kid = json_decode(base64_decode(explode('.', $token)[0]), true)['kid'] ?? null;
@@ -122,6 +128,12 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         return $data;
     }
 
+    /**
+     * Get public key to verify the signature of OIDC token.
+     *
+     * @param  string  $id
+     * @return \Firebase\JWT\Key
+     */
     protected function getPublicKeyOfOIDCToken(string $kid)
     {
         $response = $this->getHttpClient()->get('https://limited.facebook.com/.well-known/oauth/openid/jwks/');
@@ -136,6 +148,12 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         return new Key((string) RSA::load($key), 'RS256');
     }
 
+    /**
+     * Get user based on the access token.
+     *
+     * @param  string  $token
+     * @return array
+     */
     protected function getUserFromAccessToken($token)
     {
         $params = [
