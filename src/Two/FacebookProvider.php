@@ -7,7 +7,6 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Math\BigInteger;
 
@@ -103,7 +102,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             ?? $this->getUserFromAccessToken($token);
     }
 
-    protected function getUserByOIDCToken($token) : ?array
+    protected function getUserByOIDCToken($token)
     {
         $kid = json_decode(base64_decode(explode('.', $token)[0]), true)['kid'] ?? null;
 
@@ -123,7 +122,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         return $data;
     }
 
-    protected function getPublicKeyOfOIDCToken(string $kid) : Key
+    protected function getPublicKeyOfOIDCToken(string $kid)
     {
         $response = $this->getHttpClient()->get('https://limited.facebook.com/.well-known/oauth/openid/jwks/');
 
