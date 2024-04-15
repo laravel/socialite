@@ -186,7 +186,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
             $avatarOriginalUrl = $avatarUrl.'?width=1920';
         }
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => null,
             'name' => $user['name'] ?? null,
