@@ -98,8 +98,8 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     {
         $this->lastToken = $token;
 
-        return $this->getUserByOIDCToken($token)
-            ?? $this->getUserFromAccessToken($token);
+        return $this->getUserByOIDCToken($token) ??
+               $this->getUserFromAccessToken($token);
     }
 
     /**
@@ -118,8 +118,8 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
 
         $data = (array) JWT::decode($token, $this->getPublicKeyOfOIDCToken($kid));
 
-        throw_if($data['aud'] !== $this->clientId, new Exception('Token has incorrect audience'));
-        throw_if($data['iss'] !== 'https://www.facebook.com', new Exception('Token has incorrect issuer'));
+        throw_if($data['aud'] !== $this->clientId, new Exception('Token has incorrect audience.'));
+        throw_if($data['iss'] !== 'https://www.facebook.com', new Exception('Token has incorrect issuer.'));
 
         $data['id'] = $data['sub'];
         $data['first_name'] = $data['given_name'];
@@ -129,7 +129,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get public key to verify the signature of OIDC token.
+     * Get the public key to verify the signature of OIDC token.
      *
      * @param  string  $id
      * @return \Firebase\JWT\Key
@@ -182,6 +182,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     {
         if (! isset($user['sub'])) {
             $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
+
             $avatarOriginalUrl = $avatarUrl.'?width=1920';
         }
 
