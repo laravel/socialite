@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.12.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.0...5.x)
+
+## [v5.13.0](https://github.com/laravel/socialite/compare/v5.12.1...v5.13.0) - 2024-04-15
+
+* Support OIDC token in Facebook provider (Facebook Limited Login) by [@gdebrauwer](https://github.com/gdebrauwer) in https://github.com/laravel/socialite/pull/698
 
 ## [v5.12.1](https://github.com/laravel/socialite/compare/v5.12.0...v5.12.1) - 2024-02-16
 
