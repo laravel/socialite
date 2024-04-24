@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
