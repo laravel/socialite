@@ -57,11 +57,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             ],
         ]);
 
-        if ($response->getBody() instanceof Stream) {
-            return json_decode($response->getBody()->getContents(), true);
-        }
-
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
