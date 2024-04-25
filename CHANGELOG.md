@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.1...5.x)
+
+## [v5.13.1](https://github.com/laravel/socialite/compare/v5.13.0...v5.13.1) - 2024-04-24
+
+* Correct issue with GoogleProvider getUserByToken() method by [@ChengKaiChiang](https://github.com/ChengKaiChiang) in https://github.com/laravel/socialite/pull/700
 
 ## [v5.13.0](https://github.com/laravel/socialite/compare/v5.12.1...v5.13.0) - 2024-04-15
 
