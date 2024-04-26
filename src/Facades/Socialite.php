@@ -8,7 +8,6 @@ use Laravel\Socialite\Contracts\Factory;
 /**
  * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
  * @method static \Laravel\Socialite\Two\AbstractProvider buildProvider($provider, $config)
- *
  * @method array getScopes()
  * @method \Laravel\Socialite\Contracts\Provider scopes(array|string $scopes)
  * @method \Laravel\Socialite\Contracts\Provider setScopes(array|string $scopes)
