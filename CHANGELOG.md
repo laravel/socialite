@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.2...5.x)
+
+## [v5.13.2](https://github.com/laravel/socialite/compare/v5.13.1...v5.13.2) - 2024-04-26
+
+* Update Socialite.php by [@adic3x](https://github.com/adic3x) in https://github.com/laravel/socialite/pull/701
 
 ## [v5.13.1](https://github.com/laravel/socialite/compare/v5.13.0...v5.13.1) - 2024-04-24
 
