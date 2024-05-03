@@ -36,6 +36,7 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => Arr::get($user, 'sub'),
+            'nickname' => null,
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),
             'avatar' => Arr::get($user, 'picture'),
