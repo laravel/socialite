@@ -13,17 +13,17 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
 
     protected $scopeSeparator = ' ';
 
-    protected function getAuthUrl($state): string
+    protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://slack.com/openid/connect/authorize', $state);
     }
 
-    protected function getTokenUrl(): string
+    protected function getTokenUrl()
     {
         return 'https://slack.com/api/openid.connect.token';
     }
 
-    protected function getUserByToken($token): array
+    protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://slack.com/api/openid.connect.userInfo', [
             RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
@@ -32,7 +32,7 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    protected function mapUserToObject(array $user): User
+    protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
             'id' => Arr::get($user, 'sub'),
