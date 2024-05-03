@@ -27,7 +27,7 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
             RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody(), true);
     }
 
     protected function mapUserToObject(array $user)
