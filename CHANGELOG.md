@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.13.2...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.14.0...5.x)
+
+## [v5.14.0](https://github.com/laravel/socialite/compare/v5.13.2...v5.14.0) - 2024-05-03
+
+* Update Socialite Providers URL by [@DamianKRTurner](https://github.com/DamianKRTurner) in https://github.com/laravel/socialite/pull/703
+* [5.x] Add Slack OpenID provider by [@maartenpaauw](https://github.com/maartenpaauw) in https://github.com/laravel/socialite/pull/704
 
 ## [v5.13.2](https://github.com/laravel/socialite/compare/v5.13.1...v5.13.2) - 2024-04-26
 
