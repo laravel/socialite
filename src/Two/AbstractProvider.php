@@ -337,7 +337,7 @@ abstract class AbstractProvider implements ProviderContract
             $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
         }
 
-        return $fields;
+        return array_merge($fields, $this->parameters);
     }
 
     /**
