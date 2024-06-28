@@ -122,8 +122,14 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         throw_if($data['iss'] !== 'https://www.facebook.com', new Exception('Token has incorrect issuer.'));
 
         $data['id'] = $data['sub'];
-        $data['first_name'] = $data['given_name'];
-        $data['last_name'] = $data['family_name'];
+
+        if (isset($data['given_name'])) {
+            $data['first_name'] = $data['given_name'];
+        }
+
+        if (isset($data['family_name'])) {
+            $data['last_name'] = $data['family_name'];
+        }
 
         return $data;
     }
