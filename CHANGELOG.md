@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.15.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.15.1...5.x)
+
+## [v5.15.1](https://github.com/laravel/socialite/compare/v5.15.0...v5.15.1) - 2024-06-28
+
+* Check if some fields exist using limited login by [@CosmicodeStudio](https://github.com/CosmicodeStudio) in https://github.com/laravel/socialite/pull/709
 
 ## [v5.15.0](https://github.com/laravel/socialite/compare/v5.14.0...v5.15.0) - 2024-06-11
 
