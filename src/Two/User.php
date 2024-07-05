@@ -35,6 +35,16 @@ class User extends AbstractUser
     public $approvedScopes;
 
     /**
+     * Get the access token for the user.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * Set the token on the user.
      *
      * @param  string  $token
@@ -45,6 +55,16 @@ class User extends AbstractUser
         $this->token = $token;
 
         return $this;
+    }
+
+    /**
+     * Get the refresh token for the user.
+     *
+     * @return string
+     */
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
     }
 
     /**
@@ -61,6 +81,16 @@ class User extends AbstractUser
     }
 
     /**
+     * Get the number of seconds the access token is valid for.
+     *
+     * @return int
+     */
+    public function getExpiresIn()
+    {
+        return $this->expiresIn;
+    }
+
+    /**
      * Set the number of seconds the access token is valid for.
      *
      * @param  int  $expiresIn
@@ -71,6 +101,16 @@ class User extends AbstractUser
         $this->expiresIn = $expiresIn;
 
         return $this;
+    }
+
+    /**
+     * Get the scopes that were approved by the user during authentication.
+     *
+     * @return array
+     */
+    public function getApprovedScopes()
+    {
+        return $this->approvedScopes;
     }
 
     /**
