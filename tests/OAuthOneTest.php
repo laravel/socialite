@@ -67,6 +67,7 @@ class OAuthOneTest extends TestCase
         $this->assertSame('uid', $user->id);
         $this->assertSame('foo@bar.com', $user->email);
         $this->assertSame(['extra' => 'extra'], $user->user);
+        $this->assertSame($user->getAttributes(), $user->attributes);
     }
 
     public function testExceptionIsThrownWhenVerifierIsMissing()

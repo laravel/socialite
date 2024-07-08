@@ -114,6 +114,10 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('refresh_token', $user->refreshToken);
         $this->assertSame(3600, $user->expiresIn);
         $this->assertSame($user->id, $provider->user()->id);
+        $this->assertSame($user->getAttributes(), $user->attributes);
+        $this->assertSame($user->getToken(), $user->token);
+        $this->assertSame($user->getRefreshToken(), $user->refreshToken);
+        $this->assertSame($user->getExpiresIn(), $user->expiresIn);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedRequest()
@@ -135,6 +139,10 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('refresh_token', $user->refreshToken);
         $this->assertSame(3600, $user->expiresIn);
         $this->assertSame($user->id, $provider->user()->id);
+        $this->assertSame($user->getAttributes(), $user->attributes);
+        $this->assertSame($user->getToken(), $user->token);
+        $this->assertSame($user->getRefreshToken(), $user->refreshToken);
+        $this->assertSame($user->getExpiresIn(), $user->expiresIn);
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()
@@ -156,6 +164,10 @@ class OAuthTwoTest extends TestCase
         $this->assertNull($user->refreshToken);
         $this->assertSame(5183085, $user->expiresIn);
         $this->assertSame($user->id, $provider->user()->id);
+        $this->assertSame($user->getAttributes(), $user->attributes);
+        $this->assertSame($user->getToken(), $user->token);
+        $this->assertSame($user->getRefreshToken(), $user->refreshToken);
+        $this->assertSame($user->getExpiresIn(), $user->expiresIn);
     }
 
     public function testExceptionIsThrownIfStateIsInvalid()
