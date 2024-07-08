@@ -130,6 +130,16 @@ abstract class AbstractUser implements ArrayAccess, User
     }
 
     /**
+     * Get the user's attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
      * Map the given array onto the user's properties.
      *
      * @param  array  $attributes
