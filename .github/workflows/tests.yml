@@ -75,9 +75,4 @@ jobs:
            composer update --prefer-dist --no-interaction --no-progress --with="illuminate/contracts=^${{ matrix.laravel }}"
 
       - name: Execute tests (display deprecations)
-        run: vendor/bin/phpunit --display-deprecations --fail-on-deprecation
-        if: matrix.laravel >= 10
-
-      - name: Execute tests
-        run: vendor/bin/phpunit
-        if: matrix.laravel < 10
+        run: vendor/bin/phpunit ${{ matrix.laravel >= 10 && '--display-deprecations --fail-on-deprecation' || '' }}
