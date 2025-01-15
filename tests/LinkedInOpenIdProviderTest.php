@@ -31,6 +31,7 @@ class LinkedInOpenIdProviderTest extends TestCase
             'name' => 'Nuno Maduro',
             'family_name' => 'Maduro',
             'email' => 'nuno@laravel.com',
+            'email_verified' => true,
         ]);
 
         $this->assertInstanceOf(User::class, $user);
@@ -47,6 +48,7 @@ class LinkedInOpenIdProviderTest extends TestCase
             'first_name' => 'Nuno',
             'last_name' => 'Maduro',
             'email' => 'nuno@laravel.com',
+            'email_verified' => true,
             'avatar' => 'https://media.licdn.com/dms/image/D4D03AQmZFgJNqeNNk',
             'avatar_original' => 'https://media.licdn.com/dms/image/D4D03AQmZFgJNqeNNk',
         ], $user->attributes);
@@ -75,6 +77,7 @@ class LinkedInOpenIdProviderTest extends TestCase
             'first_name' => 'Nuno',
             'last_name' => 'Maduro',
             'email' => null,
+            'email_verified' => null,
             'avatar' => null,
             'avatar_original' => null,
         ], $user->attributes);
@@ -105,7 +108,7 @@ class LinkedInOpenIdProviderTest extends TestCase
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(sub,email,name,given_name,family_name,picture)',
+                'projection' => '(sub,email,email_verified,name,given_name,family_name,picture)',
             ],
         ])->andReturns($basicProfileResponse);
 
