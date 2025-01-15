@@ -58,7 +58,7 @@ class LinkedInOpenIdProvider extends AbstractProvider implements ProviderInterfa
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '(sub,email,name,given_name,family_name,picture)',
+                'projection' => '(sub,email,email_verified,name,given_name,family_name,picture)',
             ],
         ]);
 
@@ -77,6 +77,7 @@ class LinkedInOpenIdProvider extends AbstractProvider implements ProviderInterfa
             'first_name' => $user['given_name'],
             'last_name' => $user['family_name'],
             'email' => $user['email'] ?? null,
+            'email_verified' => $user['email_verified'] ?? null,
             'avatar' => $user['picture'] ?? null,
             'avatar_original' => $user['picture'] ?? null,
         ]);
