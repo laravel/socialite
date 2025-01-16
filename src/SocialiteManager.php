@@ -223,11 +223,11 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function buildProvider($provider, $config)
     {
-        return new $provider(
+        return (new $provider(
             $this->container->make('request'), $config['client_id'],
             $config['client_secret'], $this->formatRedirectUrl($config),
             Arr::get($config, 'guzzle', [])
-        );
+        ))->scopes($config['scopes'] ?? []);
     }
 
     /**
