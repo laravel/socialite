@@ -51,4 +51,30 @@ class SocialiteManagerTest extends TestCase
         $provider = $factory->driver('github');
         $this->assertSame(['user:email'], $provider->getScopes());
     }
+
+    public function test_it_can_instantiate_the_github_driver_with_scopes_from_config_array_merged_by_programmatic_scopes_using_scopes_method()
+    {
+        $factory = $this->app->make(Factory::class);
+        $this->app['config']->set('services.github', [
+            'client_id' => 'github-client-id',
+            'client_secret' => 'github-client-secret',
+            'redirect' => 'http://your-callback-url',
+            'scopes' => ['user:email'],
+        ]);
+        $provider = $factory->driver('github')->scopes(['read:user']);
+        $this->assertSame(['user:email', 'read:user'], $provider->getScopes());
+    }
+
+    public function test_it_can_instantiate_the_github_driver_with_scopes_from_config_array_overwritten_by_programmatic_scopes_using_set_scopes_method()
+    {
+        $factory = $this->app->make(Factory::class);
+        $this->app['config']->set('services.github', [
+            'client_id' => 'github-client-id',
+            'client_secret' => 'github-client-secret',
+            'redirect' => 'http://your-callback-url',
+            'scopes' => ['user:email'],
+        ]);
+        $provider = $factory->driver('github')->setScopes(['read:user']);
+        $this->assertSame(['read:user'], $provider->getScopes());
+    }
 }
