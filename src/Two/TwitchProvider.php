@@ -14,6 +14,11 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
      */
     protected $scopes = ['user:read:email'];
 
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
     protected $scopeSeparator = ' ';
 
     /**
