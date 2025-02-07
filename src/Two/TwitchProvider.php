@@ -15,6 +15,8 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
      */
     protected $scopes = ['user:read:email'];
 
+    protected $scopeSeparator = ' ';
+
     /**
      * {@inheritdoc}
      */
@@ -51,6 +53,29 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * Create a user instance from the given data.
+     *
+     * @param  array  $response
+     * @param  array  $user
+     * @return \Laravel\Socialite\Two\User
+     */
+    protected function userInstance(array $response, array $user)
+    {
+        $this->user = $this->mapUserToObject($user);
+
+        $scopes = Arr::get($response, 'scope', []);
+
+        if (! is_array($scopes)) {
+            $scopes = explode($this->scopeSeparator, $scopes);
+        }
+
+        return $this->user->setToken(Arr::get($response, 'access_token'))
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'))
+            ->setApprovedScopes($scopes);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
@@ -64,22 +89,6 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
             'email' => Arr::get($user, 'email'),
             'avatar' => $user['profile_image_url'],
         ]);
-    }
-
-    /**
-     * Get the default options for an HTTP request.
-     *
-     * @param  string  $token
-     * @return array
-     */
-    protected function getRequestOptions($token)
-    {
-        return [
-            RequestOptions::HEADERS => [
-                'Accept' => 'application/vnd.github.v3+json',
-                'Authorization' => 'token '.$token,
-            ],
-        ];
     }
 
     /**
