@@ -16,6 +16,7 @@ use Laravel\Socialite\Two\LinkedInOpenIdProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
 use Laravel\Socialite\Two\SlackOpenIdProvider;
 use Laravel\Socialite\Two\SlackProvider;
+use Laravel\Socialite\Two\TwitchProvider;
 use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
 use Laravel\Socialite\Two\XProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
@@ -183,6 +184,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             XProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createTwitchDriver()
+    {
+        $config = $this->config->get('services.twitch');
+
+        return $this->buildProvider(
+            TwitchProvider::class, $config
         );
     }
 
