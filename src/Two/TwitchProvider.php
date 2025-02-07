@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use Exception;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
