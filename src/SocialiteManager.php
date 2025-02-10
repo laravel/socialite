@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
+use Laravel\Socialite\Two\DiscordProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
@@ -54,6 +55,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             GithubProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createDiscordDriver()
+    {
+        $config = $this->config->get('services.discord');
+
+        return $this->buildProvider(
+            DiscordProvider::class, $config
         );
     }
 
