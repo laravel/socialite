@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
 use Laravel\Socialite\Two\FacebookProvider;
@@ -238,6 +239,13 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function buildProvider($provider, $config)
     {
+        $requiredKeys = ['client_id', 'client_secret', 'redirect'];
+        $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
+
+        if (! empty($missingKeys)) {
+            throw DriverMissingConfigurationException::missingConfig($provider, $missingKeys);
+        }
+
         return (new $provider(
             $this->container->make('request'), $config['client_id'],
             $config['client_secret'], $this->formatRedirectUrl($config),
