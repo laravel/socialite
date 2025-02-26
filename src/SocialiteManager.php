@@ -243,7 +243,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
 
         if (! empty($missingKeys)) {
-            throw DriverMissingConfigurationException::missingConfig($provider, $missingKeys);
+            throw DriverMissingConfigurationException::make($provider, $missingKeys);
         }
 
         return (new $provider(
