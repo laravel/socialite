@@ -240,6 +240,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
     public function buildProvider($provider, $config)
     {
         $requiredKeys = ['client_id', 'client_secret', 'redirect'];
+
         $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
 
         if (! empty($missingKeys)) {
