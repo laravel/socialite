@@ -141,7 +141,7 @@ abstract class AbstractProvider implements ProviderContract
      * Get the raw user for the given access token.
      *
      * @param  string  $token
-     * @return array
+     * @return mixed
      */
     abstract protected function getUserByToken($token);
 
@@ -294,7 +294,7 @@ abstract class AbstractProvider implements ProviderContract
      * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return array
+     * @return mixed
      */
     public function getAccessTokenResponse($code)
     {
