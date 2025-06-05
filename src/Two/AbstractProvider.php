@@ -362,7 +362,7 @@ abstract class AbstractProvider implements ProviderContract
      * Get the refresh token response for the given refresh token.
      *
      * @param  string  $refreshToken
-     * @return array
+     * @return mixed
      */
     protected function getRefreshTokenResponse($refreshToken)
     {
