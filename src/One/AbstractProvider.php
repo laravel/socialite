@@ -12,31 +12,21 @@ abstract class AbstractProvider implements ProviderContract
 {
     /**
      * The HTTP request instance.
-     *
-     * @var \Illuminate\Http\Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
      * The OAuth server implementation.
-     *
-     * @var \League\OAuth1\Client\Server\Server
      */
-    protected $server;
+    protected Server $server;
 
     /**
      * A hash representing the last requested user.
-     *
-     * @var string
      */
-    protected $userHash;
+    protected ?string $userHash = null;
 
     /**
      * Create a new provider instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \League\OAuth1\Client\Server\Server  $server
-     * @return void
      */
     public function __construct(Request $request, Server $server)
     {
@@ -46,71 +36,65 @@ abstract class AbstractProvider implements ProviderContract
 
     /**
      * Redirect the user to the authentication page for the provider.
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function redirect()
+    public function redirect(): RedirectResponse
     {
-        $this->request->session()->put(
-            'oauth.temp', $temp = $this->server->getTemporaryCredentials()
-        );
+        $tempCredentials = $this->server->getTemporaryCredentials();
+        
+        $this->request->session()->put('oauth.temp', $tempCredentials);
 
-        return new RedirectResponse($this->server->getAuthorizationUrl($temp));
+        return new RedirectResponse(
+            $this->server->getAuthorizationUrl($tempCredentials)
+        );
     }
 
     /**
      * Get the User instance for the authenticated user.
      *
-     * @return \Laravel\Socialite\One\User
-     *
-     * @throws \Laravel\Socialite\One\MissingVerifierException
+     * @throws MissingVerifierException
      */
-    public function user()
+    public function user(): User
     {
-        if (! $this->hasNecessaryVerifier()) {
+        if (!$this->hasNecessaryVerifier()) {
             throw new MissingVerifierException('Invalid request. Missing OAuth verifier.');
         }
 
         $token = $this->getToken();
-
-        $user = $this->server->getUserDetails(
-            $token, $this->shouldBypassCache($token->getIdentifier(), $token->getSecret())
+        $shouldBypassCache = $this->shouldBypassCache(
+            $token->getIdentifier(), 
+            $token->getSecret()
         );
 
-        $instance = (new User)->setRaw($user->extra)
-                ->setToken($token->getIdentifier(), $token->getSecret());
+        $user = $this->server->getUserDetails($token, $shouldBypassCache);
 
-        return $instance->map([
-            'id' => $user->uid,
-            'nickname' => $user->nickname,
-            'name' => $user->name,
-            'email' => $user->email,
-            'avatar' => $user->imageUrl,
-        ]);
+        return $this->mapUserToObject($user)
+            ->setToken($token->getIdentifier(), $token->getSecret())
+            ->setRaw($user->extra);
     }
 
     /**
      * Get a Social User instance from a known access token and secret.
-     *
-     * @param  string  $token
-     * @param  string  $secret
-     * @return \Laravel\Socialite\One\User
      */
-    public function userFromTokenAndSecret($token, $secret)
+    public function userFromTokenAndSecret(string $token, string $secret): User
     {
         $tokenCredentials = new TokenCredentials();
-
         $tokenCredentials->setIdentifier($token);
         $tokenCredentials->setSecret($secret);
 
-        $user = $this->server->getUserDetails(
-            $tokenCredentials, $this->shouldBypassCache($token, $secret)
-        );
+        $shouldBypassCache = $this->shouldBypassCache($token, $secret);
+        $user = $this->server->getUserDetails($tokenCredentials, $shouldBypassCache);
 
-        $instance = (new User)->setRaw($user->extra)
-            ->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret());
+        return $this->mapUserToObject($user)
+            ->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret())
+            ->setRaw($user->extra);
+    }
 
-        return $instance->map([
+    /**
+     * Map the user details to a User object.
+     */
+    protected function mapUserToObject(object $user): User
+    {
+        return (new User())->map([
             'id' => $user->uid,
             'nickname' => $user->nickname,
             'name' => $user->name,
@@ -122,63 +106,55 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get the token credentials for the request.
      *
-     * @return \League\OAuth1\Client\Credentials\TokenCredentials
+     * @throws MissingTemporaryCredentialsException
      */
-    protected function getToken()
+    protected function getToken(): TokenCredentials
     {
         $temp = $this->request->session()->get('oauth.temp');
 
-        if (! $temp) {
-            throw new MissingTemporaryCredentialsException('Missing temporary OAuth credentials.');
+        if (!$temp) {
+            throw new MissingTemporaryCredentialsException(
+                'Missing temporary OAuth credentials.'
+            );
         }
 
         return $this->server->getTokenCredentials(
-            $temp, $this->request->get('oauth_token'), $this->request->get('oauth_verifier')
+            $temp,
+            $this->request->get('oauth_token'),
+            $this->request->get('oauth_verifier')
         );
     }
 
     /**
      * Determine if the request has the necessary OAuth verifier.
-     *
-     * @return bool
      */
-    protected function hasNecessaryVerifier()
+    protected function hasNecessaryVerifier(): bool
     {
         return $this->request->has(['oauth_token', 'oauth_verifier']);
     }
 
     /**
      * Determine if the user information cache should be bypassed.
-     *
-     * @param  string  $token
-     * @param  string  $secret
-     * @return bool
      */
-    protected function shouldBypassCache($token, $secret)
+    protected function shouldBypassCache(string $token, string $secret): bool
     {
-        $newHash = sha1($token.'_'.$secret);
+        $newHash = hash('sha256', $token.'_'.$secret);
 
-        if (! empty($this->userHash) && $newHash !== $this->userHash) {
+        if ($this->userHash && $newHash !== $this->userHash) {
             $this->userHash = $newHash;
-
             return true;
         }
 
-        $this->userHash = $this->userHash ?: $newHash;
-
+        $this->userHash ??= $newHash;
         return false;
     }
 
     /**
      * Set the request instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return $this
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
-
         return $this;
     }
 }
