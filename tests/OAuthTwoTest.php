@@ -11,6 +11,7 @@ use Laravel\Socialite\Tests\Fixtures\GoogleTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoTestProviderStub;
 use Laravel\Socialite\Tests\Fixtures\OAuthTwoWithPKCETestProviderStub;
 use Laravel\Socialite\Two\InvalidStateException;
+use Laravel\Socialite\Two\InvalidTokenResponseException;
 use Laravel\Socialite\Two\Token;
 use Laravel\Socialite\Two\User;
 use Mockery as m;
@@ -135,6 +136,22 @@ class OAuthTwoTest extends TestCase
         $this->assertSame('refresh_token', $user->refreshToken);
         $this->assertSame(3600, $user->expiresIn);
         $this->assertSame($user->id, $provider->user()->id);
+    }
+
+    public function testExceptionIsThrownIfAccessTokenIsMissing()
+    {
+        $this->expectException(InvalidTokenResponseException::class);
+
+        $request = Request::create('foo', 'GET', ['state' => str_repeat('A', 40), 'code' => 'code']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->http = m::mock(stdClass::class);
+        $provider->http->expects('post')->with('http://token.url', [
+            'headers' => ['Accept' => 'application/json'], 'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('::invalid_response::');
+        $provider->user();
     }
 
     public function testUserReturnsAUserInstanceForTheAuthenticatedFacebookRequest()

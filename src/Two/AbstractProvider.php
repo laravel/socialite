@@ -239,6 +239,10 @@ abstract class AbstractProvider implements ProviderContract
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
+        if (! Arr::has($response, 'access_token')) {
+            throw new InvalidTokenResponseException;
+        }
+
         $user = $this->getUserByToken(Arr::get($response, 'access_token'));
 
         return $this->userInstance($response, $user);
