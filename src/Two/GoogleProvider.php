@@ -2,8 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
-use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
@@ -110,7 +110,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function isJwtToken($token)
     {
-        return substr_count($token, ".") === 2 && strlen($token) > 100;
+        return substr_count($token, '.') === 2 && strlen($token) > 100;
     }
 
     /**
@@ -118,6 +118,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      *
      * @param  string  $idToken
      * @return array
+     *
      * @throws \Exception
      */
     protected function getUserFromIdToken($idToken)
@@ -135,20 +136,20 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
 
             // Verify the token is from Google and for this client
             if (
-                !isset($user["iss"]) ||
-                $user["iss"] !== "https://accounts.google.com"
+                ! isset($user['iss']) ||
+                $user['iss'] !== 'https://accounts.google.com'
             ) {
-                throw new \Exception("Invalid ID token issuer");
+                throw new \Exception('Invalid ID token issuer');
             }
 
-            if (!isset($user["aud"]) || $user["aud"] !== $this->clientId) {
-                throw new \Exception("Invalid ID token audience");
+            if (! isset($user['aud']) || $user['aud'] !== $this->clientId) {
+                throw new \Exception('Invalid ID token audience');
             }
 
             return $user;
         } catch (\Exception $e) {
             throw new \Exception(
-                "Failed to verify Google ID token: " . $e->getMessage()
+                'Failed to verify Google ID token: '.$e->getMessage()
             );
         }
     }
@@ -161,7 +162,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected function getGoogleJwks()
     {
         $response = $this->getHttpClient()->get(
-            "https://www.googleapis.com/oauth2/v3/certs"
+            'https://www.googleapis.com/oauth2/v3/certs'
         );
 
         return json_decode((string) $response->getBody(), true);

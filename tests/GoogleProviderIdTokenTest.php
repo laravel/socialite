@@ -27,11 +27,11 @@ class GoogleProviderIdTokenTest extends TestCase
 
         // Test JWT token detection
         $jwtToken = $this->createMockJwtToken();
-        $accessToken = "ya29.a0AfH6SMCxyz123456789";
+        $accessToken = 'ya29.a0AfH6SMCxyz123456789';
 
         // Use reflection to test the protected method
         $reflection = new \ReflectionClass($provider);
-        $method = $reflection->getMethod("isJwtToken");
+        $method = $reflection->getMethod('isJwtToken');
         $method->setAccessible(true);
 
         $this->assertTrue($method->invoke($provider, $jwtToken));
@@ -47,7 +47,7 @@ class GoogleProviderIdTokenTest extends TestCase
 
         // JWT verification should fail with mock data
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches("/Failed to verify Google ID token/");
+        $this->expectExceptionMessageMatches('/Failed to verify Google ID token/');
 
         $provider->userFromToken($idToken);
     }
@@ -55,7 +55,7 @@ class GoogleProviderIdTokenTest extends TestCase
     public function test_it_falls_back_to_api_call_for_access_tokens()
     {
         $provider = $this->getProvider();
-        $accessToken = "ya29.a0AfH6SMCxyz123456789";
+        $accessToken = 'ya29.a0AfH6SMCxyz123456789';
 
         // Mock the HTTP client for userinfo API call
         $httpClient = m::mock(Client::class);
@@ -65,39 +65,39 @@ class GoogleProviderIdTokenTest extends TestCase
         $stream = m::mock(StreamInterface::class);
 
         $mockUserData = [
-            "sub" => "123456789",
-            "email" => "test@example.com",
-            "name" => "Test User",
-            "picture" => "https://example.com/photo.jpg",
+            'sub' => '123456789',
+            'email' => 'test@example.com',
+            'name' => 'Test User',
+            'picture' => 'https://example.com/photo.jpg',
         ];
 
         $httpClient
-            ->shouldReceive("get")
-            ->with("https://www.googleapis.com/oauth2/v3/userinfo", [
+            ->shouldReceive('get')
+            ->with('https://www.googleapis.com/oauth2/v3/userinfo', [
                 RequestOptions::QUERY => [
-                    "prettyPrint" => "false",
+                    'prettyPrint' => 'false',
                 ],
                 RequestOptions::HEADERS => [
-                    "Accept" => "application/json",
-                    "Authorization" => "Bearer " . $accessToken,
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer '.$accessToken,
                 ],
             ])
             ->once()
             ->andReturn($response);
 
-        $response->shouldReceive("getBody")->once()->andReturn($stream);
+        $response->shouldReceive('getBody')->once()->andReturn($stream);
 
         $stream
-            ->shouldReceive("__toString")
+            ->shouldReceive('__toString')
             ->once()
             ->andReturn(json_encode($mockUserData));
 
         $user = $provider->userFromToken($accessToken);
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals("123456789", $user->getId());
-        $this->assertEquals("test@example.com", $user->getEmail());
-        $this->assertEquals("Test User", $user->getName());
+        $this->assertEquals('123456789', $user->getId());
+        $this->assertEquals('test@example.com', $user->getEmail());
+        $this->assertEquals('Test User', $user->getName());
     }
 
     /**
@@ -111,7 +111,7 @@ class GoogleProviderIdTokenTest extends TestCase
         if ($expectedException) {
             $this->mockJwksResponse($provider);
             $this->expectException(\Exception::class);
-            $this->expectExceptionMessageMatches("/Failed to verify Google ID token/");
+            $this->expectExceptionMessageMatches('/Failed to verify Google ID token/');
         }
 
         $provider->userFromToken($invalidToken);
@@ -122,15 +122,15 @@ class GoogleProviderIdTokenTest extends TestCase
         return [
             'invalid issuer' => [
                 'Invalid issuer',
-                ['payload' => ['iss' => 'https://invalid-issuer.com']]
+                ['payload' => ['iss' => 'https://invalid-issuer.com']],
             ],
             'invalid audience' => [
                 'Invalid audience',
-                ['payload' => ['aud' => 'wrong-client-id']]
+                ['payload' => ['aud' => 'wrong-client-id']],
             ],
             'missing key id' => [
                 'Missing key ID',
-                ['header' => ['kid' => null]]
+                ['header' => ['kid' => null]],
             ],
         ];
     }
@@ -140,29 +140,29 @@ class GoogleProviderIdTokenTest extends TestCase
         $provider = $this->getProvider();
 
         $idTokenUser = [
-            "sub" => "123456789012345678901",
-            "email" => "testuser@gmail.com",
-            "email_verified" => true,
-            "name" => "Test User",
-            "picture" => "https://lh3.googleusercontent.com/photo.jpg",
+            'sub' => '123456789012345678901',
+            'email' => 'testuser@gmail.com',
+            'email_verified' => true,
+            'name' => 'Test User',
+            'picture' => 'https://lh3.googleusercontent.com/photo.jpg',
         ];
 
         $reflection = new \ReflectionClass($provider);
-        $method = $reflection->getMethod("mapUserToObject");
+        $method = $reflection->getMethod('mapUserToObject');
         $method->setAccessible(true);
 
         $user = $method->invoke($provider, $idTokenUser);
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals("123456789012345678901", $user->getId());
-        $this->assertEquals("testuser@gmail.com", $user->getEmail());
-        $this->assertEquals("Test User", $user->getName());
-        $this->assertEquals("https://lh3.googleusercontent.com/photo.jpg", $user->getAvatar());
+        $this->assertEquals('123456789012345678901', $user->getId());
+        $this->assertEquals('testuser@gmail.com', $user->getEmail());
+        $this->assertEquals('Test User', $user->getName());
+        $this->assertEquals('https://lh3.googleusercontent.com/photo.jpg', $user->getAvatar());
 
         // Test backward compatibility fields
         $rawUser = $user->getRaw();
-        $this->assertEquals("123456789012345678901", $rawUser["id"]);
-        $this->assertTrue($rawUser["verified_email"]);
+        $this->assertEquals('123456789012345678901', $rawUser['id']);
+        $this->assertTrue($rawUser['verified_email']);
     }
 
     /**
@@ -170,13 +170,13 @@ class GoogleProviderIdTokenTest extends TestCase
      */
     protected function getProvider()
     {
-        $request = Request::create("/");
+        $request = Request::create('/');
 
         return new GoogleProvider(
             $request,
-            "test-client-id",
-            "test-client-secret",
-            "http://localhost/callback"
+            'test-client-id',
+            'test-client-secret',
+            'http://localhost/callback'
         );
     }
 
@@ -185,24 +185,24 @@ class GoogleProviderIdTokenTest extends TestCase
      */
     protected function createMockJwtToken()
     {
-        $header = ["typ" => "JWT", "alg" => "RS256", "kid" => "test-key-id"];
+        $header = ['typ' => 'JWT', 'alg' => 'RS256', 'kid' => 'test-key-id'];
         $payload = [
-            "iss" => "https://accounts.google.com",
-            "sub" => "123456789012345678901",
-            "aud" => "test-client-id",
-            "email" => "testuser@gmail.com",
-            "email_verified" => true,
-            "name" => "Test User",
-            "picture" => "https://lh3.googleusercontent.com/photo.jpg",
-            "iat" => time(),
-            "exp" => time() + 3600,
+            'iss' => 'https://accounts.google.com',
+            'sub' => '123456789012345678901',
+            'aud' => 'test-client-id',
+            'email' => 'testuser@gmail.com',
+            'email_verified' => true,
+            'name' => 'Test User',
+            'picture' => 'https://lh3.googleusercontent.com/photo.jpg',
+            'iat' => time(),
+            'exp' => time() + 3600,
         ];
 
-        return $this->base64UrlEncode(json_encode($header)) .
-            "." .
-            $this->base64UrlEncode(json_encode($payload)) .
-            "." .
-            $this->base64UrlEncode("mock-signature");
+        return $this->base64UrlEncode(json_encode($header)).
+            '.'.
+            $this->base64UrlEncode(json_encode($payload)).
+            '.'.
+            $this->base64UrlEncode('mock-signature');
     }
 
     /**
@@ -217,24 +217,24 @@ class GoogleProviderIdTokenTest extends TestCase
         $jwksStream = m::mock(StreamInterface::class);
 
         $mockJwks = [
-            "keys" => [
+            'keys' => [
                 [
-                    "kid" => "test-key-id",
-                    "kty" => "RSA",
-                    "use" => "sig",
-                    "n" => "mock-n-value",
-                    "e" => "AQAB",
+                    'kid' => 'test-key-id',
+                    'kty' => 'RSA',
+                    'use' => 'sig',
+                    'n' => 'mock-n-value',
+                    'e' => 'AQAB',
                 ],
             ],
         ];
 
-        $httpClient->shouldReceive("get")
-            ->with("https://www.googleapis.com/oauth2/v3/certs")
+        $httpClient->shouldReceive('get')
+            ->with('https://www.googleapis.com/oauth2/v3/certs')
             ->once()
             ->andReturn($jwksResponse);
 
-        $jwksResponse->shouldReceive("getBody")->once()->andReturn($jwksStream);
-        $jwksStream->shouldReceive("__toString")->once()->andReturn(json_encode($mockJwks));
+        $jwksResponse->shouldReceive('getBody')->once()->andReturn($jwksStream);
+        $jwksStream->shouldReceive('__toString')->once()->andReturn(json_encode($mockJwks));
     }
 
     /**
@@ -243,26 +243,28 @@ class GoogleProviderIdTokenTest extends TestCase
     protected function createInvalidJwtToken(array $overrides)
     {
         $header = array_merge(
-            ["typ" => "JWT", "alg" => "RS256", "kid" => "test-key-id"],
+            ['typ' => 'JWT', 'alg' => 'RS256', 'kid' => 'test-key-id'],
             $overrides['header'] ?? []
         );
 
         $payload = array_merge([
-            "iss" => "https://accounts.google.com",
-            "sub" => "123456789",
-            "aud" => "test-client-id",
-            "email" => "test@example.com",
-            "name" => "Test User",
-            "iat" => time(),
-            "exp" => time() + 3600,
+            'iss' => 'https://accounts.google.com',
+            'sub' => '123456789',
+            'aud' => 'test-client-id',
+            'email' => 'test@example.com',
+            'name' => 'Test User',
+            'iat' => time(),
+            'exp' => time() + 3600,
         ], $overrides['payload'] ?? []);
 
         // Remove null values
-        $header = array_filter($header, function($value) { return $value !== null; });
+        $header = array_filter($header, function ($value) {
+            return $value !== null;
+        });
 
-        return $this->base64UrlEncode(json_encode($header)) . "." .
-               $this->base64UrlEncode(json_encode($payload)) . "." .
-               $this->base64UrlEncode("mock-signature");
+        return $this->base64UrlEncode(json_encode($header)).'.'.
+               $this->base64UrlEncode(json_encode($payload)).'.'.
+               $this->base64UrlEncode('mock-signature');
     }
 
     /**
@@ -270,6 +272,6 @@ class GoogleProviderIdTokenTest extends TestCase
      */
     protected function base64UrlEncode($data)
     {
-        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 }
