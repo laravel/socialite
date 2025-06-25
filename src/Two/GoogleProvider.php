@@ -2,6 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\JWK;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
@@ -46,6 +48,12 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
+        // Check if token is a JWT (ID token) by looking for JWT structure
+        if ($this->isJwtToken($token)) {
+            return $this->getUserFromIdToken($token);
+        }
+
+        // Handle as access token (existing behavior)
         $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v3/userinfo', [
             RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
@@ -92,5 +100,70 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             'avatar' => $avatarUrl = Arr::get($user, 'picture'),
             'avatar_original' => $avatarUrl,
         ]);
+    }
+
+    /**
+     * Determine if the given token is a JWT (ID token).
+     *
+     * @param  string  $token
+     * @return bool
+     */
+    protected function isJwtToken($token)
+    {
+        return substr_count($token, ".") === 2 && strlen($token) > 100;
+    }
+
+    /**
+     * Get user data from Google ID token (JWT).
+     *
+     * @param  string  $idToken
+     * @return array
+     * @throws \Exception
+     */
+    protected function getUserFromIdToken($idToken)
+    {
+        try {
+            // Get Google's public keys and parse them using Firebase JWT's built-in function
+            $jwks = $this->getGoogleJwks();
+            $keys = JWK::parseKeySet($jwks);
+
+            // Verify and decode the JWT - Firebase JWT automatically selects the correct key
+            $payload = JWT::decode($idToken, $keys);
+
+            // Convert to array and validate required claims
+            $user = (array) $payload;
+
+            // Verify the token is from Google and for this client
+            if (
+                !isset($user["iss"]) ||
+                $user["iss"] !== "https://accounts.google.com"
+            ) {
+                throw new \Exception("Invalid ID token issuer");
+            }
+
+            if (!isset($user["aud"]) || $user["aud"] !== $this->clientId) {
+                throw new \Exception("Invalid ID token audience");
+            }
+
+            return $user;
+        } catch (\Exception $e) {
+            throw new \Exception(
+                "Failed to verify Google ID token: " . $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Get Google's JSON Web Key Set for JWT verification.
+     *
+     * @return array
+     */
+    protected function getGoogleJwks()
+    {
+        $response = $this->getHttpClient()->get(
+            "https://www.googleapis.com/oauth2/v3/certs"
+        );
+
+        return json_decode((string) $response->getBody(), true);
     }
 }
