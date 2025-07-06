@@ -48,12 +48,9 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        // Check if token is a JWT (ID token) by looking for JWT structure
         if ($this->isJwtToken($token)) {
             return $this->getUserFromIdToken($token);
         }
-
-        // Handle as access token (existing behavior)
         $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v3/userinfo', [
             RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
@@ -124,17 +121,12 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected function getUserFromIdToken($idToken)
     {
         try {
-            // Get Google's public keys and parse them using Firebase JWT's built-in function
             $jwks = $this->getGoogleJwks();
             $keys = JWK::parseKeySet($jwks);
 
-            // Verify and decode the JWT - Firebase JWT automatically selects the correct key
             $payload = JWT::decode($idToken, $keys);
 
-            // Convert to array and validate required claims
             $user = (array) $payload;
-
-            // Verify the token is from Google and for this client
             if (
                 ! isset($user['iss']) ||
                 $user['iss'] !== 'https://accounts.google.com'

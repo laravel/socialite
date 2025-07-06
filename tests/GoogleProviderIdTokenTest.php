@@ -25,11 +25,9 @@ class GoogleProviderIdTokenTest extends TestCase
     {
         $provider = $this->getProvider();
 
-        // Test JWT token detection
         $jwtToken = $this->createMockJwtToken();
         $accessToken = 'ya29.a0AfH6SMCxyz123456789';
 
-        // Use reflection to test the protected method
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('isJwtToken');
         $method->setAccessible(true);
@@ -45,7 +43,6 @@ class GoogleProviderIdTokenTest extends TestCase
 
         $this->mockJwksResponse($provider);
 
-        // JWT verification should fail with mock data
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/Failed to verify Google ID token/');
 
@@ -57,7 +54,6 @@ class GoogleProviderIdTokenTest extends TestCase
         $provider = $this->getProvider();
         $accessToken = 'ya29.a0AfH6SMCxyz123456789';
 
-        // Mock the HTTP client for userinfo API call
         $httpClient = m::mock(Client::class);
         $provider->setHttpClient($httpClient);
 
@@ -159,7 +155,6 @@ class GoogleProviderIdTokenTest extends TestCase
         $this->assertEquals('Test User', $user->getName());
         $this->assertEquals('https://lh3.googleusercontent.com/photo.jpg', $user->getAvatar());
 
-        // Test backward compatibility fields
         $rawUser = $user->getRaw();
         $this->assertEquals('123456789012345678901', $rawUser['id']);
         $this->assertTrue($rawUser['verified_email']);
@@ -257,7 +252,6 @@ class GoogleProviderIdTokenTest extends TestCase
             'exp' => time() + 3600,
         ], $overrides['payload'] ?? []);
 
-        // Remove null values
         $header = array_filter($header, function ($value) {
             return $value !== null;
         });
