@@ -44,7 +44,7 @@ class GoogleProviderIdTokenTest extends TestCase
         $this->mockJwksResponse($provider);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/Failed to verify Google ID token/');
+        $this->expectExceptionMessageMatches('/Failed to verify Google JWT token/');
 
         $provider->userFromToken($idToken);
     }
@@ -107,7 +107,7 @@ class GoogleProviderIdTokenTest extends TestCase
         if ($expectedException) {
             $this->mockJwksResponse($provider);
             $this->expectException(\Exception::class);
-            $this->expectExceptionMessageMatches('/Failed to verify Google ID token/');
+            $this->expectExceptionMessageMatches('/Failed to verify Google JWT token/');
         }
 
         $provider->userFromToken($invalidToken);
