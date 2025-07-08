@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use GuzzleHttp\RequestOptions;
@@ -49,8 +50,9 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         if ($this->isJwtToken($token)) {
-            return $this->getUserFromIdToken($token);
+            return $this->getUserFromJwtToken($token);
         }
+
         $response = $this->getHttpClient()->get('https://www.googleapis.com/oauth2/v3/userinfo', [
             RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
@@ -118,31 +120,25 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      *
      * @throws \Exception
      */
-    protected function getUserFromIdToken($idToken)
+    protected function getUserFromJwtToken($idToken)
     {
         try {
-            $jwks = $this->getGoogleJwks();
-            $keys = JWK::parseKeySet($jwks);
+            $user = (array) JWT::decode(
+                $idToken, JWK::parseKeySet($this->getGoogleJwks())
+            );
 
-            $payload = JWT::decode($idToken, $keys);
-
-            $user = (array) $payload;
-            if (
-                ! isset($user['iss']) ||
-                $user['iss'] !== 'https://accounts.google.com'
-            ) {
-                throw new \Exception('Invalid ID token issuer');
+            if (! isset($user['iss']) ||
+                $user['iss'] !== 'https://accounts.google.com') {
+                throw new Exception('Invalid ID token issuer.');
             }
 
             if (! isset($user['aud']) || $user['aud'] !== $this->clientId) {
-                throw new \Exception('Invalid ID token audience');
+                throw new Exception('Invalid ID token audience.');
             }
 
             return $user;
-        } catch (\Exception $e) {
-            throw new \Exception(
-                'Failed to verify Google ID token: '.$e->getMessage()
-            );
+        } catch (Exception $e) {
+            throw new Exception('Failed to verify Google JWT token: '.$e->getMessage());
         }
     }
 
