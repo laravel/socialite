@@ -144,7 +144,7 @@ class OAuthTwoTest extends TestCase
         $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new FacebookTestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
         $provider->http = m::mock(stdClass::class);
-        $provider->http->expects('post')->with('https://graph.facebook.com/v3.3/oauth/access_token', [
+        $provider->http->expects('post')->with('https://graph.facebook.com/v23.0/oauth/access_token', [
             'form_params' => ['grant_type' => 'authorization_code', 'client_id' => 'client_id', 'client_secret' => 'client_secret', 'code' => 'code', 'redirect_uri' => 'redirect_uri'],
         ])->andReturns($response = m::mock(stdClass::class));
         $response->expects('getBody')->andReturns(json_encode(['access_token' => 'access_token', 'expires' => 5183085]));
