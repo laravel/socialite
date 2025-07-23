@@ -31,7 +31,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $fields = ['name', 'email', 'gender', 'verified', 'link'];
+    protected $fields = ['name', 'email', 'gender', 'verified', 'link', 'picture.width(1920)'];
 
     /**
      * The scopes being requested.
@@ -186,19 +186,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        if (! isset($user['sub'])) {
-            $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
-
-            $avatarOriginalUrl = $avatarUrl.'?width=1920';
-        }
-
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => null,
             'name' => $user['name'] ?? null,
             'email' => $user['email'] ?? null,
-            'avatar' => $avatarUrl ?? $user['picture'] ?? null,
-            'avatar_original' => $avatarOriginalUrl ?? $user['picture'] ?? null,
+            'avatar' => $avatarUrl = Arr::get($user, 'picture.data.url'),
+            'avatar_original' => $avatarUrl,
             'profileUrl' => $user['link'] ?? null,
         ]);
     }
