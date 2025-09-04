@@ -239,7 +239,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function buildProvider($provider, $config)
     {
-        $requiredKeys = ['client_id', 'client_secret', 'redirect'];
+        $requiredKeys = ['client_id', 'client_secret'];
 
         $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
 
@@ -277,7 +277,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function formatRedirectUrl(array $config)
     {
-        $redirect = value($config['redirect']);
+        $redirect = value($config['redirect'] ?? '');
 
         return Str::startsWith($redirect ?? '', '/')
                     ? $this->container->make('url')->to($redirect)
