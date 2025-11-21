@@ -150,7 +150,10 @@ class GoogleProviderIdTokenTest extends TestCase
 
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('mapUserToObject');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $user = $method->invoke($provider, $idTokenUser);
 
