@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\User;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -30,7 +31,10 @@ class GoogleProviderIdTokenTest extends TestCase
 
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('isJwtToken');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $this->assertTrue($method->invoke($provider, $jwtToken));
         $this->assertFalse($method->invoke($provider, $accessToken));
@@ -99,6 +103,7 @@ class GoogleProviderIdTokenTest extends TestCase
     /**
      * @dataProvider invalidJwtProvider
      */
+    #[DataProvider('invalidJwtProvider')]
     public function test_it_handles_invalid_jwt_tokens($description, $tokenOverrides, $expectedException = true)
     {
         $provider = $this->getProvider();
