@@ -14,13 +14,6 @@ class SocialiteFake implements Factory
     protected $factory;
 
     /**
-     * The fake user to return for each driver.
-     *
-     * @var array<string, \Laravel\Socialite\Contracts\User|\Closure>
-     */
-    protected $users = [];
-
-    /**
      * The fake provider instances.
      *
      * @var array<string, \Laravel\Socialite\Testing\FakeProvider>
