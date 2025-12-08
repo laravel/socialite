@@ -34,17 +34,18 @@ class Socialite extends Facade
      *
      * @param  string  $driver
      * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
-     * @param  \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse|null  $redirect
      * @return \Laravel\Socialite\Testing\SocialiteFake
      */
-    public static function fake($driver, $user = null, $redirect = null)
+    public static function fake($driver, $user = null)
     {
-        $fake = static::isFake()
-            ? static::getFacadeRoot()
-            : tap(new SocialiteFake(static::getFacadeRoot()), function ($fake) {
-                static::swap($fake);
-            });
+        if (static::isFake()) {
+            $fake = static::getFacadeRoot();
+        } else {
+            $fake = new SocialiteFake(static::getFacadeRoot());
 
-        return $fake->fake($driver, $user, $redirect);
+            static::swap($fake);
+        }
+
+        return $fake->fake($driver, $user);
     }
 }
