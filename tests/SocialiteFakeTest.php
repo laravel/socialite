@@ -92,7 +92,7 @@ class SocialiteFakeTest extends TestCase
 
         $provider = Socialite::driver('github');
 
-        // These methods are forwarded to the real provider
+        // Verify that methods are forwarded to the real provider
         $provider->stateless();
         $provider->scopes(['user', 'repo']);
         $provider->setScopes(['user:email']);
