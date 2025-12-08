@@ -41,7 +41,9 @@ class Socialite extends Facade
     {
         $fake = static::isFake()
             ? static::getFacadeRoot()
-            : tap(new SocialiteFake(static::getFacadeRoot()), fn ($fake) => static::swap($fake));
+            : tap(new SocialiteFake(static::getFacadeRoot()), function ($fake) {
+                static::swap($fake);
+            });
 
         return $fake->fake($driver, $user, $redirect);
     }
