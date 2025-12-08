@@ -47,11 +47,13 @@ class SocialiteFakeTest extends TestCase
 
     public function test_it_can_fake_a_driver_with_a_closure()
     {
-        Socialite::fake('github', fn () => (new OAuth2User)->map([
-            'id' => '456',
-            'name' => 'Closure User',
-            'email' => 'closure@example.com',
-        ]));
+        Socialite::fake('github', function () {
+            return (new OAuth2User)->map([
+                'id' => '456',
+                'name' => 'Closure User',
+                'email' => 'closure@example.com',
+            ]);
+        });
 
         $user = Socialite::driver('github')->user();
 
