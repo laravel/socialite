@@ -38,10 +38,12 @@ class Socialite extends Facade
      */
     public static function fake($driver, $user = null)
     {
-        if (static::isFake()) {
-            $fake = static::getFacadeRoot();
+        $root = static::getFacadeRoot();
+
+        if ($root instanceof SocialiteFake) {
+            $fake = $root;
         } else {
-            $fake = new SocialiteFake(static::getFacadeRoot());
+            $fake = new SocialiteFake($root);
 
             static::swap($fake);
         }

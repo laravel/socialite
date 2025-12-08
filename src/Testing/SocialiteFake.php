@@ -2,10 +2,9 @@
 
 namespace Laravel\Socialite\Testing;
 
-use Illuminate\Support\Testing\Fakes\Fake;
 use Laravel\Socialite\Contracts\Factory;
 
-class SocialiteFake implements Factory, Fake
+class SocialiteFake implements Factory
 {
     /**
      * The original factory instance.
