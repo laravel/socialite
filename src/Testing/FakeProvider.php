@@ -84,7 +84,11 @@ class FakeProvider implements Provider
      */
     public function provider()
     {
-        return $this->provider ??= ($this->resolver)();
+        if (isset($this->provider)) {
+            return $this->provider;
+        }
+
+        return $this->provider = ($this->resolver)();
     }
 
     /**

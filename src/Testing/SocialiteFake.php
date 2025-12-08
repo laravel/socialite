@@ -19,14 +19,14 @@ class SocialiteFake implements Factory, Fake
      *
      * @var array<string, \Laravel\Socialite\Contracts\User|\Closure>
      */
-    protected array $users = [];
+    protected $users = [];
 
     /**
      * The fake provider instances.
      *
      * @var array<string, \Laravel\Socialite\Testing\FakeProvider>
      */
-    protected array $providers = [];
+    protected $providers = [];
 
     /**
      * Create a new Socialite fake instance.
@@ -58,7 +58,9 @@ class SocialiteFake implements Factory, Fake
      */
     public function fake($driver, $user = null)
     {
-        $resolver = fn () => $this->factory->driver($driver);
+        $resolver = function () use ($driver) {
+            return $this->factory->driver($driver);
+        };
 
         $this->providers[$driver] = new FakeProvider($driver, $resolver, $user);
 
