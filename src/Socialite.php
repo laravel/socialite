@@ -2,8 +2,12 @@
 
 namespace Laravel\Socialite;
 
+use Closure;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Testing\Fakes\BusFake;
 use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\Contracts\User;
+use Laravel\Socialite\Testing\SocialiteFake;
 
 /**
  * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
@@ -26,5 +30,22 @@ class Socialite extends Facade
     protected static function getFacadeAccessor()
     {
         return Factory::class;
+    }
+
+    /**
+     * Register a fake Socialite instance.
+     *
+     * @param  string  $driver
+     * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
+     * @param  \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse|null  $redirect
+     * @return \Laravel\Socialite\Testing\SocialiteFake
+     */
+    public static function fake($driver, $user = null, $redirect = null)
+    {
+        $fake = static::isFake()
+            ? static::getFacadeRoot()
+            : tap(new SocialiteFake(static::getFacadeRoot()), fn ($fake) => static::swap($fake));
+
+        return $fake->fake($driver, $user, $redirect);
     }
 }
