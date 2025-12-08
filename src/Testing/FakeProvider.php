@@ -92,8 +92,6 @@ class FakeProvider implements Provider
      *
      * @param  string  $method
      * @param  array  $parameters
-     *
-     * @throws \Laravel\Socialite\Testing\FakeProviderMethodNotSupportedException
      */
     public function __call($method, array $parameters)
     {
