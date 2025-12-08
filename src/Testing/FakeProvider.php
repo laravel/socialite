@@ -98,4 +98,3 @@ class FakeProvider implements Provider
         return $this->forwardCallTo($this->provider(), $method, $parameters);
     }
 }
-

@@ -127,4 +127,3 @@ class SocialiteFakeTest extends TestCase
         $this->assertInstanceOf(GoogleProvider::class, Socialite::driver('google'));
     }
 }
-

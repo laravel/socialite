@@ -65,4 +65,3 @@ class SocialiteFake implements Factory, Fake
         return $this;
     }
 }
-
