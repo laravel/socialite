@@ -2,13 +2,8 @@
 
 namespace Laravel\Socialite\Testing;
 
-use Closure;
 use Illuminate\Support\Testing\Fakes\Fake;
-use InvalidArgumentException;
 use Laravel\Socialite\Contracts\Factory;
-use Laravel\Socialite\Contracts\Provider;
-use Laravel\Socialite\Contracts\User;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class SocialiteFake implements Factory, Fake
 {

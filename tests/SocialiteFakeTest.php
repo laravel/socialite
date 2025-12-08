@@ -3,16 +3,13 @@
 namespace Laravel\Socialite\Tests;
 
 use Laravel\Socialite\Contracts\Factory;
-use Laravel\Socialite\Contracts\User;
 use Laravel\Socialite\Socialite;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Laravel\Socialite\Testing\FakeProvider;
 use Laravel\Socialite\Testing\SocialiteFake;
-use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\User as OAuth2User;
 use Orchestra\Testbench\TestCase;
-use PHPUnit\Framework\AssertionFailedError;
 
 class SocialiteFakeTest extends TestCase
 {

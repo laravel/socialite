@@ -2,11 +2,8 @@
 
 namespace Laravel\Socialite;
 
-use Closure;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Testing\Fakes\BusFake;
 use Laravel\Socialite\Contracts\Factory;
-use Laravel\Socialite\Contracts\User;
 use Laravel\Socialite\Testing\SocialiteFake;
 
 /**
