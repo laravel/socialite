@@ -36,7 +36,7 @@ class Socialite extends Facade
      * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
      * @return \Laravel\Socialite\Testing\SocialiteFake
      */
-    public static function fake($driver, $user = null)
+    public static function fake(string $driver, $user = null)
     {
         $root = static::getFacadeRoot();
 
