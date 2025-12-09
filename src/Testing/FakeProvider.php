@@ -35,7 +35,7 @@ class FakeProvider implements Provider
     /**
      * The fake user to return.
      *
-     * @var \Laravel\Socialite\Contracts\User|\Closure|null
+     * @var \Laravel\Socialite\Contracts\User|\Closure|array|null
      */
     protected $user = null;
 
@@ -44,7 +44,7 @@ class FakeProvider implements Provider
      *
      * @param  string  $driver
      * @param  \Closure  $resolver
-     * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
+     * @param  \Laravel\Socialite\Contracts\User|\Closure|array|null  $user
      */
     public function __construct($driver, $resolver, $user = null)
     {
@@ -95,7 +95,6 @@ class FakeProvider implements Provider
      * Handle calls to methods that are not available on the fake provider.
      *
      * @param  string  $method
-     * @param  array  $parameters
      */
     public function __call($method, array $parameters)
     {
