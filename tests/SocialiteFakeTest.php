@@ -105,6 +105,33 @@ class SocialiteFakeTest extends TestCase
         $this->assertSame('123', $user->getId());
     }
 
+    public function test_it_preserves_decorator_pattern_when_chaining_methods()
+    {
+        $this->app['config']->set('services.github', [
+            'client_id' => 'test-client-id',
+            'client_secret' => 'test-client-secret',
+            'redirect' => 'http://localhost/callback',
+        ]);
+
+        Socialite::fake('github', (new OAuth2User)->map(['id' => '123']));
+
+        $provider = Socialite::driver('github');
+        $this->assertInstanceOf(FakeProvider::class, $provider);
+
+        $chainedProvider = $provider->stateless()
+            ->scopes(['user', 'repo'])
+            ->setScopes(['user:email'])
+            ->redirectUrl('http://example.com/callback')
+            ->with(['custom' => 'param'])
+            ->enablePKCE();
+
+        $this->assertInstanceOf(FakeProvider::class, $chainedProvider, 'FakeProvider should be returned, not the real provider');
+        $this->assertSame($provider, $chainedProvider);
+
+        $user = $chainedProvider->user();
+        $this->assertSame('123', $user->getId());
+    }
+
     public function test_it_returns_real_driver_when_not_faked()
     {
         $this->app['config']->set('services.github', [

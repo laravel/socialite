@@ -98,6 +98,6 @@ class FakeProvider implements Provider
      */
     public function __call($method, array $parameters)
     {
-        return $this->forwardCallTo($this->provider(), $method, $parameters);
+        return $this->forwardDecoratedCallTo($this->provider(), $method, $parameters);
     }
 }
