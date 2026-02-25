@@ -29,11 +29,11 @@ Built-in: `facebook`, `twitter`, `twitter-oauth-2`, `linkedin`, `linkedin-openid
 
 Community: 150+ additional providers at [socialiteproviders.com](https://socialiteproviders.com). For provider-specific setup, use `WebFetch` on `https://socialiteproviders.com/{provider-name}`.
 
-Config key in `config/services.php` must match the driver name exactly — note the hyphenated keys: `twitter-oauth-2`, `linkedin-openid`, `slack-openid`.
+Configuration key in `config/services.php` must match the driver name exactly — note the hyphenated keys: `twitter-oauth-2`, `linkedin-openid`, `slack-openid`.
 
 Twitter/X: Use `twitter-oauth-2` (OAuth 2.0) for new projects. The legacy `twitter` driver is OAuth 1.0. Driver names remain unchanged despite the platform rebrand.
 
-Community providers differ from built-in:
+Community providers differ from built-in providers in the following ways:
 - Installed via `composer require socialiteproviders/{name}`
 - Must register via event listener — NOT auto-discovered like built-in providers
 - Use `search-docs` for the registration pattern
