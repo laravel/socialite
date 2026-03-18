@@ -8,17 +8,6 @@ metadata:
 
 # Socialite Authentication
 
-## When to Apply
-
-Activate this skill when:
-
-- Adding or configuring social login providers
-- Setting up OAuth redirect/callback routes
-- Retrieving or mapping authenticated user details
-- Customizing scopes, parameters, or stateless auth
-- Setting up community providers
-- Testing OAuth flows with Socialite fakes
-
 ## Documentation
 
 Use `search-docs` for detailed Socialite patterns and documentation (installation, configuration, routing, callbacks, testing, scopes, stateless auth).
