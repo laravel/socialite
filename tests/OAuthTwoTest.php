@@ -194,4 +194,47 @@ class OAuthTwoTest extends TestCase
         $authUrl = $provider->stateless()->getAuthUrl(null);
         $this->assertSame('http://auth.url?client_id=client_id&redirect_uri=redirect&scope=&response_type=code', $authUrl);
     }
+
+    public function testRedirectWithPKCEProviderInStatelessModeDoesNotUseSession()
+    {
+        $request = Request::create('foo');
+        // No session is set on the request, which would cause an error
+        // if the provider tried to access the session.
+        $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+        $response = $provider->stateless()->redirect();
+
+        $this->assertInstanceOf(SymfonyRedirectResponse::class, $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+
+        // In stateless mode, the URL should NOT contain code_challenge parameters.
+        $this->assertStringNotContainsString('code_challenge', $response->getTargetUrl());
+        $this->assertStringNotContainsString('code_challenge_method', $response->getTargetUrl());
+    }
+
+    public function testTokenRequestExcludesPKCECodeVerifierInStatelessMode()
+    {
+        $request = Request::create('foo', 'GET', ['code' => 'code']);
+        // No session needed in stateless mode.
+        $provider = new OAuthTwoWithPKCETestProviderStub($request, 'client_id', 'client_secret', 'redirect_uri');
+        $provider->stateless();
+        $provider->http = m::mock(stdClass::class);
+
+        // In stateless mode, the token request should NOT include code_verifier.
+        $provider->http->expects('post')->with('http://token.url', [
+            'headers' => ['Accept' => 'application/json'],
+            'form_params' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => 'client_id',
+                'client_secret' => 'client_secret',
+                'code' => 'code',
+                'redirect_uri' => 'redirect_uri',
+            ],
+        ])->andReturns($response = m::mock(stdClass::class));
+        $response->expects('getBody')->andReturns('{ "access_token" : "access_token", "refresh_token" : "refresh_token", "expires_in" : 3600 }');
+
+        $user = $provider->user();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertSame('foo', $user->id);
+    }
 }
