@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.25.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.26.0...5.x)
+
+## [v5.26.0](https://github.com/laravel/socialite/compare/v5.25.0...v5.26.0) - 2026-03-24
+
+* Remove redundant "When to Apply" section from skill body by [@pushpak1300](https://github.com/pushpak1300) in https://github.com/laravel/socialite/pull/766
+* [5.x] Fix workflow YAML syntax and clean up broken CI matrix by [@JoshSalway](https://github.com/JoshSalway) in https://github.com/laravel/socialite/pull/769
 
 ## [v5.25.0](https://github.com/laravel/socialite/compare/v5.24.3...v5.25.0) - 2026-02-27
 
