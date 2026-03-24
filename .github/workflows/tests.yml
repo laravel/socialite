@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - *.x
+      - '*.x'
   pull_request:
   schedule:
     - cron: '0 0 * * *'
@@ -31,26 +31,6 @@ jobs:
             laravel: 8
           - php: '8.0'
             laravel: 8
-          - php: 7.4
-            laravel: 8
-          - php: 7.3
-            laravel: 8
-          - php: '8.0'
-            laravel: 7
-          - php: 7.4
-            laravel: 7
-          - php: 7.3
-            laravel: 7
-          - php: 7.2
-            laravel: 7
-          - php: '8.0'
-            laravel: 6
-          - php: 7.4
-            laravel: 6
-          - php: 7.3
-            laravel: 6
-          - php: 7.2
-            laravel: 6
           - php: '8.3'
             laravel: '13'
         exclude:
