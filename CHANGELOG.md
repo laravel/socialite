@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.26.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.26.1...5.x)
+
+## [v5.26.1](https://github.com/laravel/socialite/compare/v5.26.0...v5.26.1) - 2026-03-29
+
+* Use hash_equals for constant-time state comparison by [@pushpak1300](https://github.com/pushpak1300) in https://github.com/laravel/socialite/pull/770
 
 ## [v5.26.0](https://github.com/laravel/socialite/compare/v5.25.0...v5.26.0) - 2026-03-24
 
