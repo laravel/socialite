@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.26.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.27.0...5.x)
+
+## [v5.27.0](https://github.com/laravel/socialite/compare/v5.26.1...v5.27.0) - 2026-04-24
+
+* Fix usage of access_token in Bitbucket integration by [@fetzi](https://github.com/fetzi)
 
 ## [v5.26.1](https://github.com/laravel/socialite/compare/v5.26.0...v5.26.1) - 2026-03-29
 
