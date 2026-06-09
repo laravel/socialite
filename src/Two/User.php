@@ -38,7 +38,7 @@ class User extends AbstractUser
      * Create a fake OAuth 2 user instance.
      *
      * @param  array  $attributes
-     * @return static
+     * @return self
      */
     public static function fake(array $attributes = [])
     {
@@ -54,7 +54,7 @@ class User extends AbstractUser
             'approvedScopes' => [],
         ], $attributes);
 
-        return (new static)->setRaw($attributes)->map($attributes)
+        return (new self)->setRaw($attributes)->map($attributes)
             ->setToken($attributes['token'])
             ->setRefreshToken($attributes['refreshToken'])
             ->setExpiresIn($attributes['expiresIn'])

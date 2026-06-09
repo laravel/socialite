@@ -24,7 +24,7 @@ class User extends AbstractUser
      * Create a fake OAuth 1 user instance.
      *
      * @param  array  $attributes
-     * @return static
+     * @return self
      */
     public static function fake(array $attributes = [])
     {
@@ -38,7 +38,7 @@ class User extends AbstractUser
             'tokenSecret' => 'fake-token-secret',
         ], $attributes);
 
-        return (new static)->setRaw($attributes)->map($attributes)
+        return (new self)->setRaw($attributes)->map($attributes)
             ->setToken($attributes['token'], $attributes['tokenSecret']);
     }
 
