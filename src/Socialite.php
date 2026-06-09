@@ -33,7 +33,7 @@ class Socialite extends Facade
      * Register a fake Socialite instance.
      *
      * @param  string  $driver
-     * @param  \Laravel\Socialite\Contracts\User|\Closure|array|null  $user
+     * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
      * @return \Laravel\Socialite\Testing\SocialiteFake
      */
     public static function fake(string $driver, $user = null)
