@@ -3,6 +3,7 @@
 namespace Laravel\Socialite\Tests;
 
 use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\One\User as OAuth1User;
 use Laravel\Socialite\Socialite;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Laravel\Socialite\Testing\FakeProvider;
@@ -43,6 +44,106 @@ class SocialiteFakeTest extends TestCase
         $this->assertSame('123', $retrievedUser->getId());
         $this->assertSame('Test User', $retrievedUser->getName());
         $this->assertSame('test@example.com', $retrievedUser->getEmail());
+    }
+
+    public function test_it_can_fake_a_driver_with_a_fake_user()
+    {
+        Socialite::fake('github', OAuth2User::fake([
+            'id' => '123',
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]));
+
+        $user = Socialite::driver('github')->user();
+
+        $this->assertSame('123', $user->getId());
+        $this->assertSame('Test User', $user->getName());
+        $this->assertSame('test@example.com', $user->getEmail());
+        $this->assertSame('fake-token', $user->token);
+    }
+
+    public function test_it_can_create_a_fake_oauth2_user()
+    {
+        $user = OAuth2User::fake();
+
+        $this->assertInstanceOf(OAuth2User::class, $user);
+        $this->assertSame('123456789', $user->getId());
+        $this->assertSame('testuser', $user->getNickname());
+        $this->assertSame('Test User', $user->getName());
+        $this->assertSame('test@example.com', $user->getEmail());
+        $this->assertSame('https://example.com/avatar.jpg', $user->getAvatar());
+        $this->assertSame('fake-token', $user->token);
+        $this->assertSame('fake-refresh-token', $user->refreshToken);
+        $this->assertSame(3600, $user->expiresIn);
+        $this->assertSame([], $user->approvedScopes);
+        $this->assertSame('Test User', $user['name']);
+    }
+
+    public function test_it_can_create_a_fake_oauth2_user_with_attributes()
+    {
+        $user = OAuth2User::fake([
+            'id' => '987654321',
+            'nickname' => 'jane',
+            'name' => 'Jane Doe',
+            'email' => 'jane@example.com',
+            'avatar' => 'https://example.com/avatar.jpg',
+            'token' => 'custom-token',
+            'refreshToken' => 'custom-refresh-token',
+            'expiresIn' => 7200,
+            'approvedScopes' => ['read:user'],
+            'organization' => 'Laravel',
+        ]);
+
+        $this->assertSame('987654321', $user->getId());
+        $this->assertSame('jane', $user->getNickname());
+        $this->assertSame('Jane Doe', $user->getName());
+        $this->assertSame('jane@example.com', $user->getEmail());
+        $this->assertSame('https://example.com/avatar.jpg', $user->getAvatar());
+        $this->assertSame('custom-token', $user->token);
+        $this->assertSame('custom-refresh-token', $user->refreshToken);
+        $this->assertSame(7200, $user->expiresIn);
+        $this->assertSame(['read:user'], $user->approvedScopes);
+        $this->assertSame('Laravel', $user->organization);
+        $this->assertSame('Laravel', $user['organization']);
+    }
+
+    public function test_it_can_create_a_fake_oauth1_user()
+    {
+        $user = OAuth1User::fake();
+
+        $this->assertInstanceOf(OAuth1User::class, $user);
+        $this->assertSame('123456789', $user->getId());
+        $this->assertSame('testuser', $user->getNickname());
+        $this->assertSame('Test User', $user->getName());
+        $this->assertSame('test@example.com', $user->getEmail());
+        $this->assertSame('https://example.com/avatar.jpg', $user->getAvatar());
+        $this->assertSame('fake-token', $user->token);
+        $this->assertSame('fake-token-secret', $user->tokenSecret);
+        $this->assertSame('Test User', $user['name']);
+    }
+
+    public function test_it_can_create_a_fake_oauth1_user_with_attributes()
+    {
+        $user = OAuth1User::fake([
+            'id' => '987654321',
+            'nickname' => 'jane',
+            'name' => 'Jane Doe',
+            'email' => 'jane@example.com',
+            'avatar' => 'https://example.com/avatar.jpg',
+            'token' => 'custom-token',
+            'tokenSecret' => 'custom-token-secret',
+            'organization' => 'Laravel',
+        ]);
+
+        $this->assertSame('987654321', $user->getId());
+        $this->assertSame('jane', $user->getNickname());
+        $this->assertSame('Jane Doe', $user->getName());
+        $this->assertSame('jane@example.com', $user->getEmail());
+        $this->assertSame('https://example.com/avatar.jpg', $user->getAvatar());
+        $this->assertSame('custom-token', $user->token);
+        $this->assertSame('custom-token-secret', $user->tokenSecret);
+        $this->assertSame('Laravel', $user->organization);
+        $this->assertSame('Laravel', $user['organization']);
     }
 
     public function test_it_can_fake_a_driver_with_a_closure()

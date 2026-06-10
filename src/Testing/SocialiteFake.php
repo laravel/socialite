@@ -45,7 +45,7 @@ class SocialiteFake implements Factory
      * Register a fake user for the given driver.
      *
      * @param  string  $driver
-     * @param  \Laravel\Socialite\Contracts\User|\Closure|array|null  $user
+     * @param  \Laravel\Socialite\Contracts\User|\Closure|null  $user
      * @return $this
      */
     public function fake($driver, $user = null)
