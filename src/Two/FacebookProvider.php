@@ -62,6 +62,13 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $lastToken;
 
     /**
+     * The nonce expected in Facebook Limited Login OIDC tokens.
+     *
+     * @var string|null
+     */
+    protected $expectedNonce;
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -121,6 +128,15 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         throw_if($data['aud'] !== $this->clientId, new Exception('Token has incorrect audience.'));
         throw_if($data['iss'] !== 'https://www.facebook.com', new Exception('Token has incorrect issuer.'));
 
+        $expectedNonce = $this->getExpectedNonce();
+
+        throw_if(
+            $expectedNonce === null ||
+            ! isset($data['nonce']) ||
+            ! hash_equals($expectedNonce, (string) $data['nonce']),
+            new Exception('Token has incorrect nonce.')
+        );
+
         $data['id'] = $data['sub'];
 
         if (isset($data['given_name'])) {
@@ -132,6 +148,16 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Get the expected OIDC token nonce.
+     *
+     * @return string|null
+     */
+    protected function getExpectedNonce()
+    {
+        return $this->expectedNonce ?? Arr::get($this->parameters, 'nonce');
     }
 
     /**
@@ -260,6 +286,35 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     public function lastToken()
     {
         return $this->lastToken;
+    }
+
+    /**
+     * Get a Social User instance from a known access token.
+     *
+     * @param  string  $token
+     * @param  string|null  $nonce
+     * @return \Laravel\Socialite\Two\User
+     */
+    public function userFromToken($token, $nonce = null)
+    {
+        if ($nonce !== null) {
+            $this->withNonce($nonce);
+        }
+
+        return parent::userFromToken($token);
+    }
+
+    /**
+     * Specify the nonce expected in Facebook Limited Login OIDC tokens.
+     *
+     * @param  string  $nonce
+     * @return $this
+     */
+    public function withNonce($nonce)
+    {
+        $this->expectedNonce = $nonce;
+
+        return $this;
     }
 
     /**
