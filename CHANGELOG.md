@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.27.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.28.0...5.x)
+
+## [v5.28.0](https://github.com/laravel/socialite/compare/v5.27.0...v5.28.0) - 2026-06-12
+
+* Pin GitHub Actions to commit SHAs and add Dependabot config by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/socialite/pull/772
+* Bump shivammathur/setup-php from 2.37.0 to 2.37.1 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/773
+* Add Dependabot cooldown of 5 days by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/socialite/pull/774
+* Enable Dependabot auto-merge by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/socialite/pull/775
+* [5.x] Add ability to easily fake Socialite users by [@stevebauman](https://github.com/stevebauman) in https://github.com/laravel/socialite/pull/776
+* Bump actions/checkout from 6.0.2 to 6.0.3 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/777
 
 ## [v5.27.0](https://github.com/laravel/socialite/compare/v5.26.1...v5.27.0) - 2026-04-24
 
