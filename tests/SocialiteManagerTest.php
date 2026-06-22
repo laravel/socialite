@@ -109,11 +109,8 @@ class SocialiteManagerTest extends TestCase
         $factory->driver('github');
     }
 
-    public function test_it_throws_exception_when_redirect_is_missing()
+    public function test_it_can_instantiate_the_github_driver_without_redirect_in_config()
     {
-        $this->expectException(DriverMissingConfigurationException::class);
-        $this->expectExceptionMessage('Missing required configuration keys [redirect] for [Laravel\Socialite\Two\GithubProvider] OAuth provider.');
-
         $factory = $this->app->make(Factory::class);
 
         $this->app['config']->set('services.github', [
@@ -121,13 +118,15 @@ class SocialiteManagerTest extends TestCase
             'client_secret' => 'github-client-secret',
         ]);
 
-        $factory->driver('github');
+        $provider = $factory->driver('github')->redirectUrl('http://your-callback-url');
+
+        $this->assertInstanceOf(GithubProvider::class, $provider);
     }
 
     public function test_it_throws_exception_when_configuration_is_completely_missing()
     {
         $this->expectException(DriverMissingConfigurationException::class);
-        $this->expectExceptionMessage('Missing required configuration keys [client_id, client_secret, redirect] for [Laravel\Socialite\Two\GithubProvider] OAuth provider.');
+        $this->expectExceptionMessage('Missing required configuration keys [client_id, client_secret] for [Laravel\Socialite\Two\GithubProvider] OAuth provider.');
 
         $factory = $this->app->make(Factory::class);
 
