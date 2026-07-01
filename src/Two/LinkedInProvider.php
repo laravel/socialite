@@ -108,15 +108,21 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
         $avatar = Arr::first($images, function ($image) {
+            $stillImage = $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage'] ?? [];
+
             return (
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
+                $stillImage['storageSize']['width'] ??
+                $stillImage['displaySize']['width'] ??
+                null
             ) === 100;
         });
         $originalAvatar = Arr::first($images, function ($image) {
+            $stillImage = $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage'] ?? [];
+
             return (
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
+                $stillImage['storageSize']['width'] ??
+                $stillImage['displaySize']['width'] ??
+                null
             ) === 800;
         });
 
