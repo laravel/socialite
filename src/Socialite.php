@@ -7,7 +7,7 @@ use Laravel\Socialite\Contracts\Factory;
 use Laravel\Socialite\Testing\SocialiteFake;
 
 /**
- * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
+ * @method static \Laravel\Socialite\Two\AbstractProvider driver(string $driver = null)
  * @method static \Laravel\Socialite\Two\AbstractProvider buildProvider(string $provider, array $config)
  * @method static \Laravel\Socialite\SocialiteManager extend(string $driver, \Closure $callback)
  * @method array getScopes()
