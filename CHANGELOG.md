@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.28.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.29.0...5.x)
+
+## [v5.29.0](https://github.com/laravel/socialite/compare/v5.28.0...v5.29.0) - 2026-07-01
+
+* Bump shivammathur/setup-php from 2.37.1 to 2.37.2 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/778
+* Bump actions/checkout from 6.0.3 to 7.0.0 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/782
+* Fix undefined array key error in LinkedIn provider by [@lazerg](https://github.com/lazerg) in https://github.com/laravel/socialite/pull/785
 
 ## [v5.28.0](https://github.com/laravel/socialite/compare/v5.27.0...v5.28.0) - 2026-06-12
 
