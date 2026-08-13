@@ -62,7 +62,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     protected $lastToken;
 
     /**
-     * The nonce expected in Facebook Limited Login OIDC tokens.
+     * The nonce expected when using Facebook Limited Login OIDC tokens.
      *
      * @var string|null
      */
@@ -110,6 +110,22 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * Get a Socialite user instance from a known access token.
+     *
+     * @param  string  $token
+     * @param  string|null  $nonce
+     * @return \Laravel\Socialite\Two\User
+     */
+    public function userFromToken($token, $nonce = null)
+    {
+        if ($nonce !== null) {
+            $this->withNonce($nonce);
+        }
+
+        return parent::userFromToken($token);
+    }
+
+    /**
      * Get user based on the OIDC token.
      *
      * @param  string  $token
@@ -148,16 +164,6 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         }
 
         return $data;
-    }
-
-    /**
-     * Get the expected OIDC token nonce.
-     *
-     * @return string|null
-     */
-    protected function getExpectedNonce()
-    {
-        return $this->expectedNonce ?? Arr::get($this->parameters, 'nonce');
     }
 
     /**
@@ -289,23 +295,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get a Social User instance from a known access token.
-     *
-     * @param  string  $token
-     * @param  string|null  $nonce
-     * @return \Laravel\Socialite\Two\User
-     */
-    public function userFromToken($token, $nonce = null)
-    {
-        if ($nonce !== null) {
-            $this->withNonce($nonce);
-        }
-
-        return parent::userFromToken($token);
-    }
-
-    /**
-     * Specify the nonce expected in Facebook Limited Login OIDC tokens.
+     * Specify the nonce expected when using Facebook Limited Login OIDC tokens.
      *
      * @param  string  $nonce
      * @return $this
@@ -315,6 +305,16 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         $this->expectedNonce = $nonce;
 
         return $this;
+    }
+
+    /**
+     * Get the expected OIDC token nonce.
+     *
+     * @return string|null
+     */
+    protected function getExpectedNonce()
+    {
+        return $this->expectedNonce ?? Arr::get($this->parameters, 'nonce');
     }
 
     /**
