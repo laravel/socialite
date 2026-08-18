@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.29.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.30.0...5.x)
+
+## [v5.30.0](https://github.com/laravel/socialite/compare/v5.29.0...v5.30.0) - 2026-08-13
+
+* Bump actions/checkout from 7.0.0 to 7.0.1 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/788
+* fix: Validate Facebook OIDC token nonce by [@meihao550](https://github.com/meihao550) in https://github.com/laravel/socialite/pull/789
 
 ## [v5.29.0](https://github.com/laravel/socialite/compare/v5.28.0...v5.29.0) - 2026-07-01
 
