@@ -426,6 +426,10 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the redirect URL.
      *
+     * Overrides whatever 'redirect' was resolved from configuration. If you always call this
+     * method before generating an auth URL, the 'redirect' key in configuration only needs to
+     * be present — it may be left null or an empty string.
+     *
      * @param  string  $url
      * @return $this
      */

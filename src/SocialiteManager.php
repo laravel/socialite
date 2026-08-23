@@ -233,6 +233,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Build an OAuth 2 provider instance.
      *
+     * The 'redirect' config key only needs to be present, not truthy: if you always set the
+     * redirect URL at runtime via the provider's redirectUrl() method, you may leave it as
+     * null or an empty string in configuration.
+     *
      * @param  string  $provider
      * @param  array  $config
      * @return \Laravel\Socialite\Two\AbstractProvider
