@@ -1,5 +1,15 @@
 # Upgrade Guide
 
+## Upgrading To 6.0 From 5.x
+
+### Minimum PHP Version
+
+PHP 8.1 is now the minimum required version.
+
+### phpseclib Version
+
+phpseclib 4.0 is now required. If your application uses phpseclib directly, review its [changelog](https://github.com/phpseclib/phpseclib/blob/master/CHANGELOG.md) for the namespace changes from `phpseclib3` to `phpseclib4`.
+
 ## Upgrading To 5.0 From 4.x
 
 ### Minimum PHP Version

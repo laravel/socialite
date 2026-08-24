@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/laravel/socialite/compare/v5.30.0...5.x)
 
+* Require PHP 8.1 and phpseclib 4.0.
+
 ## [v5.30.0](https://github.com/laravel/socialite/compare/v5.29.0...v5.30.0) - 2026-08-13
 
 * Bump actions/checkout from 7.0.0 to 7.0.1 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/788
