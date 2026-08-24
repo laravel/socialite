@@ -7,8 +7,8 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
-use phpseclib3\Crypt\RSA;
-use phpseclib3\Math\BigInteger;
+use phpseclib4\Crypt\RSA;
+use phpseclib4\Math\BigInteger;
 
 class FacebookProvider extends AbstractProvider implements ProviderInterface
 {
