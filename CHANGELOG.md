@@ -1,8 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.30.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.30.1...5.x)
 
 * Require PHP 8.1 and phpseclib 4.0.
+
+## [v5.30.1](https://github.com/laravel/socialite/compare/v5.30.0...v5.30.1) - 2026-08-24
+
+* Upgrade phpseclib to v4 by [@nguyentranchung](https://github.com/nguyentranchung) in https://github.com/laravel/socialite/pull/791
 
 ## [v5.30.0](https://github.com/laravel/socialite/compare/v5.29.0...v5.30.0) - 2026-08-13
 
