@@ -1,8 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.30.1...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.31.0...5.x)
 
 * Require PHP 8.1 and phpseclib 4.0.
+
+## [v5.31.0](https://github.com/laravel/socialite/compare/v5.30.1...v5.31.0) - 2026-08-31
+
+* Support Guzzle 8 by [@Universal-Omega](https://github.com/Universal-Omega) in https://github.com/laravel/socialite/pull/792
 
 ## [v5.30.1](https://github.com/laravel/socialite/compare/v5.30.0...v5.30.1) - 2026-08-24
 
