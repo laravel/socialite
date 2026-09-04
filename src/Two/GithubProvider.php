@@ -65,8 +65,8 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
             $response = $this->getHttpClient()->get(
                 $emailsUrl, $this->getRequestOptions($token)
             );
-        } catch (Exception $e) {
-            return;
+        } catch (Exception) {
+            return null;
         }
 
         foreach (json_decode($response->getBody(), true) as $email) {

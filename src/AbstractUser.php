@@ -201,7 +201,7 @@ abstract class AbstractUser implements ArrayAccess, User
      * Get a user attribute value dynamically.
      *
      * @param  string  $key
-     * @return void
+     * @return mixed
      */
     public function __get($key)
     {
