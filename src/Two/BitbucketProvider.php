@@ -74,8 +74,8 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]);
-        } catch (Exception $e) {
-            return;
+        } catch (Exception) {
+            return null;
         }
 
         $emails = json_decode($response->getBody(), true);

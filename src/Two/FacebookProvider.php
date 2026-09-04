@@ -129,7 +129,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      * Get user based on the OIDC token.
      *
      * @param  string  $token
-     * @return array
+     * @return array|null
      */
     protected function getUserByOIDCToken($token)
     {
@@ -169,7 +169,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the public key to verify the signature of OIDC token.
      *
-     * @param  string  $id
+     * @param  string  $kid
      * @return \Firebase\JWT\Key
      */
     protected function getPublicKeyOfOIDCToken(string $kid)
