@@ -238,7 +238,11 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createChatgptDriver()
     {
-        $config = $this->config->get('services.chatgpt');
+        $config = array_merge([
+            'client_id' => 'dynamic_agent_client',
+            'client_secret' => '',
+            'redirect' => 'http://127.0.0.1:1455/auth/callback',
+        ], $this->config->get('services.chatgpt') ?? []);
 
         return $this->buildProvider(
             ChatGptProvider::class, $config

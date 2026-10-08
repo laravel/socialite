@@ -142,6 +142,26 @@ class ChatGptProviderTest extends TestCase
         ]);
     }
 
+    public function test_dynamic_registration_uses_issued_client_id_without_secret()
+    {
+        $request = Request::create('foo', 'GET', ['code' => 'fake-code', 'client_id' => 'issued_client']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $session->allows('pull')->with('code_verifier')->andReturns('verifier');
+
+        $guzzle = m::mock(Client::class);
+        $guzzle->expects('post')->with(m::any(), m::on(function ($options) {
+            $fields = $options[RequestOptions::FORM_PARAMS];
+
+            return $fields['client_id'] === 'issued_client' && ! array_key_exists('client_secret', $fields);
+        }))->andReturns($this->jsonResponse(['access_token' => 'fake-token']));
+        $guzzle->allows('get')->andReturns($this->jsonResponse(['sub' => 'user-abc123']));
+
+        $provider = new ChatGptProvider($request, 'dynamic_agent_client', '', 'http://127.0.0.1:1455/auth/callback');
+        $provider->stateless()->setHttpClient($guzzle);
+
+        $this->assertSame('issued_client', $provider->user()->getRaw()['client_id']);
+    }
+
     protected function fromIdTokenResponse(array $claims): UserContract
     {
         $key = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);

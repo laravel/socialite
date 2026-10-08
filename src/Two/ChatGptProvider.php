@@ -41,6 +41,30 @@ class ChatGptProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * Dynamic registration also expects "ext_agent_host_id" and "agent_name_hint" via with().
+     */
+    protected function getCodeFields($state = null)
+    {
+        return ['resource' => 'https://api.openai.com/v1'] + parent::getCodeFields($state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        return [
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->clientId,
+            'code' => $code,
+            'redirect_uri' => $this->redirectUrl,
+            'code_verifier' => $this->request->session()->pull('code_verifier'),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
      */
     protected function getTokenUrl()
     {
@@ -60,6 +84,10 @@ class ChatGptProvider extends AbstractProvider implements ProviderInterface
             throw new InvalidStateException;
         }
 
+        if ($this->clientId === 'dynamic_agent_client' && $this->request->filled('client_id')) {
+            $this->clientId = $this->request->input('client_id');
+        }
+
         $response = $this->getAccessTokenResponse($this->getCode());
 
         // Identity-only clients may receive an ID token without an access token...
@@ -67,7 +95,7 @@ class ChatGptProvider extends AbstractProvider implements ProviderInterface
             ? $this->getUserByToken($response['access_token'])
             : $this->getUserFromIdToken(Arr::get($response, 'id_token'));
 
-        return $this->userInstance($response, $user);
+        return $this->userInstance($response, ['client_id' => $this->clientId] + $user);
     }
 
     /**
