@@ -1,5 +1,6 @@
 <?php
 
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Contracts\Session\Session;
@@ -98,6 +99,89 @@ class ChatGptProviderTest extends TestCase
         $this->assertStringStartsWith('https://auth.openai.com/api/accounts/authorize?', $url);
         $this->assertStringContainsString('scope=openid+profile+email', $url);
         $this->assertStringContainsString('code_challenge_method=S256', $url);
+    }
+
+    public function test_user_from_id_token_when_access_token_is_missing()
+    {
+        $user = $this->fromIdTokenResponse([
+            'iss' => 'https://auth.openai.com',
+            'aud' => ['client_id'],
+            'sub' => 'user-abc123',
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@example.com',
+            'exp' => time() + 3600,
+        ]);
+
+        $this->assertSame('user-abc123', $user->getId());
+        $this->assertSame('Taylor Otwell', $user->getName());
+        $this->assertSame('taylor@example.com', $user->getEmail());
+        $this->assertNull($user->token);
+    }
+
+    public function test_id_token_with_invalid_issuer_is_rejected()
+    {
+        $this->expectExceptionMessage('Failed to verify ChatGPT ID token: Invalid ID token issuer.');
+
+        $this->fromIdTokenResponse([
+            'iss' => 'https://evil.example.com',
+            'aud' => 'client_id',
+            'sub' => 'user-abc123',
+            'exp' => time() + 3600,
+        ]);
+    }
+
+    public function test_id_token_with_invalid_audience_is_rejected()
+    {
+        $this->expectExceptionMessage('Failed to verify ChatGPT ID token: Invalid ID token audience.');
+
+        $this->fromIdTokenResponse([
+            'iss' => 'https://auth.openai.com',
+            'aud' => 'other_client',
+            'sub' => 'user-abc123',
+            'exp' => time() + 3600,
+        ]);
+    }
+
+    protected function fromIdTokenResponse(array $claims): UserContract
+    {
+        $key = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
+        $details = openssl_pkey_get_details($key);
+        $encode = fn ($value) => rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
+
+        $jwks = ['keys' => [[
+            'kid' => 'test-key',
+            'kty' => 'RSA',
+            'alg' => 'RS256',
+            'n' => $encode($details['rsa']['n']),
+            'e' => $encode($details['rsa']['e']),
+        ]]];
+
+        $request = Request::create('foo', 'GET', ['code' => 'fake-code']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $session->allows('pull')->with('code_verifier')->andReturns('verifier');
+
+        $guzzle = m::mock(Client::class);
+        $guzzle->expects('post')->andReturns($this->jsonResponse([
+            'id_token' => JWT::encode($claims, $key, 'RS256', 'test-key'),
+        ]));
+        $guzzle->expects('get')->with('https://auth.openai.com/.well-known/jwks.json')->andReturns($this->jsonResponse($jwks));
+
+        $provider = new ChatGptProvider($request, 'client_id', 'client_secret', 'redirect');
+        $provider->stateless();
+        $provider->setHttpClient($guzzle);
+
+        return $provider->user();
+    }
+
+    protected function jsonResponse(array $data): ResponseInterface
+    {
+        $stream = m::mock(StreamInterface::class);
+        $stream->allows('__toString')->andReturns(json_encode($data));
+
+        $response = m::mock(ResponseInterface::class);
+        $response->allows('getBody')->andReturns($stream);
+
+        return $response;
     }
 
     protected function fromResponse(array $response): UserContract

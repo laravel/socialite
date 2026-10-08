@@ -2,6 +2,9 @@
 
 namespace Laravel\Socialite\Two;
 
+use Exception;
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 
@@ -47,6 +50,29 @@ class ChatGptProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function user()
+    {
+        if ($this->user) {
+            return $this->user;
+        }
+
+        if ($this->hasInvalidState()) {
+            throw new InvalidStateException;
+        }
+
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        // Identity-only clients may receive an ID token without an access token...
+        $user = isset($response['access_token'])
+            ? $this->getUserByToken($response['access_token'])
+            : $this->getUserFromIdToken(Arr::get($response, 'id_token'));
+
+        return $this->userInstance($response, $user);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://auth.openai.com/api/accounts/oauth/userinfo', [
@@ -63,11 +89,50 @@ class ChatGptProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => Arr::get($user, 'sub'),
-            'nickname' => $user['nickname'] ?? $user['preferred_username'] ?? null,
+            'nickname' => Arr::get($user, 'nickname') ?? Arr::get($user, 'preferred_username'),
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),
             'email_verified' => Arr::get($user, 'email_verified'),
             'avatar' => Arr::get($user, 'picture'),
         ]);
+    }
+
+    /**
+     * Get the user data from a verified OpenID Connect ID token.
+     *
+     * @param  string|null  $idToken
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function getUserFromIdToken($idToken)
+    {
+        try {
+            $user = (array) JWT::decode((string) $idToken, JWK::parseKeySet($this->getJwks()));
+
+            if (($user['iss'] ?? null) !== 'https://auth.openai.com') {
+                throw new Exception('Invalid ID token issuer.');
+            }
+
+            if (! in_array($this->clientId, (array) ($user['aud'] ?? []), true)) {
+                throw new Exception('Invalid ID token audience.');
+            }
+
+            return $user;
+        } catch (Exception $e) {
+            throw new Exception('Failed to verify ChatGPT ID token: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Get OpenAI's JSON Web Key Set for ID token verification.
+     *
+     * @return array
+     */
+    protected function getJwks()
+    {
+        $response = $this->getHttpClient()->get('https://auth.openai.com/.well-known/jwks.json');
+
+        return json_decode((string) $response->getBody(), true);
     }
 }
