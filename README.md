@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Bitbucket, Facebook, GitHub, GitLab, Google, LinkedIn, Slack, Twitch, and X. It handles almost all of the boilerplate social authentication code you are dreading writing.
+Laravel Socialite provides an expressive, fluent interface to OAuth authentication with Bitbucket, ChatGPT, Facebook, GitHub, GitLab, Google, LinkedIn, Slack, Twitch, and X. It handles almost all of the boilerplate social authentication code you are dreading writing.
 
 **We are not accepting new adapters.**
 

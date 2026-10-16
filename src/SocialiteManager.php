@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
+use Laravel\Socialite\Two\ChatGptProvider;
 use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
@@ -227,6 +228,24 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return $this->buildProvider(
             SlackOpenIdProvider::class, $config
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createChatgptDriver()
+    {
+        $config = array_merge([
+            'client_id' => 'dynamic_agent_client',
+            'client_secret' => '',
+            'redirect' => 'http://127.0.0.1:1455/auth/callback',
+        ], $this->config->get('services.chatgpt') ?? []);
+
+        return $this->buildProvider(
+            ChatGptProvider::class, $config
         );
     }
 
