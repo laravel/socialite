@@ -18,21 +18,21 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-json": "*",
         "firebase/php-jwt": "^6.4|^7.0",
         "guzzlehttp/guzzle": "^7.15.2|^8.0.1",
-        "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-        "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-        "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^12.0|^13.0",
+        "illuminate/http": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
         "league/oauth1-client": "^1.11",
         "phpseclib/phpseclib": "^4.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^4.18|^5.20|^6.47|^7.55|^8.36|^9.15|^10.8|^11.0",
+        "orchestra/testbench": "^10.8|^11.0",
         "phpstan/phpstan": "^1.12.23",
-        "phpunit/phpunit": "^8.0|^9.3|^10.4|^11.5|^12.0"
+        "phpunit/phpunit": "^11.5|^12.0"
     },
     "autoload": {
         "psr-4": {
