@@ -24,6 +24,62 @@ class SocialiteManagerTest extends TestCase
         return [SocialiteServiceProvider::class];
     }
 
+    public function test_relative_redirect_uses_configured_origin_for_authorization_and_token_exchange()
+    {
+        $this->app['config']->set('app.url', 'https://app.example.com/base/');
+        $this->app['config']->set('services.github.redirect', '/auth/github/callback?flow=login');
+        $this->app->instance('request', \Illuminate\Http\Request::create('http://evil.example.com/start'));
+        $this->app['url']->setRequest($this->app['request']);
+        $provider = $this->app->make(Factory::class)->driver('github')->stateless();
+        parse_str(parse_url($provider->redirect()->getTargetUrl(), PHP_URL_QUERY), $query);
+        $expected = 'https://app.example.com/base/auth/github/callback?flow=login';
+        $this->assertSame($expected, $query['redirect_uri']);
+
+        $history = [];
+        $stack = \GuzzleHttp\HandlerStack::create(new \GuzzleHttp\Handler\MockHandler([
+            new \GuzzleHttp\Psr7\Response(200, [], '{"access_token":"token"}'),
+        ]));
+        $stack->push(\GuzzleHttp\Middleware::history($history));
+        $provider->setHttpClient(new \GuzzleHttp\Client(['handler' => $stack]));
+        $provider->getAccessTokenResponse('code');
+        parse_str((string) $history[0]['request']->getBody(), $form);
+        $this->assertSame($expected, $form['redirect_uri']);
+    }
+
+    public function test_network_path_redirect_cannot_override_configured_origin()
+    {
+        $this->app['config']->set('app.url', 'https://app.example.com');
+        $this->app['config']->set('services.github.redirect', fn () => '//evil.example.com/callback');
+        $provider = $this->app->make(Factory::class)->driver('github')->stateless();
+        parse_str(parse_url($provider->redirect()->getTargetUrl(), PHP_URL_QUERY), $query);
+        $this->assertSame('https://app.example.com/evil.example.com/callback', $query['redirect_uri']);
+    }
+
+    public function test_absolute_redirect_is_preserved()
+    {
+        $this->app['config']->set('services.github.redirect', 'https://auth.example.com:8443/callback?q=1');
+        $provider = $this->app->make(Factory::class)->driver('github')->stateless();
+        parse_str(parse_url($provider->redirect()->getTargetUrl(), PHP_URL_QUERY), $query);
+        $this->assertSame('https://auth.example.com:8443/callback?q=1', $query['redirect_uri']);
+    }
+
+    public function test_relative_redirect_rejects_missing_trusted_origin()
+    {
+        $this->app['config']->set('app.url', null);
+        $this->app['config']->set('services.github.redirect', '/callback');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->app->make(Factory::class)->driver('github');
+    }
+
+    public function test_oauth_one_relative_callback_uses_configured_origin()
+    {
+        $this->app['config']->set('app.url', 'https://app.example.com');
+        $config = $this->app->make(Factory::class)->formatConfig([
+            'client_id' => 'id', 'client_secret' => 'secret', 'redirect' => '/callback',
+        ]);
+        $this->assertSame('https://app.example.com/callback', $config['callback_uri']);
+    }
+
     public function test_it_can_instantiate_the_github_driver()
     {
         $factory = $this->app->make(Factory::class);

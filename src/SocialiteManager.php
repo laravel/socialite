@@ -279,9 +279,18 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         $redirect = value($config['redirect']);
 
-        return Str::startsWith($redirect ?? '', '/')
-                    ? $this->container->make('url')->to($redirect)
-                    : $redirect;
+        if (! Str::startsWith($redirect ?? '', '/')) {
+            return $redirect;
+        }
+
+        $root = $this->config->get('app.url');
+
+        if (! is_string($root) || ! filter_var($root, FILTER_VALIDATE_URL) ||
+            ! in_array(strtolower(parse_url($root, PHP_URL_SCHEME) ?? ''), ['http', 'https'], true)) {
+            throw new InvalidArgumentException('An absolute HTTP(S) app.url is required for relative Socialite redirect URLs.');
+        }
+
+        return rtrim($root, '/').'/'.ltrim($redirect, '/');
     }
 
     /**
