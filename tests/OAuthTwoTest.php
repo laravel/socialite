@@ -27,6 +27,27 @@ class OAuthTwoTest extends TestCase
         m::close();
     }
 
+    public function testChangingRequestClearsCachedUserEvenForStatelessProviders()
+    {
+        $request = Request::create('/callback');
+        $provider = new class($request, 'id', 'secret', 'callback') extends OAuthTwoTestProviderStub
+        {
+            public $exchanges = 0;
+
+            public function getAccessTokenResponse($code)
+            {
+                return ['access_token' => 'token-'.++$this->exchanges];
+            }
+        };
+        $provider->stateless();
+        $first = $provider->user();
+        $provider->setRequest($request);
+        $this->assertSame($first, $provider->user());
+        $provider->setRequest(Request::create('/callback'));
+        $this->assertNotSame($first, $provider->user());
+        $this->assertSame(2, $provider->exchanges);
+    }
+
     public function testRedirectGeneratesTheProperIlluminateRedirectResponseWithoutPKCE()
     {
         $request = Request::create('foo');

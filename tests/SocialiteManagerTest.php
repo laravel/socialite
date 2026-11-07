@@ -24,6 +24,39 @@ class SocialiteManagerTest extends TestCase
         return [SocialiteServiceProvider::class];
     }
 
+    public function test_retained_provider_cannot_return_cached_identity_in_a_later_request()
+    {
+        $factory = $this->app->make(Factory::class);
+        $provider = $factory->driver('github')->stateless();
+        $provider->setHttpClient(new \GuzzleHttp\Client(['handler' => \GuzzleHttp\HandlerStack::create(
+            new \GuzzleHttp\Handler\MockHandler([
+                new \GuzzleHttp\Psr7\Response(200, [], '{"access_token":"token"}'),
+                new \GuzzleHttp\Psr7\Response(200, [], '{"id":42,"node_id":"node","login":"victim","avatar_url":"https://example.com/avatar"}'),
+                new \GuzzleHttp\Psr7\Response(200, [], '[]'),
+            ])
+        )]));
+
+        $user = $provider->user();
+        $this->assertSame(42, $user->getId());
+        $this->assertSame($user, $provider->user());
+
+        $factory->forgetDrivers();
+        $this->app->instance('request', \Illuminate\Http\Request::create('/callback'));
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('belongs to a different request');
+        $provider->user();
+    }
+
+    public function test_retained_provider_cannot_start_authorization_on_an_old_request()
+    {
+        $provider = $this->app->make(Factory::class)->driver('github')->stateless();
+        $this->app->instance('request', \Illuminate\Http\Request::create('/redirect'));
+
+        $this->expectException(\LogicException::class);
+        $provider->redirect();
+    }
+
     public function test_it_can_instantiate_the_github_driver()
     {
         $factory = $this->app->make(Factory::class);

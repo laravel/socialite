@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
@@ -251,7 +252,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
             $this->container->make('request'), $config['client_id'],
             $config['client_secret'], $this->formatRedirectUrl($config),
             Arr::get($config, 'guzzle', [])
-        ))->scopes($config['scopes'] ?? []);
+        ))->setRequestResolver(static fn () => Container::getInstance()->make('request'))
+            ->scopes($config['scopes'] ?? []);
     }
 
     /**
