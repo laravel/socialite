@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Two;
 
+use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\RedirectResponse;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
+use LogicException;
 
 abstract class AbstractProvider implements ProviderContract
 {
@@ -18,6 +20,13 @@ abstract class AbstractProvider implements ProviderContract
      * @var \Illuminate\Http\Request
      */
     protected $request;
+
+    /**
+     * Resolve the active request for providers managed by the application.
+     *
+     * @var \Closure|null
+     */
+    protected $requestResolver;
 
     /**
      * The HTTP Client instance.
@@ -160,6 +169,8 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function redirect()
     {
+        $this->ensureCurrentRequest();
+
         $state = null;
 
         if ($this->usesState()) {
@@ -229,6 +240,8 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function user()
     {
+        $this->ensureCurrentRequest();
+
         if ($this->user) {
             return $this->user;
         }
@@ -471,9 +484,42 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function setRequest(Request $request)
     {
+        if ($this->request !== $request) {
+            $this->user = null;
+        }
+
         $this->request = $request;
 
         return $this;
+    }
+
+    /**
+     * Set the resolver for the active application request.
+     *
+     * @param  \Closure  $resolver
+     * @return $this
+     */
+    public function setRequestResolver(Closure $resolver)
+    {
+        $this->requestResolver = $resolver;
+
+        return $this;
+    }
+
+    /**
+     * Prevent a retained provider from authenticating a different request.
+     *
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    protected function ensureCurrentRequest()
+    {
+        if ($this->requestResolver && ($this->requestResolver)() !== $this->request) {
+            $this->user = null;
+
+            throw new LogicException('The Socialite provider belongs to a different request. Resolve a new provider for each request.');
+        }
     }
 
     /**
