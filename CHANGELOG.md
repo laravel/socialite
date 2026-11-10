@@ -1,8 +1,24 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.31.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.32.0...5.x)
 
 * Require PHP 8.1 and phpseclib 4.0.
+
+## [v5.32.0](https://github.com/laravel/socialite/compare/v5.31.0...v5.32.0) - 2026-11-10
+
+### What's Changed
+
+* Fix static analysis issues by [@nguyentranchung](https://github.com/nguyentranchung) in https://github.com/laravel/socialite/pull/793
+* Remove security policy in favor of the org-wide default by [@pushpak1300](https://github.com/pushpak1300) in https://github.com/laravel/socialite/pull/796
+* Bump shivammathur/setup-php from 2.37.2 to 2.40.0 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/socialite/pull/797
+* Dependency floor bump by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/socialite/pull/798
+* Resolve relative OAuth callbacks against the configured application URL by [@ClaraLeigh](https://github.com/ClaraLeigh) in https://github.com/laravel/socialite/pull/799
+
+### New Contributors
+
+* [@ClaraLeigh](https://github.com/ClaraLeigh) made their first contribution in https://github.com/laravel/socialite/pull/799
+
+**Full Changelog**: https://github.com/laravel/socialite/compare/v5.31.0...v5.32.0
 
 ## [v5.31.0](https://github.com/laravel/socialite/compare/v5.30.1...v5.31.0) - 2026-08-31
 
