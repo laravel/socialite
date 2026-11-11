@@ -2,6 +2,7 @@
 
 namespace Laravel\Socialite\Tests;
 
+use ErrorException;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -167,6 +168,26 @@ class OAuthTwoTest extends TestCase
         $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
         $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
         $provider->user();
+    }
+
+    public function testExceptionIsThrownIfStateIsNotAString()
+    {
+        $this->expectException(InvalidStateException::class);
+
+        $request = Request::create('foo', 'GET', ['state' => [str_repeat('A', 40)], 'code' => 'code']);
+        $request->setLaravelSession($session = m::mock(Session::class));
+        $session->expects('pull')->with('state')->andReturns(str_repeat('A', 40));
+        $provider = new OAuthTwoTestProviderStub($request, 'client_id', 'client_secret', 'redirect');
+
+        set_error_handler(function ($level, $message, $file, $line) {
+            throw new ErrorException($message, 0, $level, $file, $line);
+        });
+
+        try {
+            $provider->user();
+        } finally {
+            restore_error_handler();
+        }
     }
 
     public function testExceptionIsThrownIfStateIsNotSet()

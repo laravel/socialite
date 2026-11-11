@@ -287,7 +287,9 @@ abstract class AbstractProvider implements ProviderContract
 
         $state = $this->request->session()->pull('state');
 
-        return empty($state) || ! hash_equals($state, (string) $this->request->input('state'));
+        $requestState = $this->request->input('state');
+
+        return empty($state) || ! is_string($requestState) || ! hash_equals($state, $requestState);
     }
 
     /**
