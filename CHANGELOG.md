@@ -1,8 +1,20 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/socialite/compare/v5.32.0...5.x)
+## [Unreleased](https://github.com/laravel/socialite/compare/v5.33.0...5.x)
 
 * Require PHP 8.1 and phpseclib 4.0.
+
+## [v5.33.0](https://github.com/laravel/socialite/compare/v5.32.0...v5.33.0) - 2026-11-11
+
+### What's Changed
+
+* Treat a non-string state as invalid by [@MoogyG](https://github.com/MoogyG) in https://github.com/laravel/socialite/pull/801
+
+### New Contributors
+
+* [@MoogyG](https://github.com/MoogyG) made their first contribution in https://github.com/laravel/socialite/pull/801
+
+**Full Changelog**: https://github.com/laravel/socialite/compare/v5.32.0...v5.33.0
 
 ## [v5.32.0](https://github.com/laravel/socialite/compare/v5.31.0...v5.32.0) - 2026-11-10
 
